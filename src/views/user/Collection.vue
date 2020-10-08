@@ -9,11 +9,11 @@ export default {
   name: 'Collection',
   computed: {
     catalog() {
-      return this.$store.state.user.collection;
+      return this.$store.state.user.collection
     }
   }
   // data: () => ({ })
-};
+}
 </script>
 
 <style lang="scss">
