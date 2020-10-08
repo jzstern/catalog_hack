@@ -1,40 +1,63 @@
 <script>
 export default {
   computed: {
+    /* eslint-disable */
+
     user() {
-      return this.$store.state.user
-    }
+      return this.$store.state.user;
+    },
   },
   created() {
-    if (!this.userIsLoggedIn) this.$store.dispatch('checkMagicLogin')
-  }
-}
+    if (!this.userIsLoggedIn) this.$store.dispatch("checkMagicLogin");
+  },
+};
 </script>
 
 <template>
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link> |
-      <router-link :to="`/${this.user.walletAddress}`" v-if="user.isLoggedIn">Profile</router-link>
-      <router-link to="/login" v-else>Login {{ user.loading ? ' ...' : ''}}</router-link>
+      <router-link :to="`/${this.user.walletAddress}`" v-if="user.isLoggedIn"
+        >Profile</router-link
+      >
+      <router-link to="/login" v-else
+        >Login {{ user.loading ? " ..." : "" }}</router-link
+      >
     </div>
     <transition name="fade" mode="out-in">
-      <router-view/>
+      <router-view />
     </transition>
   </div>
 </template>
 
 <style lang="scss">
+@font-face {
+  font-family: "Tenor Sans";
+  src: url("./assets/fonts/TenorSans-Regular.ttf") format("ttf");
+}
+
+@font-face {
+  font-family: "Inconsolata";
+  src: url("./assets/fonts/InconsolataSemiExpanded-Light.ttf");
+}
+
+@font-face {
+  font-family: "Inconsolata-ExtraBold";
+  src: url("./assets/fonts/InconsolataSemiExpanded-ExtraBold.ttf");
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: white;
-  padding: 30px;
+  cursor: url("./assets/other/cursor.png"), auto;
+  // padding: 30px;
 }
 
 body {
   background-color: black;
+  margin: 0;
   // overscroll-behavior: none;
   // overflow: hidden;
 }
