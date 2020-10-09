@@ -1,3 +1,4 @@
+
 <template>
   <div class="catalog">
     <h1>Catalog</h1>
@@ -5,15 +6,16 @@
 </template>
 
 <script>
+/* eslint-disable */
 export default {
-  name: 'Catalog',
+  name: "Catalog",
   computed: {
     catalog() {
-      return this.$store.state.user.catalog
-    }
-  }
+      return this.$store.state.user.catalog;
+    },
+  },
   // data: () => ({ })
-}
+};
 </script>
 
 <style lang="scss">

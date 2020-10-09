@@ -1,9 +1,11 @@
 <script>
 export default {
   computed: {
+    /* eslint-disable */
+
     user() {
-      return this.$store.state.user
-    }
+      return this.$store.state.user;
+    },
   },
   created() {
     this.$store.dispatch("ethers/init")
@@ -41,16 +43,33 @@ export default {
 </template>
 
 <style lang="scss">
+@font-face {
+  font-family: "Tenor Sans";
+  src: url("./assets/fonts/TenorSans-Regular.ttf") format("ttf");
+}
+
+@font-face {
+  font-family: "Inconsolata";
+  src: url("./assets/fonts/InconsolataSemiExpanded-Light.ttf");
+}
+
+@font-face {
+  font-family: "Inconsolata-ExtraBold";
+  src: url("./assets/fonts/InconsolataSemiExpanded-ExtraBold.ttf");
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: white;
-  padding: 30px;
+  cursor: url("./assets/other/cursor.png"), auto;
+  // padding: 30px;
 }
 
 body {
   background-color: black;
+  margin: 0;
   // overscroll-behavior: none;
   // overflow: hidden;
 }

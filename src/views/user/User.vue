@@ -1,5 +1,4 @@
 <script>
-import router from '@/router/index'
 
 export default {
   name: 'User',
@@ -7,8 +6,7 @@ export default {
     artist: null,
     editing: false,
     loading: false,
-    name: '',
-    uploading: false
+    name: ''
   }),
   computed: {
     user() {
@@ -26,18 +24,6 @@ export default {
         name: this.name
       })
       this.editing = false
-    },
-    upload() {
-      router.push(`/${this.user.walletAddress}/upload`)
-      this.uploading = true
-    },
-    cancelUpload() {
-      router.push(`/${this.user.walletAddress}`)
-      this.uploading = false
-    },
-    catalog() {
-      router.push(`/${this.user.walletAddress}/catalog`)
-      // this.catalog = true;
     }
   }
 }
