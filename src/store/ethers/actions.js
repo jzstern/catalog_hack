@@ -32,6 +32,7 @@ export default {
       ctx.commit('connected', true)
       ctx.commit('error', null)
       ctx.commit('address', address)
+      ctx.commit("walletAddress", address, { root: true });
       ctx.commit('network', network)
       ctx.commit('txState', 'none')
 
@@ -67,6 +68,7 @@ export default {
     ctx.commit('connected', false)
     ctx.commit('error', err)
     ctx.commit('address', '')
+    // ctx.commit("logout", null, { root: true });
     ctx.commit('network', '')
     ctx.commit('ens', null)
 
@@ -80,7 +82,7 @@ export default {
   },
   async init(ctx) {
     event.$on(EVENT_CHANNEL, async (msg) => {
-      // console.log(msg)
+      console.log(msg)
       switch (msg) {
         case MSGS.NOT_READY:
           console.log('disconnecting b/c NOT_READY')
@@ -117,6 +119,7 @@ export default {
   },
   notConnected(ctx) {
     ctx.commit('address', '')
+    // ctx.commit("logout", null, { root: true });
     console.log('You are not connected to the Ethereum network. Please check MetaMask, etc.')
   },
   // async tipCurrentSong(ctx, tip) {
@@ -151,7 +154,7 @@ export default {
   },
   txFailed(ctx) {
     ctx.commit('txState', 'failed')
-    ctx.commit('resetToastMessage', null, { root: true })
+    // ctx.commit('resetToastMessage', null, { root: true })
     setTimeout(() => {
       ctx.commit('txState', 'none')
     }, 10000)

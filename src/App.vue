@@ -6,7 +6,8 @@ export default {
     }
   },
   created() {
-    if (!this.userIsLoggedIn) this.$store.dispatch('checkMagicLogin')
+    this.$store.dispatch("ethers/init")
+    // if (!this.userIsLoggedIn) this.$store.dispatch('checkMagicLogin')
   }
 }
 </script>
@@ -14,12 +15,27 @@ export default {
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link :to="`/${this.user.walletAddress}`" v-if="user.isLoggedIn">Profile</router-link>
-      <router-link to="/login" v-else>Login {{ user.loading ? ' ...' : ''}}</router-link>
+      <router-link to="/">
+        Home
+      </router-link> |
+      <router-link
+        v-if="user.walletAddress"
+        :to="`/${user.walletAddress}`"
+      >
+        Profile
+      </router-link>
+      <router-link
+        v-else
+        to="/login"
+      >
+        Login {{ user.loading ? ' ...' : '' }}
+      </router-link>
     </div>
-    <transition name="fade" mode="out-in">
-      <router-view/>
+    <transition
+      name="fade"
+      mode="out-in"
+    >
+      <router-view />
     </transition>
   </div>
 </template>
