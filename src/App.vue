@@ -45,13 +45,18 @@ export default {
 }
 
 @font-face {
+  font-family: "Inconsolata-SemiBold";
+  src: url("./assets/fonts/InconsolataSemiExpanded-SemiBold.ttf");
+}
+
+@font-face {
   font-family: "Inconsolata-ExtraBold";
   src: url("./assets/fonts/InconsolataSemiExpanded-ExtraBold.ttf");
 }
 
 @font-face {
-  font-family: "DidactGotchic";
-  src: url("./assets/fonts/DidactGothic-Regular.ttf");
+  font-family: "Inconsolata-ExtraExpanded-Black";
+  src: url("./assets/fonts/InconsolataExtraExpanded-Black.ttf");
 }
 
 #app {

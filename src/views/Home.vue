@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <div class="browse">
+    <div class="section-left">
       <div class="header no-select">
         <img class="logo" src="../assets/other/catalog.svg" />
         <h1 class="title">CATALOG</h1>
@@ -39,9 +39,9 @@
         </ul>
       </div>
     </div>
-    <div class="about">
+    <div class="section-right">
       <div v-if="user.walletAddress">
-        <router-link class="login" :to="`/${user.walletAddress}/upload`">
+        <router-link class="login" :to="`/${user.walletAddress}`">
           {{ user.walletAddress.substr(user.walletAddress.length - 4) }}
         </router-link>
       </div>
@@ -81,16 +81,6 @@ ul {
   overflow: hidden;
 }
 
-.about {
-  position: relative;
-  height: 100vh;
-  background-repeat: no-repeat;
-  flex: auto;
-  background-image: url("../assets/other/about.png");
-  // border-left: 2px solid #666666;
-  box-sizing: border-box;
-}
-
 .artist-list {
   padding: 0px 16px;
 }
@@ -113,14 +103,6 @@ ul {
     transform-origin: left center;
     transform: scale(0.95);
   }
-}
-
-.browse {
-  width: 24%;
-  flex: initial;
-  height: 100%;
-  overflow: scroll;
-  overflow-x: hidden;
 }
 
 .divider {
@@ -173,6 +155,24 @@ ul {
   -moz-user-select: none; /* Old versions of Firefox */
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none;
+}
+
+.section-left {
+  width: 24%;
+  flex: initial;
+  height: 100%;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+.section-right {
+  position: relative;
+  height: 100vh;
+  background-repeat: no-repeat;
+  flex: auto;
+  background-image: url("../assets/other/bgHome.png");
+  // border-left: 2px solid #666666;
+  box-sizing: border-box;
 }
 
 .title {
