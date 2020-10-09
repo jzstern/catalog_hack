@@ -8,35 +8,21 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch("ethers/init")
+    this.$store.dispatch("ethers/init");
     // if (!this.userIsLoggedIn) this.$store.dispatch('checkMagicLogin')
-  }
-}
+  },
+};
 </script>
 
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">
-        Home
-      </router-link> |
-      <router-link
-        v-if="user.walletAddress"
-        :to="`/${user.walletAddress}`"
-      >
+    <!-- <div id="nav">
+      <router-link to="/"> Home </router-link> |
+      <router-link v-if="user.walletAddress" :to="`/${user.walletAddress}`">
         Profile
       </router-link>
-      <router-link
-        v-else
-        to="/login"
-      >
-        Login {{ user.loading ? ' ...' : '' }}
-      </router-link>
-    </div>
-    <transition
-      name="fade"
-      mode="out-in"
-    >
+    </div> -->
+    <transition name="fade" mode="out-in">
       <router-view />
     </transition>
   </div>
@@ -49,8 +35,13 @@ export default {
 }
 
 @font-face {
-  font-family: "Inconsolata";
+  font-family: "Inconsolata-Light";
   src: url("./assets/fonts/InconsolataSemiExpanded-Light.ttf");
+}
+
+@font-face {
+  font-family: "Inconsolata";
+  src: url("./assets/fonts/InconsolataSemiExpanded-Regular.ttf");
 }
 
 @font-face {
@@ -58,12 +49,16 @@ export default {
   src: url("./assets/fonts/InconsolataSemiExpanded-ExtraBold.ttf");
 }
 
+@font-face {
+  font-family: "DidactGotchic";
+  src: url("./assets/fonts/DidactGothic-Regular.ttf");
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: white;
-  cursor: url("./assets/other/cursor.png"), auto;
   // padding: 30px;
 }
 
@@ -72,6 +67,23 @@ body {
   margin: 0;
   // overscroll-behavior: none;
   // overflow: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  // -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  border-radius: 0px;
+  background-color: rgb(75, 75, 75);
+  opacity: 0.4;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(158, 158, 158);
+  // opacity: 0.3;
+  // -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
 }
 
 #nav {
