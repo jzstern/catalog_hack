@@ -34,7 +34,7 @@ export default {
   <div class="user">
     <div class="section-left">
       <div class="header no-select">
-        <h1 class="title">PROFILE</h1>
+        <h1 class="profile-title">PROFILE</h1>
       </div>
       <div class="info">
         <div v-if="!editing">
@@ -222,7 +222,7 @@ a {
   user-select: none;
 }
 
-.title {
+.profile-title {
   font-family: "Tenor Sans", sans-serif;
   font-size: 22px;
   vertical-align: middle;

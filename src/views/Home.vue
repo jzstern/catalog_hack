@@ -101,7 +101,7 @@ ul {
 
   &:active {
     transform-origin: left center;
-    transform: scale(0.95);
+    transform: scale(0.98);
   }
 }
 

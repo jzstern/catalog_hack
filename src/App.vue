@@ -71,17 +71,17 @@ body {
   background-color: black;
   margin: 0;
   // overscroll-behavior: none;
-  // overflow: hidden;
+  overflow: hidden;
 }
 
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 2px;
 }
 
 ::-webkit-scrollbar-track {
   // -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
   border-radius: 0px;
-  background-color: rgb(75, 75, 75);
+  background-color: #666666;
   opacity: 0.4;
 }
 
