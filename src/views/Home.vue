@@ -14,6 +14,9 @@ export default {
       this.$store.dispatch("ethers/login");
     },
   },
+  mounted() {
+    this.$store.commit('sidebar', 'artist-list')
+  }
 };
 </script>
 

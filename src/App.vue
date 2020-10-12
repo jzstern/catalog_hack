@@ -6,6 +6,9 @@ export default {
     Sidebar: () => import("./components/sidebar/Sidebar")
   },
   computed: {
+    showSideBar() {
+      return !!this.$store.state.sidebar;
+    },
     user() {
       return this.$store.state.user;
     },
@@ -20,7 +23,7 @@ export default {
 <template>
   <div id="app">
     <transition name="fade" mode="out-in">
-      <Sidebar/>
+      <Sidebar v-if="showSideBar"/>
     </transition>
     <div class="content">
       <router-view />

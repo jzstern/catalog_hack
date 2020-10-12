@@ -10,8 +10,11 @@ export default {
     url: ""
   }),
   computed: {
+    sidebar() {
+      return this.$store.state.sidebar
+    },
     user() {
-      return this.$store.state.user;
+      return this.$store.state.user
     },
   },
   methods: {
@@ -22,6 +25,14 @@ export default {
       });
       this.editing = false;
     },
+    toggleSettings() {
+      if (this.sidebar === 'settings') this.$store.commit('closeSidebar')
+      else this.$store.commit('sidebar', 'settings')
+    },
+    toggleUpload() {
+      if (this.sidebar === 'upload') this.$store.commit('closeSidebar')
+      else this.$store.commit('sidebar', 'upload')
+    }
   },
   mounted() {
     this.name = "Omari Jazz"
@@ -41,6 +52,9 @@ export default {
     <transition name="fade" mode="out-in">
       <router-view />
     </transition>
+
+    <button @click="toggleSettings" style="height: 22px">settings</button>
+    <button @click="toggleUpload" style="height: 22px">upload</button>
   </div>
 </template>
 

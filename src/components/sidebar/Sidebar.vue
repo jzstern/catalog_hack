@@ -1,3 +1,27 @@
+<script>
+export default {
+  name: "Sidebar",
+  components: {
+    ArtistList: () => import("./ArtistList"),
+    Settings: () => import("./Settings"),
+    Upload: () => import("./Upload")
+  },
+  data: () => ({
+    title: "CATALOG"
+  }),
+  computed: {
+    sidebar() {
+      return this.$store.state.sidebar
+    }
+  },
+  methods: {
+    closeSidebar() {
+      this.$store.commit('closeSidebar')
+    }
+  }
+}
+</script>
+
 <template>
   <div class="sidebar">
     <div class="header no-select">
@@ -8,27 +32,20 @@
       <h1 class="title">
         {{ title }}
       </h1>
+      <button @click="closeSidebar">
+        close
+      </button>
     </div>
     <transition
       name="fade"
       mode="out-in"
     >
-      <ArtistList />
+      <ArtistList v-if="sidebar === 'artist-list'" />
+      <Settings v-else-if="sidebar === 'settings'" />
+      <Upload v-else-if="sidebar === 'upload'" />
     </transition>
   </div>
 </template>
-
-<script>
-export default {
-  name: "Sidebar",
-  components: {
-    ArtistList: () => import("./ArtistList")
-  },
-  data: () => ({
-    title: "CATALOG"
-  })
-}
-</script>
 
 <style lang="scss">
 @import "../../styles/global.scss";

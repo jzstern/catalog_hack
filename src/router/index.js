@@ -24,11 +24,6 @@ const routes = [
         path: 'collection',
         name: 'Collection',
         component: () => import(/* webpackChunkName: "collection" */ '../views/user/Collection.vue')
-      },
-      {
-        path: 'upload',
-        name: 'Upload',
-        component: () => import(/* webpackChunkName: "upload" */ '../views/user/Upload.vue')
       }
     ]
   }

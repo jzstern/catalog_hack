@@ -1,13 +1,25 @@
 <template>
   <div class="upload">
     <label>Title</label>
-    <input v-model="title" placeholder="cool song name" type="text">
+    <input
+      v-model="title"
+      placeholder="cool song name"
+      type="text"
+    >
 
     <label>Description</label>
-    <input v-model="description" placeholder="description for your cool song" type="text">
+    <input
+      v-model="description"
+      placeholder="description for your cool song"
+      type="text"
+    >
 
     <label>Price (USD)</label>
-    <input v-model="price" placeholder="$1" type="number">
+    <input
+      v-model="price"
+      placeholder="$1"
+      type="number"
+    >
 
     <label>Thumbnail</label>
     <p>TODO - drag & drop thumbail</p>
@@ -17,7 +29,9 @@
 
     <label>Collaborators (not yet supported)</label>
 
-    <button @click="create">Create</button>
+    <button @click="create">
+      Create
+    </button>
   </div>
 </template>
 

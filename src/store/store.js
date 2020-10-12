@@ -23,13 +23,20 @@ export default new Vuex.Store({
     ethers
   },
   state: {
-    user: LOGGED_OUT_USER
+    user: LOGGED_OUT_USER,
+    sidebar: "artist-list"
   },
   mutations: {
     // logout(state) {
     //   state.user = LOGGED_OUT_USER
     //   console.log(state.user.walletAddress)
     // },
+    closeSidebar(state) {
+      state.sidebar = ""
+    },
+    sidebar(state, value) {
+      state.sidebar = value
+    },
     user(state, user) {
       state.user = user
     },
