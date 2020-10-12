@@ -2,6 +2,7 @@
 /* eslint-disable */
 export default {
   components: {
+    Dropdown: () => import("./components/dropdown/Dropdown"),
     Home: () => import("./views/Home"),
     Sidebar: () => import("./components/sidebar/Sidebar")
   },
@@ -24,6 +25,9 @@ export default {
   <div id="app">
     <transition name="fade" mode="out-in">
       <Sidebar v-if="showSideBar"/>
+    </transition>
+    <transition name="fade" mode="out-in">
+      <Dropdown />
     </transition>
     <div class="content">
       <router-view />

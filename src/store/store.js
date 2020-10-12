@@ -8,14 +8,26 @@ Vue.use(Vuex)
 
 // const MAGIC = new Magic('pk_test_5975B67E22265359')
 
+// const LOGGED_OUT_USER = {
+//   catalog: null,
+//   collection: [],
+//   email: null,
+//   // isLoggedIn: false,
+//   loading: false,
+//   name: null,
+//   url: null,
+//   walletAddress: null
+// }
+
 const LOGGED_OUT_USER = {
   catalog: null,
   collection: [],
-  email: null,
+  email: "crowncomfort@gmail.com",
   // isLoggedIn: false,
   loading: false,
-  name: null,
-  walletAddress: null
+  name: "crown comfort",
+  url: "crowncomfort",
+  walletAddress: "0xjaIJz9d1mw9dhb3"
 }
 
 export default new Vuex.Store({
@@ -24,7 +36,7 @@ export default new Vuex.Store({
   },
   state: {
     user: LOGGED_OUT_USER,
-    sidebar: "artist-list"
+    sidebar: "Catalog"
   },
   mutations: {
     // logout(state) {
