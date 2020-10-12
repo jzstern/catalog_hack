@@ -183,6 +183,7 @@ a {
 .info-item {
   margin: 32px 0;
   letter-spacing: 0.05em;
+  font-size: 14px;
 }
 
 .label {
@@ -192,7 +193,6 @@ a {
 
 .mod {
   font-family: "Inconsolata-ExtraExpanded-Black";
-  font-size: 14px;
   color: #75a251;
   cursor: url("../../assets/other/cursor.png"), auto;
   padding-right: 16px;
