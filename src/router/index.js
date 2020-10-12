@@ -16,7 +16,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "user" */ '../views/user/User.vue'),
     children: [
       {
-        path: 'catalog',
+        path: '',
         name: 'Catalog',
         component: () => import(/* webpackChunkName: "catalog" */ '../views/user/Catalog.vue')
       },

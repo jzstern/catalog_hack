@@ -1,0 +1,40 @@
+.no-select {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
+}
+
+.entry-enter-active {
+  transition-duration: 0.2s;
+  transition-property: opacity, transform;
+  transition-timing-function: ease;
+}
+.entry-enter {
+  opacity: 0;
+  transform: translateX(7em);
+}
+
+.fade-leave-active {
+  transition-duration: 0.2s;
+  transition-property: opacity, transform;
+  transition-timing-function: ease;
+  // transition: opacity 0.1s ease-in;
+  // transition: transform 0.1s ease-in;
+}
+.fade-enter-active {
+  transition-duration: 0.4s;
+  transition-property: opacity, transform;
+  transition-timing-function: ease;
+
+  // transition: opacity 0.4s ease-in;
+  // transition: transform 0.4s ease-in;
+  // overflow: hidden;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateX(1em);
+}
