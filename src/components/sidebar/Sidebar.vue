@@ -1,24 +1,25 @@
 <script>
 export default {
+  /* eslint-disable */
   name: "Sidebar",
   components: {
     Account: () => import("./Account"),
     ArtistList: () => import("./ArtistList"),
     Login: () => import("./Login"),
     Settings: () => import("./Settings"),
-    Upload: () => import("./Upload")
+    Upload: () => import("./Upload"),
   },
   computed: {
     sidebar() {
-      return this.$store.state.sidebar
-    }
+      return this.$store.state.sidebar;
+    },
   },
   methods: {
     closeSidebar() {
-      this.$store.commit('closeSidebar')
-    }
-  }
-}
+      this.$store.commit("closeSidebar");
+    },
+  },
+};
 </script>
 
 <template>
@@ -28,18 +29,13 @@ export default {
         v-if="sidebar === 'Catalog'"
         class="logo"
         src="../../assets/other/catalog.svg"
-      >
+      />
       <h1 class="title">
         {{ sidebar }}
       </h1>
-      <button @click="closeSidebar">
-        close
-      </button>
+      <button @click="closeSidebar">close</button>
     </div>
-    <transition
-      name="fade"
-      mode="out-in"
-    >
+    <transition name="fade" mode="out-in">
       <Account v-if="sidebar === 'Account'" />
       <ArtistList v-else-if="sidebar === 'Browse Artists'" />
       <Login v-else-if="sidebar === 'Login'" />
