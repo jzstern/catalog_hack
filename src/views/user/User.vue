@@ -1,6 +1,5 @@
 <script>
 /* eslint-disable */
-
 export default {
   name: "User",
   data: () => ({
@@ -8,17 +7,17 @@ export default {
     editing: false,
     loading: false,
     name: "",
+    url: "",
   }),
   computed: {
+    sidebar() {
+      return this.$store.state.sidebar;
+    },
     user() {
       return this.$store.state.user;
     },
   },
   methods: {
-    async logout() {
-      this.$store.dispatch("logout");
-      // router.push('login')
-    },
     save() {
       this.$store.commit("user", {
         ...this.user,
@@ -26,140 +25,43 @@ export default {
       });
       this.editing = false;
     },
+    toggleSettings() {
+      if (this.sidebar === "settings") this.$store.commit("closeSidebar");
+      else this.$store.commit("sidebar", "settings");
+    },
+    toggleUpload() {
+      if (this.sidebar === "upload") this.$store.commit("closeSidebar");
+      else this.$store.commit("sidebar", "upload");
+    },
+  },
+  mounted() {
+    this.name = "Omari Jazz";
+    this.url = "omarijazz";
   },
 };
 </script>
 
 <template>
   <div class="user">
-    <div class="section-left">
-      <div class="header no-select">
-        <h1 class="profile-title">PROFILE</h1>
-      </div>
-      <div class="info">
-        <div v-if="!editing">
-          <div class="info-item mod-box">
-            <div>
-              <p class="label">Username</p>
-              <p class="field">
-                {{ user.name ? user.name : "press edit button" }}
-              </p>
-            </div>
-            <div>
-              <p class="mod edit" @click="editing = true">edit</p>
-            </div>
-          </div>
-          <div class="info-item">
-            <p class="label">ETH Address</p>
-            <p class="field">
-              {{ user.walletAddress.substr(user.walletAddress.length - 4) }}
-              <!-- {{
-                user.walletAddress.substr(user.walletAddress.length - 4)
-                  ? user.walletAddress
-                  : "loading address..."
-              }} -->
-            </p>
-          </div>
-        </div>
-
-        <div v-else>
-          <div class="info-item">
-            <p class="label">Email Address</p>
-            <p class="field">
-              {{ user.email ? user.email : "loading email..." }}
-            </p>
-          </div>
-          <div class="info-item mod-box">
-            <div>
-              <p class="label">Name</p>
-              <!-- <p class="field">{{ user.name ? user.name : "" }}</p> -->
-              <input class="field" v-model="name" />
-            </div>
-            <div>
-              <p class="mod" @click="save">save</p>
-            </div>
-          </div>
-          <div class="info-item">
-            <p class="label">ETH Address</p>
-            <p class="field">
-              {{
-                user.walletAddress ? user.walletAddress : "loading address..."
-              }}
-            </p>
-          </div>
-          <!-- TODO - let users update their URL -->
-        </div>
-
-        <div class="divider-2" />
-        <div class="nav-item">
-          <router-link :to="`/${this.user.walletAddress}/upload`">
-            upload ⟶
-          </router-link>
-        </div>
-
-        <div class="nav-item">
-          <router-link :to="`/${this.user.walletAddress}/catalog`">
-            your catalog ⟶
-          </router-link>
-        </div>
-
-        <div class="nav-item">
-          <router-link :to="`/${this.user.walletAddress}/collection`">
-            your collection ⟶
-          </router-link>
-        </div>
-
-        <!-- <router-link :to="`/${this.usser.walletAddress}`"> cancel </router-link> -->
-
-        <router-view />
-      </div>
+    <h3 class="profile-title">{{ name }}</h3>
+    <div class="nav">
+      <router-link :to="`/${url}`" class="nav-item">Catalog</router-link>
+      <router-link :to="`/${url}/collection`" class="nav-item"
+        >Collection</router-link
+      >
     </div>
-    <div class="section-right-2">
-      <router-link class="login" :to="`/`"> go back </router-link>
-    </div>
+
+    <transition name="fade" mode="out-in">
+      <router-view />
+    </transition>
+
+    <button @click="toggleSettings" style="height: 22px">settings</button>
+    <button @click="toggleUpload" style="height: 22px">upload</button>
   </div>
 </template>
 
 <style lang="scss">
-p {
-  margin: 0;
-}
-
-a {
-  color: white;
-  text-decoration: none;
-  cursor: url("../../assets/other/cursor.png"), auto;
-
-  &:hover {
-    color: #ffcf2e;
-  }
-}
-
-.back {
-  font-family: "Inconsolata-ExtraBold", sans-serif;
-
-  position: absolute;
-  top: 22px;
-  right: 24px;
-  color: #ffcf2e;
-  border-radius: 4px;
-  padding: 8px 12px 9px 12px;
-  box-sizing: border-box;
-
-  &:hover {
-    box-sizing: border-box;
-    border: 1px solid #ffcf2e;
-  }
-}
-
-.divider-2 {
-  border-bottom: 1px solid #9b5a3e;
-  opacity: 0.6;
-}
-
-.edit {
-  opacity: 0.6;
-}
+@import "../../styles/global.scss";
 
 .header {
   position: -webkit-sticky;
@@ -174,52 +76,48 @@ a {
   z-index: 200;
 }
 
-.info {
-  font-family: "Inconsolata-SemiBold";
-  margin: 0px 16px;
-  white-space: normal;
-}
+// .info {
+//   font-family: "Inconsolata-SemiBold";
+//   margin: 0px 16px;
+//   white-space: normal;
+// }i have
 
-.info-item {
-  margin: 32px 0;
-  letter-spacing: 0.05em;
-  font-size: 14px;
-}
+// .info-item {
+//   margin: 32px 0;
+//   letter-spacing: 0.05em;
+//   font-size: 14px;
+// }
 
-.label {
-  margin-bottom: 8px;
-  opacity: 0.6;
-}
+// .label {
+//   margin-bottom: 8px;
+//   opacity: 0.6;
+// }
 
-.mod {
-  font-family: "Inconsolata-ExtraExpanded-Black";
-  color: #75a251;
-  cursor: url("../../assets/other/cursor.png"), auto;
-  padding-right: 16px;
-}
+// .mod {
+//   font-family: "Inconsolata-ExtraExpanded-Black";
+//   color: #75a251;
+//   cursor: url("../../assets/other/cursor.png"), auto;
+//   padding-right: 16px;
+// }
 
-.mod-box {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
+// .mod-box {
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: space-between;
+//   align-items: center;
+// }
 
 .nav-item {
-  font-family: "Inconsolata-SemiBold";
-  font-size: 18px;
-  color: white;
-  margin: 24px 0;
-  opacity: 0.8;
-}
+  color: gray;
+  margin-right: 15px;
 
-.no-select {
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Old versions of Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none;
+  &:hover {
+    color: white;
+  }
+
+  &.router-link-exact-active {
+    color: #42b983;
+  }
 }
 
 .profile-title {
@@ -231,27 +129,11 @@ a {
   margin: 0px 16px 0px 16px;
 }
 
-.section-left {
-  width: 24%;
-  flex: initial;
-  height: 100%;
-  overflow: scroll;
-  overflow-x: hidden;
-}
-
-.section-right-2 {
-  position: relative;
-  height: 100vh;
-  background-repeat: no-repeat;
-  flex: auto;
-  background-image: url("../../assets/other/bgUser.png");
-  // border-left: 2px solid #666666;
-  box-sizing: border-box;
-}
-
 .user {
   display: flex;
-  height: 100vh;
+  height: 100%;
   overflow: hidden;
+  background-image: url("../../assets/other/bgUser.png");
+  background-repeat: no-repeat;
 }
 </style>
