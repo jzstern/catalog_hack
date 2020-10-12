@@ -6,6 +6,7 @@ export default {
     Account: () => import("./Account"),
     ArtistList: () => import("./ArtistList"),
     Login: () => import("./Login"),
+    Register: () => import("./Register"),
     Settings: () => import("./Settings"),
     Upload: () => import("./Upload"),
   },
@@ -39,6 +40,7 @@ export default {
       <Account v-if="sidebar === 'Account'" />
       <ArtistList v-else-if="sidebar === 'Browse Artists'" />
       <Login v-else-if="sidebar === 'Login'" />
+      <Register v-else-if="sidebar === 'Register'" />
       <Settings v-else-if="sidebar === 'Settings'" />
       <Upload v-else-if="sidebar === 'Upload'" />
     </transition>

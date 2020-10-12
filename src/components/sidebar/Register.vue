@@ -1,5 +1,5 @@
 <template>
-  <div class="login">
+  <div class="register">
     <label>Email</label>
     <br>
     <input
@@ -14,13 +14,27 @@
       type="password"
     >
     <br>
-    <button @click="login">
-      Login
-    </button>
+    <label>Display Name</label>
     <br>
+    <input
+      v-model="name"
+      type="text"
+    >
+    <br>
+    <label>Handle</label>
+    <br>
+    <input
+      v-model="handle"
+      type="text"
+    >
     <br>
     <button @click="register">
       Register
+    </button>
+    <br>
+    <br>
+    <button @click="login">
+      Login
     </button>
     <br>
     <br>
@@ -36,6 +50,8 @@ export default {
   name: "Login",
   data: () => ({
     email: null,
+    handle: null,
+    name: null,
     password: null,
   }),
   methods: {
@@ -43,17 +59,17 @@ export default {
       this.$store.commit('sidebar', 'Browse Artists')
     },
     login() {
-      this.$store.commit('login', email, password)
+      this.$store.commit('sidebar', 'Login')
     },
     register() {
-      this.$store.commit('sidebar', 'Register')
+      this.$store.dispatch('register', {email, password, handle, name})
     }
   }
 };
 </script>
 
 <style lang="scss">
-.login {
-  display: block !important;
+.register {
+  
 }
 </style>

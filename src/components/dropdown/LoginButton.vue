@@ -3,7 +3,7 @@
     class="login-button"
     @click="login"
   >
-    Login
+    Login / Register
   </div>
 </template>
 
