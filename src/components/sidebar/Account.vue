@@ -5,6 +5,11 @@ export default {
     user() { 
       return this.$store.state.user
     }
+  },
+  methods: {
+    logout() {
+      this.$store.commit('logout')
+    }
   }
 }
 </script>
@@ -19,6 +24,12 @@ export default {
     <h4>{{ user.walletAddress }}</h4>
     <label>URL</label>
     <h4>{{ user.url }}</h4>
+
+
+    <br>
+    <button @click="logout">
+      Logout
+    </button>
   
     <!-- <h4>Songs owned:</h4>
     <h4>{{ user.collection.length }}</h4>
