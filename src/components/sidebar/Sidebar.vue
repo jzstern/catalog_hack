@@ -2,13 +2,12 @@
 export default {
   name: "Sidebar",
   components: {
+    Account: () => import("./Account"),
     ArtistList: () => import("./ArtistList"),
+    Login: () => import("./Login"),
     Settings: () => import("./Settings"),
     Upload: () => import("./Upload")
   },
-  data: () => ({
-    title: "CATALOG"
-  }),
   computed: {
     sidebar() {
       return this.$store.state.sidebar
@@ -26,11 +25,12 @@ export default {
   <div class="sidebar">
     <div class="header no-select">
       <img
+        v-if="sidebar === 'Catalog'"
         class="logo"
         src="../../assets/other/catalog.svg"
       >
       <h1 class="title">
-        {{ title }}
+        {{ sidebar }}
       </h1>
       <button @click="closeSidebar">
         close
@@ -40,9 +40,11 @@ export default {
       name="fade"
       mode="out-in"
     >
-      <ArtistList v-if="sidebar === 'artist-list'" />
-      <Settings v-else-if="sidebar === 'settings'" />
-      <Upload v-else-if="sidebar === 'upload'" />
+      <Account v-if="sidebar === 'Account'" />
+      <ArtistList v-else-if="sidebar === 'Browse Artists'" />
+      <Login v-else-if="sidebar === 'Login'" />
+      <Settings v-else-if="sidebar === 'Settings'" />
+      <Upload v-else-if="sidebar === 'Upload'" />
     </transition>
   </div>
 </template>
