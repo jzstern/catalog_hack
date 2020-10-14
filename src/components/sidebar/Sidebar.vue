@@ -5,6 +5,7 @@ export default {
   components: {
     Account: () => import("./Account"),
     ArtistList: () => import("./ArtistList"),
+    Item: () => import("./Item"),
     Login: () => import("./Login"),
     Register: () => import("./Register"),
     Settings: () => import("./Settings"),
@@ -27,22 +28,23 @@ export default {
   <div class="sidebar">
     <div class="header no-select">
       <img
-        v-if="sidebar === 'Catalog'"
+        v-if="sidebar.component === 'Catalog'"
         class="logo"
         src="../../assets/other/catalog.svg"
       />
       <h1 class="title">
-        {{ sidebar }}
+        {{ sidebar.component }}
       </h1>
       <button @click="closeSidebar">close</button>
     </div>
     <transition name="fade" mode="out-in">
-      <Account v-if="sidebar === 'Account'" />
-      <ArtistList v-else-if="sidebar === 'Browse Artists'" />
-      <Login v-else-if="sidebar === 'Login'" />
-      <Register v-else-if="sidebar === 'Register'" />
-      <Settings v-else-if="sidebar === 'Settings'" />
-      <Upload v-else-if="sidebar === 'Upload'" />
+      <Account v-if="sidebar.component === 'Account'" />
+      <ArtistList v-else-if="sidebar.component === 'Browse Artists'" />
+      <Item v-else-if="sidebar.component === 'Item'" />
+      <Login v-else-if="sidebar.component === 'Login'" />
+      <Register v-else-if="sidebar.component === 'Register'" />
+      <Settings v-else-if="sidebar.component === 'Settings'" />
+      <Upload v-else-if="sidebar.component === 'Upload'" />
     </transition>
   </div>
 </template>

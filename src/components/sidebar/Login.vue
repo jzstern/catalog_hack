@@ -40,13 +40,13 @@ export default {
   }),
   methods: {
     artists() {
-      this.$store.commit('sidebar', 'Browse Artists')
+      this.$store.commit('sidebarComponent', 'Browse Artists')
     },
     login() {
       this.$store.commit('login', email, password)
     },
     register() {
-      this.$store.commit('sidebar', 'Register')
+      this.$store.commit('sidebarComponent', 'Register')
     }
   }
 };

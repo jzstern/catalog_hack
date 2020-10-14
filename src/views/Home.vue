@@ -5,7 +5,7 @@ import router from "../router/index";
 export default {
   name: "Home",
   mounted() {
-    this.$store.commit("sidebar", "Browse Artists");
+    this.$store.commit("sidebarComponent", "Browse Artists");
   },
 };
 </script>

@@ -39,7 +39,7 @@ export default {
       router.push(`/${this.user.url}`)
     },
     openSidebar(component) {
-      this.$store.commit('sidebar', component)
+      this.$store.commit('sidebarComponent', component)
     }
   }
 }

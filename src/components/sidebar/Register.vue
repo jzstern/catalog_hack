@@ -56,10 +56,10 @@ export default {
   }),
   methods: {
     artists() {
-      this.$store.commit('sidebar', 'Browse Artists')
+      this.$store.commit('sidebarComponent', 'Browse Artists')
     },
     login() {
-      this.$store.commit('sidebar', 'Login')
+      this.$store.commit('sidebarComponent', 'Login')
     },
     register() {
       this.$store.dispatch('register', {email, password, handle, name})

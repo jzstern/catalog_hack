@@ -1,3 +1,34 @@
+<script>
+import router from "../../router/index"
+export default {
+  name: 'Upload',
+  data: () => ({
+    title: null,
+    description: null,
+    price: null
+  }),
+  computed: {
+    user() {
+      return this.$store.state.user
+    }
+  },
+  methods: {
+    create() {
+      if (this.price === 0) this.price = null
+      const item = {
+        title: this.title,
+        artist: this.user.name,
+        description: this.description,
+        price: this.price
+      }
+      this.$store.commit('addToCatalog', item)
+      if (router.currentRoute.fullPath !== `/${this.user.url}`) router.push(`/${this.user.url}`)
+      // open song in sidebar
+    }
+  }
+}
+</script>
+
 <template>
   <div class="upload">
     <label>Title</label>
@@ -34,22 +65,6 @@
     </button>
   </div>
 </template>
-
-<script>
-export default {
-  name: 'Upload',
-  data: () => ({
-    title: null,
-    description: null,
-    price: null
-  }),
-  methods: {
-    create() {
-      console.log('uploading shit')
-    }
-  }
-}
-</script>
 
 <style lang="scss">
 .upload {

@@ -8,7 +8,7 @@ export default {
   },
   computed: {
     showSideBar() {
-      return !!this.$store.state.sidebar;
+      return !!this.$store.state.sidebar.component;
     },
     user() {
       return this.$store.state.user;

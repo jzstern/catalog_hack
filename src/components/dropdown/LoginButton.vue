@@ -12,7 +12,7 @@ export default {
   name: "LoginButton",
   methods: {
     login() {
-      this.$store.commit('sidebar', 'Login')
+      this.$store.commit('sidebarComponent', 'Login')
     }
   }
 }

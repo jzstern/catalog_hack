@@ -20,7 +20,7 @@ const LOGGED_OUT_USER = {
 }
 
 const LOGGED_IN_USER = {
-  catalog: null,
+  catalog: [],
   collection: [],
   email: "crowncomfort@gmail.com",
   // isLoggedIn: false,
@@ -36,18 +36,30 @@ export default new Vuex.Store({
   },
   state: {
     user: LOGGED_IN_USER,
-    sidebar: "Catalog"
+    sidebar: {
+      component: "Catalog",
+      item: null
+    }
   },
   mutations: {
+    addToCatalog(state, item) {
+      state.user.catalog.push(item)
+    },
+    addToCollection(state, item) {
+      state.user.collection.push(item)
+    },
     logout(state) {
       state.user = LOGGED_OUT_USER
-      state.sidebar = "Login"
+      state.sidebar.component = "Login"
     },
     closeSidebar(state) {
-      state.sidebar = ""
+      state.sidebar.component = ""
     },
     sidebar(state, value) {
       state.sidebar = value
+    },
+    sidebarComponent(state, component) {
+      state.sidebar.component = component
     },
     user(state, user) {
       state.user = user
