@@ -4,6 +4,11 @@ export default {
     item: {
       required: true,
       type: Object
+    },
+    collection: {
+      required: false,
+      type: Boolean,
+      default: false
     }
   },
   methods: {
@@ -25,12 +30,18 @@ export default {
     <p>{{ item.title }}</p>
     <p>{{ item.artist }}</p>
     <p>{{ item.description }}</p>
-    <p>{{ item.price ? `$${item.price}` : "Name your price" }}</p>
+    <p v-if="!collection">
+      {{ item.price ? `$${item.price}` : "Name your price" }}
+    </p>
   </div>
 </template>
 
 <style lang="scss">
 .item {
   border: 1px solid gray;
+  &:hover {
+    cursor: pointer;
+    opacity: 50%;
+  }
 }
 </style>

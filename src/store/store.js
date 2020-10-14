@@ -35,6 +35,32 @@ export default new Vuex.Store({
     ethers
   },
   state: {
+    artist: {
+      name: "Omari Jazz",
+      url: "omarijazz",
+      catalog: [
+        {
+          title: "Dream Child",
+          artist: 'Omari Jazz',
+          price: 1
+        },
+        {
+          title: "Kindling",
+          artist: 'Omari Jazz',
+          price: null
+        },
+        {
+          title: "Atlas",
+          artist: 'Omari Jazz',
+          price: 2
+        }
+      ],
+      collection: [{
+        title: "shimmer",
+        artist: "crown comfort",
+        price: 1
+      }]
+    },
     user: LOGGED_IN_USER,
     sidebar: {
       component: "Catalog",

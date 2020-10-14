@@ -30,9 +30,9 @@ export default {
     <h3 class="profile-title">{{ name }}</h3>
     <div class="nav">
       <router-link :to="`/${url}`" class="nav-item">Catalog</router-link>
-      <router-link :to="`/${url}/collection`" class="nav-item"
-        >Collection</router-link
-      >
+      <router-link :to="`/${url}/collection`" class="nav-item">
+        Collection
+      </router-link>
     </div>
 
     <transition name="fade" mode="out-in">

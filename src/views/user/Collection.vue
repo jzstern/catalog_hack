@@ -19,6 +19,7 @@ export default {
       v-for="item in collection"
       :key="item.title + item.artist"
       :item="item"
+      collection
     />
   </div>
 </template>
