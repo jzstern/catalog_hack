@@ -9,8 +9,7 @@ export default {
     catalog() {
       return this.$store.state.user.catalog;
     },
-  },
-  // data: () => ({ })
+  }
 };
 </script>
 

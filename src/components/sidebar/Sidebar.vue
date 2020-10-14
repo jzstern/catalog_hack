@@ -7,6 +7,8 @@ export default {
     ArtistList: () => import("./ArtistList"),
     Item: () => import("./Item"),
     Login: () => import("./Login"),
+    Purchase: () => import("./Purchase"),
+    Receipt: () => import("./Receipt"),
     Register: () => import("./Register"),
     Settings: () => import("./Settings"),
     Upload: () => import("./Upload"),
@@ -42,6 +44,8 @@ export default {
       <ArtistList v-else-if="sidebar.component === 'Browse Artists'" />
       <Item v-else-if="sidebar.component === 'Item'" />
       <Login v-else-if="sidebar.component === 'Login'" />
+      <Purchase v-else-if="sidebar.component === 'Purchase'" />
+      <Receipt v-else-if="sidebar.component === 'Receipt'" />
       <Register v-else-if="sidebar.component === 'Register'" />
       <Settings v-else-if="sidebar.component === 'Settings'" />
       <Upload v-else-if="sidebar.component === 'Upload'" />
