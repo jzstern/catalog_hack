@@ -1,15 +1,17 @@
 <script>
 export default {
-  name: 'Collection',
+  /* eslint-disable */
+
+  name: "Collection",
   components: {
     ItemCard: () => import('../../components/shop/ItemCard')
   },
   computed: {
     collection() {
-      return this.$store.state.user.collection
-    }
-  }
-}
+      return this.$store.state.user.collection;
+    },
+  },
+};
 </script>
 
 <template>

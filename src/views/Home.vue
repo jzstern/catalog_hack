@@ -1,9 +1,11 @@
 <script>
 /* eslint-disable */
-import router from "../router/index";
 
 export default {
   name: "Home",
+  components: {
+    Dropdown: () => import("../components/dropdown/Dropdown"),
+  },
   mounted() {
     this.$store.commit("sidebarComponent", "Browse Artists");
   },
@@ -11,29 +13,48 @@ export default {
 </script>
 
 <template>
-  <div class="home">we are catalog this is what we do</div>
+  <div class="home">
+    <div class="home-content">
+      <div class="home-title">
+        <img src="../assets/other/catalog.svg" />
+        <p class="home-heading">CATALOG</p>
+      </div>
+      <p class="home-text">
+        Catalog empowers artists to sell their music directly to fans, who share
+        in the upside through revenue share and exclusive rewards.
+      </p>
+      <p class="home-text">
+        Artists receive 90% of direct sales <br />Supporters receive 10% of
+        direct sales
+      </p>
+    </div>
+    <div class="home-footer">
+      <p>Want to talk?</p>
+      <a>Message us</a>
+    </div>
+  </div>
 </template>
 
 <style scoped lang="scss">
-.home {
-  display: flex;
-  height: 100%;
-  // overflow: hidden;
-  background-image: url("../assets/other/bgHome.png");
-  background-repeat: no-repeat;
+a {
+  color: #42b983;
 }
 
-.header {
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0px;
-  background-color: black;
+.home {
   display: flex;
-  align-items: center;
-  height: 85px;
+  align-items: flex-start;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  background-image: url("../assets/other/bgHome.png");
+  background-repeat: no-repeat;
   box-sizing: border-box;
-  border-bottom: 2px solid #666666;
-  z-index: 200;
+}
+
+.home-content {
+  height: 100%;
+  width: 70%;
+  padding: 48px;
 }
 
 .login {
@@ -54,5 +75,59 @@ export default {
     border: 1px solid #ffcf2e;
     cursor: url("../assets/other/cursor.png"), auto;
   }
+}
+
+.home-title {
+  display: flex;
+  align-items: center;
+  font-family: "Tenor Sans", sans-serif;
+  font-size: 36px;
+  margin-bottom: 0px;
+  vertical-align: middle;
+  letter-spacing: 0.05em;
+}
+
+.home-footer {
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  justify-self: flex-end;
+  font-family: Inconsolata;
+  font-size: 14px;
+  // position: absolute;
+  width: 70%;
+  padding: 0px 32px 0px 32px;
+  box-sizing: border-box;
+  bottom: 0;
+  left: 0;
+  // background-color: black;
+  border-top: 1px solid #666666;
+  z-index: 0;
+
+  p {
+    opacity: 0.6;
+  }
+
+  a {
+    padding-left: 8px;
+    opacity: 0.6;
+    cursor: url("../assets/other/cursor.png"), pointer;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.home-heading {
+  padding-left: 16px;
+}
+
+.home-text {
+  font-family: Inconsolata;
+  font-size: 18px;
+  max-width: 90%;
+  line-height: 150%;
+  opacity: 0.8;
 }
 </style>

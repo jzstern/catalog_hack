@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import ethers from './ethers/index.js'
 // import Audius from '@audius/libs'
-// import router from '../router/index';
 
 import { LOGGED_OUT_USER, LOGGED_IN_USER, ARTISTS, NULL_ARTIST } from './constants'
 import init from './audius'
@@ -21,6 +20,11 @@ export default new Vuex.Store({
       item: null
     },
     user: LOGGED_OUT_USER
+  },
+  getters: {
+    onHome() {
+      return this.$route.path === '/'
+    }
   },
   mutations: {
     addToCatalog(state, item) {

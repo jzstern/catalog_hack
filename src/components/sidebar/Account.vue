@@ -1,44 +1,61 @@
 <script>
+/* eslint-disable */
+
 export default {
   name: "Account",
   computed: {
-    user() { 
-      return this.$store.state.user
-    }
+    user() {
+      return this.$store.state.user;
+    },
   },
   methods: {
     logout() {
-      this.$store.commit('logout')
-    }
-  }
-}
+      this.$store.commit("logout");
+    },
+  },
+};
 </script>
 
 <template>
   <div class="account">
-    <label>Name</label>
-    <h4>{{ user.name }}</h4>
-    <label>Email</label>
-    <h4>{{ user.email }}</h4>
-    <label>Wallet Address</label>
-    <h4>{{ user.walletAddress }}</h4>
-    <label>URL</label>
-    <h4>{{ user.handle }}</h4>
+    <div class="form-item">
+      <label>Name</label>
+      <p>{{ user.name }}</p>
+    </div>
+    <div class="form-item">
+      <label>Email</label>
+      <p>{{ user.email }}</p>
+    </div>
+    <div class="form-item">
+      <label>Wallet Address</label>
+      <p>{{ user.walletAddress }}</p>
+    </div>
+    <div class="form-item">
+      <label>URL</label>
+      <p>{{ user.url }}</p>
+    </div>
 
+    <br />
+    <button class="buttonSecondary" @click="logout">Log out</button>
 
-    <br>
-    <button @click="logout">
-      Logout
-    </button>
-  
     <!-- <h4>Songs owned:</h4>
     <h4>{{ user.collection.length }}</h4>
-    
+
     <h4>Songs uploaded:</h4>
     <h4>{{ user.catalog.length }}</h4> -->
   </div>
 </template>
 
 <style lang="scss">
+.account {
+  font-family: Inconsolata;
+  padding: 0 24px;
+  // width: 100%;
+}
 
+.form-item {
+  margin: 32px 0;
+  letter-spacing: 0.05em;
+  font-size: 16px;
+}
 </style>

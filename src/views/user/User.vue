@@ -43,7 +43,9 @@ export default {
 
 <template>
   <div class="user">
-    <h3 class="profile-title">{{ artist.name }}</h3>
+    <div class="profile-info">
+      <h3 class="profile-title">{{ artist.name }}</h3>
+    </div>
     <div class="nav">
       <router-link :to="`/${artist.handle}`" class="nav-item">Catalog</router-link>
       <router-link :to="`/${artist.handle}/collection`" class="nav-item">
@@ -57,20 +59,15 @@ export default {
   </div>
 </template>
 
-<style lang="scss">
+<style scoped lang="scss">
 @import "../../styles/global.scss";
 
-.header {
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0px;
-  background-color: black;
+.nav {
+  padding: 16px;
   display: flex;
-  align-items: center;
-  height: 85px;
-  box-sizing: border-box;
-  border-bottom: 2px solid #666666;
-  z-index: 200;
+  justify-content: center;
+  width: 100%;
+  justify-self: center;
 }
 
 // .info {
@@ -92,7 +89,7 @@ export default {
 
 // .mod {
 //   font-family: "Inconsolata-ExtraExpanded-Black";
-//   color: #75a251;
+// color: #75a251;
 //   cursor: url("../../assets/other/cursor.png"), auto;
 //   padding-right: 16px;
 // }
@@ -117,19 +114,27 @@ export default {
   }
 }
 
+.profile-info {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+}
+
 .profile-title {
   font-family: "Tenor Sans", sans-serif;
-  font-size: 22px;
+  font-size: 18px;
   vertical-align: middle;
   letter-spacing: 0.05em;
   opacity: 0.8;
-  margin: 0px 16px 0px 16px;
+  margin: 4px 0 0 4px;
+  justify-self: flex-start;
 }
 
 .user {
-  display: flex;
+  // display: flex;
   height: 100%;
-  overflow: hidden;
+  justify-content: center;
+  // overflow: hidden;
   background-image: url("../../assets/other/bgUser.png");
   background-repeat: no-repeat;
 }

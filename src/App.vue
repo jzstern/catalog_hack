@@ -1,10 +1,11 @@
 <script>
 /* eslint-disable */
+import Audius from "@audius/libs";
 export default {
   components: {
     Dropdown: () => import("./components/dropdown/Dropdown"),
     Home: () => import("./views/Home"),
-    Sidebar: () => import("./components/sidebar/Sidebar")
+    Sidebar: () => import("./components/sidebar/Sidebar"),
   },
   computed: {
     showSideBar() {
@@ -20,14 +21,51 @@ export default {
     // this.$store.dispatch("ethers/init");
     // if (!this.userIsLoggedIn) this.$store.dispatch('checkMagicLogin')
   },
+  methods: {
+    async init() {
+      const dataRegistryAddress = "0xC611C82150b56E6e4Ec5973AcAbA8835Dd0d75A2";
+
+      const ethTokenAddress = "0xADEf65C0f6a30Dcb5f88Eb8653BBFe09Bf99864f";
+      const ethRegistryAddress = "0xb2be26Ca062c5D74964921B80DE6cfa28D9A36c0";
+      const ethProviderUrl =
+        "https://mainnet.infura.io/v3/d6b566d7eea1408988388c311d5a273a";
+      const ethProviderOwnerWallet =
+        "0xe886a1858d2d368ef8f02c65bdd470396a1ab188";
+
+      const libs = new Audius({
+        web3Config: Audius.configInternalWeb3(dataRegistryAddress, [
+          "https://core.poa.network",
+        ]),
+        ethWeb3Config: Audius.configEthWeb3(
+          ethTokenAddress,
+          ethRegistryAddress,
+          ethProviderUrl,
+          ethProviderOwnerWallet
+        ),
+        discoveryProviderConfig: Audius.configDiscoveryProvider(),
+        identityServiceConfig: Audius.configIdentityService(
+          "https://identityservice.audius.co"
+        ),
+        creatorNodeConfig: Audius.configCreatorNode(
+          "https://creatornode.audius.co"
+        ),
+      });
+      await libs.init();
+      window.libs = libs;
+      return libs;
+    },
+  },
+  async mounted() {
+    const libs = await this.init();
+  },
 };
 </script>
 
 <template>
   <div id="app">
-    <transition name="fade" mode="out-in">
-      <Sidebar v-if="showSideBar"/>
-    </transition>
+    <!-- <transition name="fade" mode="out-in"> -->
+    <Sidebar v-if="showSideBar" />
+    <!-- </transition> -->
     <transition name="fade" mode="out-in">
       <Dropdown />
     </transition>
@@ -43,7 +81,8 @@ export default {
 
 @font-face {
   font-family: "Tenor Sans";
-  src: url("./assets/fonts/TenorSans-Regular.ttf") format("ttf");}
+  src: url("./assets/fonts/TenorSans-Regular.ttf") format("ttf");
+}
 @font-face {
   font-family: "Inconsolata-Light";
   src: url("./assets/fonts/InconsolataSemiExpanded-Light.ttf");
@@ -66,11 +105,14 @@ export default {
 }
 
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Inconsolata, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: white;
   display: flex;
+  flex-direction: row-reverse;
+  height: 100vh;
+  overflow-x: hidden;
 }
 
 a {
@@ -80,8 +122,52 @@ a {
 body {
   background-color: black;
   margin: 0;
-  // overscroll-behavior: none;
-  overflow: hidden;
+  overscroll-behavior: none;
+  // overflow: hidden;
+}
+
+label {
+  opacity: 0.6;
+  margin-bottom: 16px;
+}
+
+.buttonPrimary {
+  font-family: Inconsolata-ExtraBold;
+  height: 45px;
+  background-color: #ffcf2e;
+  color: black;
+  // border: 1px solid #ffcf2e;
+  width: 100%;
+  cursor: url("./assets/other/cursor.png"), pointer;
+}
+
+.buttonSecondary {
+  font-family: Inconsolata-ExtraBold;
+  height: 45px;
+  background-color: black;
+  color: #ffcf2e;
+  border: 1px solid #ffcf2e;
+  width: 100%;
+  cursor: url("./assets/other/cursor.png"), pointer;
+}
+
+input {
+  font-family: Inconsolata;
+  background-color: black;
+  height: 45px;
+  font-size: 16px;
+  padding-left: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 4px;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  color: white;
+}
+
+textarea:focus,
+input:focus {
+  outline: none;
 }
 
 ::-webkit-scrollbar {
@@ -96,7 +182,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: rgb(158, 158, 158);
+  background-color: #a9a9a9;
   // opacity: 0.3;
   // -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
 }

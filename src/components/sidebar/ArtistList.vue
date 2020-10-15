@@ -30,9 +30,8 @@ export default {
 <style lang="scss">
 .artist-list {
   margin-top: 0;
-  padding: 0 16px;
+  padding: 0 24px;
   list-style-type: none;
-  cursor: url("../../assets/other/cursor.png"), pointer;
 }
 
 .artist {
@@ -43,6 +42,7 @@ export default {
   line-height: 60px;
   font-size: 14px;
   opacity: 0.8;
+  cursor: url("../../assets/other/cursor.png"), pointer;
 
   &:hover {
     color: #ffcf2e;

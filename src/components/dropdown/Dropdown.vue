@@ -1,20 +1,25 @@
 <script>
+/* eslint-disable */
+
 export default {
   name: "DropdownContainer",
   components: {
     DropdownMenu: () => import("./DropdownMenu"),
-    LoginButton: () => import("./LoginButton")
+    LoginButton: () => import("./LoginButton"),
   },
   computed: {
     loggedIn() {
-      return !!this.$store.state.user.name
-    }
-  }
-}
+      return !!this.$store.state.user.name;
+    },
+    onHome() {
+      return this.$route.path === "/";
+    },
+  },
+};
 </script>
 
 <template>
-  <div class="dropdown">
+  <div :class="['dropdown', { dropdownHome: onHome }]">
     <LoginButton v-if="!loggedIn" />
     <DropdownMenu v-else />
   </div>
@@ -22,10 +27,15 @@ export default {
 
 <style lang="scss">
 .dropdown {
-  z-index: 300;
+  z-index: 200;
   position: fixed;
   top: 15px;
   right: 15px;
-  cursor: pointer;
+  cursor: url("../../assets/other/cursor.png"), pointer;
+}
+
+.dropdownHome {
+  top: 25px;
+  right: 30%;
 }
 </style>
