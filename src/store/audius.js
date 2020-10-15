@@ -1,6 +1,7 @@
 import Audius from '@audius/libs'
 
-export default async function init() {
+// export default async function init() {
+var init = async () => {
   const dataRegistryAddress = '0xC611C82150b56E6e4Ec5973AcAbA8835Dd0d75A2'
 
   const ethTokenAddress = '0xADEf65C0f6a30Dcb5f88Eb8653BBFe09Bf99864f'
@@ -31,3 +32,5 @@ export default async function init() {
   window.libs = libs
   return libs
 }
+
+export default init

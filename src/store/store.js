@@ -68,7 +68,6 @@ export default new Vuex.Store({
     async initAudius({ commit }) {
       const libs = await init()
       commit('libs', libs)
-      // libs.Account.login("jzstern@gmail.com", "avenged7fold12*")
       // console.log(state.libs)
       // console.log(libs.Account.getCurrentUser())
     },
