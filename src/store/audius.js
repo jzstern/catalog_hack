@@ -1,6 +1,5 @@
 import Audius from '@audius/libs'
 
-// export default async function init() {
 var init = async () => {
   const dataRegistryAddress = '0xC611C82150b56E6e4Ec5973AcAbA8835Dd0d75A2'
 

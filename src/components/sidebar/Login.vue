@@ -3,6 +3,9 @@
 export default {
   name: "Login",
   computed: {
+    loggingIn() {
+      return this.$store.state.user.isLoggingIn
+    },
     missingEmail() {
       return !this.email && this.invalidForm
     },
@@ -20,13 +23,18 @@ export default {
       this.$store.commit("sidebarComponent", "Browse Artists");
     },
     login() {
-      if (this.email && this.password) this.$store.dispatch('login', this.email, this.password)
+      if (this.email && this.password) this.$store.dispatch('login', { email: this.email, pw: this.password})
       else this.invalidForm = true
     },
     register() {
       this.$store.commit("sidebarComponent", "Register");
     },
   },
+  mounted() {
+    document.onkeydown = e => {
+      if (e.keyCode === 13 && !this.loggingIn) this.login
+    }
+  }
 };
 </script>
 
@@ -52,10 +60,12 @@ export default {
     <br>
     <button
       class="buttonPrimary"
+      v-if="!loggingIn"
       @click="login"
     >
       Login
     </button>
+    <p v-else>signing you in...</p>
     <p v-if="invalidForm">
       Looks like you're missing an email // pw
     </p>

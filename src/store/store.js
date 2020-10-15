@@ -3,7 +3,8 @@ import Vuex from 'vuex'
 import ethers from './ethers/index.js'
 // import Audius from '@audius/libs'
 
-import { LOGGED_OUT_USER, LOGGED_IN_USER, ARTISTS, NULL_ARTIST } from './constants'
+// import { LOGGED_OUT_USER, LOGGED_IN_USER, ARTISTS, NULL_ARTIST } from './constants'
+import { LOGGED_OUT_USER, ARTISTS, NULL_ARTIST } from './constants'
 import init from './audius'
 
 Vue.use(Vuex)
@@ -68,38 +69,27 @@ export default new Vuex.Store({
     async initAudius({ commit }) {
       const libs = await init()
       commit('libs', libs)
-      // console.log(state.libs)
-      // console.log(libs.Account.getCurrentUser())
     },
-    logout({ state, commit, dispatch}) {
-      // commit('walletAddress', null)
+    async logout({ state, commit }) {
+      await state.libs.Account.logout()
+      commit('user', LOGGED_OUT_USER)
+    },
+    async login({ state, commit }, credentials) {
+      commit('user', {
+        ...state.user,
+        isLoggingIn: true
+      })
+      // TODO - detect incorrect pw
+      const user = await state.libs.Account.login(credentials.email, credentials.pw)
       commit('user', {
         catalog: null,
-        collection: [],
-        email: null,
-        // isLoggedIn: false,
-        loading: false,
-        name: null,
-        walletAddress: null
+        collection: null,
+        email: credentials.email,
+        name: user.user.name,
+        handle: user.user.handle,
+        walletAddress: user.user.wallet,
+        isLoggingIn: false
       })
-      // commit('user', LOGGED_OUT_USER)
-      dispatch('ethers/disconnect')
-      // ctx.dispatch('ethers/logout')
-      console.log(state.user.walletAddress)
-    },
-    async login({ commit }) {
-    // async login({ state, commit }, email, pw) {
-      // commit('user', {
-      //   ...state.user,
-      //   isLoggingIn: true
-      // })
-      // const { user } = await state.libs.Account.login(email, pw)
-      // commit('user', {
-      //   ...state.user,
-      //   isLoggingIn: false
-      // })
-      // console.log(user)
-      commit('user', LOGGED_IN_USER)
       commit('sidebarComponent', "Account")
     }
   }
