@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 // import { Magic } from 'magic-sdk'
 import ethers from './ethers/index.js'
-// import router from '../router/index';
 
 Vue.use(Vuex)
 
@@ -65,6 +64,11 @@ export default new Vuex.Store({
     sidebar: {
       component: "Catalog",
       item: null
+    }
+  },
+  getters: {
+    onHome() {
+      return this.$route.path === '/'
     }
   },
   mutations: {

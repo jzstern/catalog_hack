@@ -17,6 +17,9 @@ export default {
     sidebar() {
       return this.$store.state.sidebar;
     },
+    onHome() {
+      return this.$route.path === "/";
+    },
   },
   methods: {
     closeSidebar() {
@@ -27,17 +30,17 @@ export default {
 </script>
 
 <template>
-  <div class="sidebar">
+  <div :class="['sidebar', { sidebarTransparent: onHome }]">
     <div class="header no-select">
-      <img
-        v-if="sidebar.component === 'Catalog'"
-        class="logo"
-        src="../../assets/other/catalog.svg"
-      />
       <h1 class="title">
         {{ sidebar.component }}
       </h1>
-      <button @click="closeSidebar">close</button>
+      <img
+        v-if="this.$route.path !== '/'"
+        @click="closeSidebar"
+        class="close"
+        src="../../assets/other/close.svg"
+      />
     </div>
     <transition name="fade" mode="out-in">
       <Account v-if="sidebar.component === 'Account'" />
@@ -56,6 +59,16 @@ export default {
 <style lang="scss">
 @import "../../styles/global.scss";
 
+.close {
+  width: 40px;
+  opacity: 0.3;
+  cursor: url("../../assets/other/cursor.png"), pointer;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
 .logo {
   margin: 0px 16px 0px 24px;
   opacity: 0.8;
@@ -66,13 +79,14 @@ export default {
   position: -webkit-sticky;
   position: sticky;
   top: 0px;
-  background-color: black;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   height: 85px;
   box-sizing: border-box;
   border-bottom: 2px solid #666666;
   z-index: 200;
+  padding: 0 24px;
 }
 
 .title {
@@ -93,10 +107,20 @@ export default {
 }
 
 .sidebar {
-  width: 24%;
+  position: absolute;
+  width: 30%;
+  // min-width: 30%;
+  // max-width: 30%;
   height: 100%;
   flex: initial;
   overflow: scroll;
   overflow-x: hidden;
+  border-left: 1px solid #666666;
+  z-index: 300;
+  background-color: black;
+}
+
+.sidebarTransparent {
+  background-color: transparent;
 }
 </style>

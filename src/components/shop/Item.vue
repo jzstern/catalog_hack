@@ -1,32 +1,31 @@
 <script>
+/* eslint-disable */
+
 export default {
   props: {
     item: {
       required: true,
-      type: Object
+      type: Object,
     },
     collection: {
       required: false,
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   methods: {
     selectItem() {
-      this.$store.commit('sidebar', {
+      this.$store.commit("sidebar", {
         component: "Item",
-        item: this.item
-      })
-    }
-  }
-}
+        item: this.item,
+      });
+    },
+  },
+};
 </script>
 
 <template>
-  <div
-    class="item"
-    @click="selectItem"
-  >
+  <div class="item" @click="selectItem">
     <p>{{ item.title }}</p>
     <p>{{ item.artist }}</p>
     <p>{{ item.description }}</p>
@@ -40,7 +39,7 @@ export default {
 .item {
   border: 1px solid gray;
   &:hover {
-    cursor: pointer;
+    cursor: url("../../assets/other/cursor.png"), pointer;
     opacity: 50%;
   }
 }

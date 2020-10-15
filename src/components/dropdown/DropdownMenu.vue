@@ -1,58 +1,63 @@
 <template>
   <div class="dropdown-menu">
-    <div
-      class="menu-item"
-      @click="goToUserCatalog"
-    >
+    <div class="menu-item" @click="goToUserCatalog">
       {{ user.name }}
+      <img class="dropdown-icon" src="../../assets/other/dropDown.svg" />
     </div>
-    <div
-      class="menu-item"
-      @click="openSidebar('Account')"
-    >
-      Account
+    <div class="menu-item">
+      <router-link :to="'/'">Home</router-link>
     </div>
-    <div
-      class="menu-item"
-      @click="openSidebar('Upload')"
-    >
-      Upload
-    </div>
+    <div class="menu-item" @click="openSidebar('Account')">Account</div>
+    <div class="menu-item" @click="openSidebar('Upload')">Upload</div>
   </div>
 </template>
 
 <script>
-import router from "../../router/index"
+/* eslint-disable */
 
 export default {
   name: "DropdownMenu",
   computed: {
     sidebar() {
-      return this.$store.state.sidebar
+      return this.$store.state.sidebar;
     },
     user() {
-      return this.$store.state.user
-    }
+      return this.$store.state.user;
+    },
   },
   methods: {
     goToUserCatalog() {
-      router.push(`/${this.user.url}`)
+      this.$router.push(`/${this.user.url}`);
     },
     openSidebar(component) {
-      this.$store.commit('sidebarComponent', component)
-    }
-  }
-}
+      this.$store.commit("sidebarComponent", component);
+    },
+  },
+};
 </script>
 
 <style lang="scss">
+.dropdown-icon {
+  padding: 0px 4px 0px 8px;
+}
+
 .dropdown-menu {
-  background-color: darkblue;
+  background-color: rgb(2, 2, 2);
+
+  opacity: 0.3;
+  // padding: 12px;
+  border-radius: 4px;
+
+  &:hover {
+    opacity: 1;
+  }
 }
 
 .menu-item {
+  color: #ffcf2e;
+  padding: 6px 12px;
   &:hover {
-    opacity: 50%;
+    background-color: rgba(154, 154, 154, 0.1);
   }
 }
 </style>
