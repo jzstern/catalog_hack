@@ -31,8 +31,8 @@ export default {
       <p>{{ user.walletAddress }}</p>
     </div>
     <div class="form-item">
-      <label>URL</label>
-      <p>{{ user.url }}</p>
+      <label>Handle</label>
+      <p>{{ user.handle }}</p>
     </div>
 
     <br />

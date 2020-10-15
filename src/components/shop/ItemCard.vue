@@ -25,7 +25,7 @@ export default {
 </script>
 
 <template>
-  <div class="item" @click="selectItem">
+  <div class="item-card" @click="selectItem">
     <p>{{ item.title }}</p>
     <p>{{ item.artist }}</p>
     <p>{{ item.description }}</p>
@@ -37,6 +37,8 @@ export default {
 
 <style lang="scss">
 .item-card {
+  max-width: 200px;
+  margin-bottom: 20px;
   border: 1px solid gray;
   &:hover {
     cursor: url("../../assets/other/cursor.png"), pointer;
