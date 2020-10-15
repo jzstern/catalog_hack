@@ -3,7 +3,7 @@
     <router-link
       v-for="artist in artists"
       :key="artist.name"
-      :to="'/' + artist.url"
+      :to="'/' + artist.handle"
       class="artist"
     >
       <li class="artist">
@@ -15,31 +15,14 @@
 </template>
 
 <script>
+/* eslint-disable */
+import { ARTISTS } from '../../store/constants'
 export default {
-  /* eslint-disable */
-
   data: () => ({
     artists: [],
   }),
   mounted() {
-    // TODO - fetch artist list
-    this.artists = [
-      { name: "appa", url: "appa" },
-      { name: "chromonicci", url: "chromonicci" },
-      { name: "crown comfort", url: "crowncomfort" },
-      { name: "drumloop", url: "drumloop" },
-      { name: "feewet", url: "feewet" },
-      { name: "g l u e 7 0", url: "glue70" },
-      { name: "gohda", url: "gohda" },
-      { name: "KMB", url: "kmb" },
-      { name: "Melo-Zed", url: "melozed" },
-      { name: "MssingNo", url: "mssingno" },
-      { name: "pandi", url: "pandi" },
-      { name: "Omari Jazz", url: "omarijazz" },
-      { name: "sharad", url: "sharad" },
-      { name: "WISHNOMORE", url: "wishnomore" },
-      { name: "quickly, quickly", url: "quicklyquickly" },
-    ];
+    this.artists = ARTISTS;
   },
 };
 </script>

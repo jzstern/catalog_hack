@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     goToUserCatalog() {
-      router.push(`/${this.user.url}`)
+      router.push(`/${this.user.handle}`)
     },
     openSidebar(component) {
       this.$store.commit('sidebarComponent', component)

@@ -23,7 +23,7 @@ export default {
     <label>Wallet Address</label>
     <h4>{{ user.walletAddress }}</h4>
     <label>URL</label>
-    <h4>{{ user.url }}</h4>
+    <h4>{{ user.handle }}</h4>
 
 
     <br>

@@ -22,7 +22,7 @@ export default {
         price: this.price
       }
       this.$store.commit('addToCatalog', item)
-      if (router.currentRoute.fullPath !== `/${this.user.url}`) router.push(`/${this.user.url}`)
+      if (router.currentRoute.fullPath !== `/${this.user.handle}`) router.push(`/${this.user.handle}`)
       // open song in sidebar
     }
   }

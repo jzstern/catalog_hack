@@ -61,6 +61,8 @@ export default {
     login() {
       if (this.email && this.password) this.$store.dispatch('login', this.email, this.password)
       else this.invalidForm = true
+
+      this.$store.dispatch('login')
     },
     register() {
       this.$store.commit('sidebarComponent', 'Register')

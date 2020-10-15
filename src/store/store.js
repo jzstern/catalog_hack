@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import ethers from './ethers/index.js'
-import Audius from '@audius/libs'
+// import Audius from '@audius/libs'
 // import router from '../router/index';
 
-import { LOGGED_OUT_USER } from './constants'
-// import init from './audius'
+import { LOGGED_OUT_USER, LOGGED_IN_USER, ARTISTS, NULL_ARTIST } from './constants'
+import init from './audius'
 
 Vue.use(Vuex)
 
@@ -14,7 +14,7 @@ export default new Vuex.Store({
     ethers
   },
   state: {
-    artist: null,
+    artist: NULL_ARTIST,
     libs: null,
     sidebar: {
       component: "Catalog",
@@ -28,6 +28,9 @@ export default new Vuex.Store({
     },
     addToCollection(state, item) {
       state.user.collection.push(item)
+    },
+    artist(state, artist) {
+      state.artist = artist
     },
     closeSidebar(state) {
       state.sidebar.component = ""
@@ -53,44 +56,18 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async init() {
-      const dataRegistryAddress = '0xC611C82150b56E6e4Ec5973AcAbA8835Dd0d75A2'
-
-      const ethTokenAddress = '0xADEf65C0f6a30Dcb5f88Eb8653BBFe09Bf99864f'
-      const ethRegistryAddress = '0xb2be26Ca062c5D74964921B80DE6cfa28D9A36c0'
-      const ethProviderUrl = 'https://mainnet.infura.io/v3/d6b566d7eea1408988388c311d5a273a'
-      const ethProviderOwnerWallet = '0xe886a1858d2d368ef8f02c65bdd470396a1ab188'
-
-      const libs = new Audius({
-        web3Config: Audius.configInternalWeb3(
-          dataRegistryAddress,
-          ['https://core.poa.network']
-        ),
-        ethWeb3Config: Audius.configEthWeb3(
-          ethTokenAddress,
-          ethRegistryAddress,
-          ethProviderUrl,
-          ethProviderOwnerWallet
-        ),
-        discoveryProviderConfig: Audius.configDiscoveryProvider(),
-        identityServiceConfig: Audius.configIdentityService(
-          'https://identityservice.audius.co'
-        ),
-        creatorNodeConfig: Audius.configCreatorNode(
-          'https://creatornode.audius.co'
-        )
-      })
-      await libs.init()
-      window.libs = libs
-      return libs
+    async getArtistData({ commit }, handle) {
+      // TODO - fetch user data from Textile & Audius
+      const artist = ARTISTS.find(artist => artist.handle === handle)
+      commit('artist', artist )
     },
-    // async initAudius({ commit }) {
-    //   const libs = await init()
-    //   commit('libs', libs)
-    //   // libs.Account.login("jzstern@gmail.com", "avenged7fold12*")
-    //   // console.log(state.libs)
-    //   // console.log(libs.Account.getCurrentUser())
-    // },
+    async initAudius({ commit }) {
+      const libs = await init()
+      commit('libs', libs)
+      // libs.Account.login("jzstern@gmail.com", "avenged7fold12*")
+      // console.log(state.libs)
+      // console.log(libs.Account.getCurrentUser())
+    },
     logout({ state, commit, dispatch}) {
       // commit('walletAddress', null)
       commit('user', {
@@ -107,17 +84,20 @@ export default new Vuex.Store({
       // ctx.dispatch('ethers/logout')
       console.log(state.user.walletAddress)
     },
-    async login({ state, commit }, email, pw) {
-      commit('user', {
-        ...state.user,
-        isLoggingIn: true
-      })
-      const { user } = await state.libs.Account.login(email, pw)
-      commit('user', {
-        ...state.user,
-        isLoggingIn: false
-      })
-      console.log(user)
+    async login({ commit }) {
+    // async login({ state, commit }, email, pw) {
+      // commit('user', {
+      //   ...state.user,
+      //   isLoggingIn: true
+      // })
+      // const { user } = await state.libs.Account.login(email, pw)
+      // commit('user', {
+      //   ...state.user,
+      //   isLoggingIn: false
+      // })
+      // console.log(user)
+      commit('user', LOGGED_IN_USER)
+      commit('sidebarComponent', "Account")
     }
   }
 })

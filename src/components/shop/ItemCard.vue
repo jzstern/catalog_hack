@@ -24,7 +24,7 @@ export default {
 
 <template>
   <div
-    class="item"
+    class="item-card"
     @click="selectItem"
   >
     <p>{{ item.title }}</p>
@@ -37,7 +37,7 @@ export default {
 </template>
 
 <style lang="scss">
-.item {
+.item-card {
   border: 1px solid gray;
   &:hover {
     cursor: pointer;
