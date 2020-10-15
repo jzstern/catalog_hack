@@ -12,23 +12,27 @@ export const LOGGED_IN_USER = {
   catalog: [
     {
       title: "Swing Theory",
+      artistHandle: "quicklyquickly",
       description: "swung af",
-      price: 1
+      price: 1,
+      id: "4"
     },
     {
       title: "all i wanna do",
+      artistHandle: "quicklyquickly",
       description: "freebie",
-      price: null
+      price: null,
+      id: "5"
     },
     {
       title: "docks [clip]",
+      artistHandle: "quicklyquickly",
       description: null,
-      price: null
+      price: null,
+      id: "6"
     }
   ],
-  collection: [
-    
-  ],
+  collection: [],
   email: "quicklyquickly@gmail.com",
   isLoggingIn: false,
   name: "quickly, quickly",
@@ -51,7 +55,14 @@ export const ARTISTS = [
     name: "appa", handle: "appa", catalog: [], collection: [], walletAddress: null
   },
   { name: "chromonicci", handle: "chromonicci",  catalog: [], collection: [], walletAddress: null },
-  { name: "crown comfort", handle: "crowncomfort",  catalog: [], collection: [], walletAddress: null },
+  {
+    name: "crown comfort", handle: "crowncomfort", catalog: [{
+      title: "shimmer",
+      artist: "crown comfort",
+      artistHandle: "crowncomfort",
+      price: 1,
+      id: "3"
+    }], collection: [], walletAddress: null },
   { name: "drumloop", handle: "drumloop",  catalog: [], collection: [], walletAddress: null },
   { name: "feewet", handle: "feewet",  catalog: [], collection: [], walletAddress: null },
   { name: "g l u e 7 0", handle: "glue70",  catalog: [], collection: [], walletAddress: null },
@@ -67,23 +78,31 @@ export const ARTISTS = [
       {
         title: "Dream Child",
         artist: 'Omari Jazz',
-        price: 1
+        artistHandle: "omarijazz",
+        price: 1,
+        id: "0"
       },
       {
         title: "Kindling",
         artist: 'Omari Jazz',
-        price: null
+        artistHandle: "omarijazz",
+        price: null,
+        id: "1"
       },
       {
         title: "Atlas",
         artist: 'Omari Jazz',
-        price: 2
+        artistHandle: "omarijazz",
+        price: 2,
+        id: "2"
       }
     ],
     collection: [{
       title: "shimmer",
       artist: "crown comfort",
-      price: 1
+      artistHandle: "crowncomfort",
+      price: 1,
+      id: "3"
     }]
   },
   { name: "sharad", handle: "sharad",  catalog: [], collection: [], walletAddress: null },

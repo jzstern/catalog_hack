@@ -8,7 +8,7 @@ export default {
   },
   computed: {
     collection() {
-      return this.$store.state.user.collection;
+      return this.$store.state.artist.collection;
     },
   },
 };
@@ -21,7 +21,6 @@ export default {
       v-for="item in collection"
       :key="item.title + item.artist"
       :item="item"
-      collection
     />
   </div>
 </template>

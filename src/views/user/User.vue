@@ -44,7 +44,7 @@ export default {
 <template>
   <div class="user">
     <div class="profile-info">
-      <h3 class="profile-title">{{ artist.name }}</h3>
+      <h3 class="profile-title">{{ artist ? artist.name : null }}</h3>
     </div>
     <div class="nav">
       <router-link :to="`/${artist.handle}`" class="nav-item">Catalog</router-link>

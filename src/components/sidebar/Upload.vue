@@ -24,9 +24,14 @@ export default {
       };
 
       this.$store.commit("addToCatalog", item);
-      // open song in sidebar
 
-      if (this.$route.path !== `/${this.user.handle}`) this.$router.push(`/${this.user.handle}`);
+      // TODO - upload confirmation in sidebar w/ link to Catalog/song?
+      // this.$store.commit('sidebar', {
+      //   component: "Upload Confirmed"
+      // })
+
+      // ? do we route to the user's catalog after they upload a song?
+      // if (this.$route.path !== `/${this.user.handle}`) this.$router.push(`/${this.user.handle}`);
     },
   },
 };
