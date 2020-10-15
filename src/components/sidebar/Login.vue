@@ -5,6 +5,8 @@
     <input
       v-model="email"
       type="email"
+      required
+      :class="{ invalidForm: missingEmail }"
     >
     <br>
     <label>Password</label>
@@ -12,11 +14,16 @@
     <input
       v-model="password"
       type="password"
+      required
+      :class="{ invalidForm: missingPassword }"
     >
     <br>
     <button @click="login">
       Login
     </button>
+    <p v-if="invalidForm">
+      Looks like you're missing an email // pw
+    </p>
     <br>
     <br>
     <button @click="register">
@@ -34,8 +41,17 @@
 /* eslint-disable */
 export default {
   name: "Login",
+  computed: {
+    missingEmail() {
+      return !this.email && this.invalidForm
+    },
+    missingPassword() {
+      return !this.password && this.invalidForm
+    },
+  },
   data: () => ({
     email: null,
+    invalidForm: false,
     password: null,
   }),
   methods: {
@@ -43,7 +59,8 @@ export default {
       this.$store.commit('sidebarComponent', 'Browse Artists')
     },
     login() {
-      this.$store.commit('login', email, password)
+      if (this.email && this.password) this.$store.dispatch('login', this.email, this.password)
+      else this.invalidForm = true
     },
     register() {
       this.$store.commit('sidebarComponent', 'Register')
@@ -55,5 +72,9 @@ export default {
 <style lang="scss">
 .login {
   display: block !important;
+}
+
+.invalidForm {
+  border: 1px solid red;
 }
 </style>

@@ -15,7 +15,9 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch("ethers/init");
+    // this.$store.dispatch("initAudius")
+    this.$store.dispatch("init")
+    // this.$store.dispatch("ethers/init");
     // if (!this.userIsLoggedIn) this.$store.dispatch('checkMagicLogin')
   },
 };

@@ -36,6 +36,7 @@ export default {
       v-model="title"
       placeholder="cool song name"
       type="text"
+      required
     >
 
     <label>Description</label>
@@ -47,7 +48,7 @@ export default {
 
     <label>Price (USD)</label>
     <input
-      v-model="price"
+      v-model.number="price"
       placeholder="$1"
       type="number"
     >
