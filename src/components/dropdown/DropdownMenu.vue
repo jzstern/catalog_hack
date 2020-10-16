@@ -7,7 +7,7 @@
       {{ user.name }}
       <img
         class="dropdown-icon"
-        src="../../assets/other/dropDown.svg"
+        src="@/assets/other/dropDown.svg"
       >
     </router-link>
     <div class="menu-item">
@@ -57,7 +57,7 @@ export default {
 }
 
 .dropdown-menu {
-  background-color: rgb(2, 2, 2);
+  background-color: rgb(16, 16, 16);
 
   opacity: 0.3;
   // padding: 12px;
@@ -69,10 +69,10 @@ export default {
 }
 
 .menu-item {
-  color: #ffcf2e;
-  padding: 6px 12px;
+  color: #f2ba00;
+  padding: 8px 16px;
   &:hover {
-    background-color: rgba(154, 154, 154, 0.1);
+    background-color: rgba(87, 87, 87, 0.1);
   }
 }
 </style>

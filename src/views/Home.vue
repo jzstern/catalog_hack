@@ -63,16 +63,16 @@ a {
   position: absolute;
   top: 22px;
   right: 24px;
-  color: #ffcf2e;
+  color: #f2ba00;
   border-radius: 4px;
-  padding: 8px 12px 9px 12px;
+  padding: 8px 12px 8px 12px;
   box-sizing: border-box;
 
   &:hover {
     // color: black;
     box-sizing: border-box;
 
-    border: 1px solid #ffcf2e;
+    border: 1px solid #f2ba00;
     cursor: url("../assets/other/cursor.png"), auto;
   }
 }
@@ -96,7 +96,7 @@ a {
   font-size: 14px;
   // position: absolute;
   width: 70%;
-  padding: 0px 32px 0px 32px;
+  padding: 0px 32px;
   box-sizing: border-box;
   bottom: 0;
   left: 0;

@@ -23,7 +23,9 @@ export default {
   },
   methods: {
     closeSidebar() {
-      this.$store.commit("closeSidebar");
+      if (this.$route.path === "/") {
+        this.$store.commit("sidebarComponent", "Browse Artists");
+      } else this.$store.commit("closeSidebar");
     },
   },
 };
@@ -36,7 +38,7 @@ export default {
         {{ sidebar.component }}
       </h1>
       <img
-        v-if="this.$route.path !== '/'"
+        v-if="this.sidebar.component !== 'Browse Artists'"
         @click="closeSidebar"
         class="close"
         src="../../assets/other/close.svg"
@@ -84,9 +86,10 @@ export default {
   align-items: center;
   height: 85px;
   box-sizing: border-box;
-  border-bottom: 2px solid #666666;
+  border-bottom: 1px solid #666666;
   z-index: 200;
   padding: 0 24px;
+  backdrop-filter: blur(12px);
 }
 
 .title {
