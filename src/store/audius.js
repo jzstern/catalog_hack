@@ -1,6 +1,11 @@
 import Audius from '@audius/libs'
+import { CURRENT_USER_EXISTS_LOCAL_STORAGE_KEY } from '@audius/libs/src/constants'
+import { DISCOVERY_PROVIDER_TIMESTAMP } from '@audius/libs/src/services/discoveryProvider/constants'
 
-var init = async () => {
+const AUDIUS_ACCOUNT_KEY = '@audius/account'
+const AUDIUS_ACCOUNT_USER_KEY = '@audius/audius-user'
+
+export const init = async () => {
   const dataRegistryAddress = '0xC611C82150b56E6e4Ec5973AcAbA8835Dd0d75A2'
 
   const ethTokenAddress = '0xF0A4A438821d21e37150e9916569De7c156E898F'
@@ -32,4 +37,49 @@ var init = async () => {
   return libs
 }
 
-export default init
+const getValue = (key) => {
+  if (window && window.localStorage) {
+    const val = window.localStorage.getItem(key)
+    return val ?? null
+  }
+  return null
+}
+
+const getJSONValue = (key) => {
+  const val = getValue(key)
+  if (val) {
+    try {
+      const parsed = JSON.parse(val)
+      return parsed
+    } catch (e) {
+      return null
+    }
+  }
+  return null
+}
+
+const setValue = (key, value) => {
+  if (window && window.localStorage) {
+    window.localStorage.setItem(key, value)
+  }
+}
+
+const setJSONValue = (key, value) => {
+  const string = JSON.stringify(value)
+  setValue(key, string)
+}
+
+const removeItem = (key) => {
+  if (window && window.localStorage) {
+    window.localStorage.removeItem(key)
+  }
+}
+
+export const getAudiusAccount = () => getJSONValue(AUDIUS_ACCOUNT_KEY)
+export const setAudiusAccount = (value) => setJSONValue(AUDIUS_ACCOUNT_KEY, value)
+export const clearAudiusAccount = () => removeItem(AUDIUS_ACCOUNT_KEY)
+export const getAudiusAccountUser = () => getJSONValue(AUDIUS_ACCOUNT_USER_KEY)
+export const setAudiusAccountUser = (value) => setJSONValue(AUDIUS_ACCOUNT_USER_KEY, value)
+export const clearAudiusAccountUser = () => removeItem(AUDIUS_ACCOUNT_USER_KEY)
+export const getCurrentUserExists = () => getValue(CURRENT_USER_EXISTS_LOCAL_STORAGE_KEY)
+export const getCachedDiscoveryProvider = () => getJSONValue(DISCOVERY_PROVIDER_TIMESTAMP)

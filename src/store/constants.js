@@ -51,7 +51,10 @@ export const NULL_ARTIST = {
 
 export const ARTISTS = [
   {
-    name: "appa", handle: "appa", catalog: [], collection: [], walletAddress: null
+    name: "appa", handle: "jzstern", catalog: [], collection: [], walletAddress: null
+  },
+  {
+    name: "buns", handle: "buns", catalog: [], collection: [], walletAddress: null
   },
   { name: "chromonicci", handle: "chromonicci",  catalog: [], collection: [], walletAddress: null },
   {
