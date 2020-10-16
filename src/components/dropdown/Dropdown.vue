@@ -36,6 +36,6 @@ export default {
 
 .dropdownHome {
   top: 25px;
-  right: 30%;
+  right: 31%;
 }
 </style>

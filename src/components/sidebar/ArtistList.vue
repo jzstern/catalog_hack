@@ -16,7 +16,7 @@
 
 <script>
 /* eslint-disable */
-import { ARTISTS } from '../../store/constants'
+import { ARTISTS } from "../../store/constants";
 export default {
   data: () => ({
     artists: [],
@@ -45,7 +45,7 @@ export default {
   cursor: url("../../assets/other/cursor.png"), pointer;
 
   &:hover {
-    color: #ffcf2e;
+    color: #f2ba00;
   }
 
   &:active {

@@ -20,19 +20,21 @@ export default {
   <div class="account">
     <div class="form-item">
       <label>Name</label>
-      <p>{{ user.name }}</p>
+      <p class="field">{{ user.name }}</p>
     </div>
     <div class="form-item">
       <label>Email</label>
-      <p>{{ user.email }}</p>
+      <p class="field">{{ user.email }}</p>
     </div>
     <div class="form-item">
       <label>Wallet Address</label>
-      <p>{{ user.walletAddress }}</p>
+      <p class="field">
+        {{ user.walletAddress.substr(user.walletAddress.length - 12) }}
+      </p>
     </div>
     <div class="form-item">
       <label>Handle</label>
-      <p>{{ user.handle }}</p>
+      <p class="field">{{ user.handle }}</p>
     </div>
 
     <br />
@@ -47,15 +49,19 @@ export default {
 </template>
 
 <style lang="scss">
+.field {
+  margin-top: 8px;
+}
+
 .account {
   font-family: Inconsolata;
-  padding: 0 24px;
+  padding: 0 32px;
   // width: 100%;
 }
 
-.form-item {
-  margin: 32px 0;
-  letter-spacing: 0.05em;
-  font-size: 16px;
-}
+// .form-item {
+//   margin: 32px 0;
+//   letter-spacing: 0.05em;
+//   font-size: 16px;
+// }
 </style>

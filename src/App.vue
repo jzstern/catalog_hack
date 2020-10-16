@@ -1,26 +1,26 @@
 <script>
 /* eslint-disable */
-import Audius from "@audius/libs"
+import Audius from "@audius/libs";
 
 export default {
   components: {
     Dropdown: () => import("./components/dropdown/Dropdown"),
-    Sidebar: () => import("./components/sidebar/Sidebar")
+    Sidebar: () => import("./components/sidebar/Sidebar"),
   },
   computed: {
     showSideBar() {
-      return !!this.$store.state.sidebar.component
+      return !!this.$store.state.sidebar.component;
     },
     user() {
-      return this.$store.state.user
-    }
+      return this.$store.state.user;
+    },
   },
   async mounted() {
-    this.$store.dispatch("initAudius")
+    this.$store.dispatch("initAudius");
     // this.$store.dispatch("ethers/init");
   },
-  methods: {}
-}
+  methods: {},
+};
 </script>
 
 <template>
@@ -28,10 +28,7 @@ export default {
     <!-- <transition name="fade" mode="out-in"> -->
     <Sidebar v-if="showSideBar" />
     <!-- </transition> -->
-    <transition
-      name="fade"
-      mode="out-in"
-    >
+    <transition name="fade" mode="out-in">
       <Dropdown />
     </transition>
     <div class="content">
@@ -82,10 +79,8 @@ export default {
 
 a {
   text-decoration: none;
-}
-
-p {
-  margin: 0;
+  color: inherit;
+  cursor: url("./assets/other/cursor.png"), pointer;
 }
 
 body {
@@ -96,37 +91,66 @@ body {
 }
 
 label {
+  font-family: Inconsolata-SemiBold, sans-serif;
   opacity: 0.6;
-  margin-bottom: 16px;
+  // margin-bottom: 24px;
   font-size: 14px;
 }
 
 .buttonPrimary {
   font-family: Inconsolata-ExtraBold;
   height: 45px;
-  background-color: #ffcf2e;
+  background-color: #f2ba00;
   color: black;
-  // border: 1px solid #ffcf2e;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  margin-top: 16px;
+  font-size: 14px;
+
   width: 100%;
   cursor: url("./assets/other/cursor.png"), pointer;
+
+  &:hover {
+    background-color: #f2ba00bf;
+  }
+
+  &:active {
+    background-color: #f2ba00bf;
+    border: 2px solid black;
+  }
 }
 
 .buttonSecondary {
   font-family: Inconsolata-ExtraBold;
   height: 45px;
   background-color: black;
-  color: #ffcf2e;
-  border: 1px solid #ffcf2e;
+  color: #f2ba00;
+  border-radius: 2px;
+  margin-top: 16px;
+  font-size: 14px;
+  border: 1px solid #f2ba00;
   width: 100%;
   cursor: url("./assets/other/cursor.png"), pointer;
+
+  &:hover {
+    background-color: #f2ba001a;
+  }
+
+  &:active {
+    background-color: #f2ba001a;
+    border: 2px solid #f2ba00;
+  }
 }
 
 input {
   font-family: Inconsolata;
   background-color: black;
   height: 45px;
+  width: 100%;
   font-size: 16px;
   padding-left: 16px;
+  box-sizing: border-box;
+  margin-top: 12px;
   border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 2px;
   -webkit-box-shadow: none;
@@ -135,8 +159,14 @@ input {
   color: white;
 }
 
+::-webkit-autofill {
+  color: red !important;
+  background-color: red !important;
+}
+
 textarea:focus,
-input:focus {
+input:focus,
+button:focus {
   outline: none;
 }
 
@@ -163,5 +193,27 @@ input:focus {
   flex: auto;
   // border-left: 2px solid #666666;
   box-sizing: border-box;
+}
+
+.form-item {
+  margin: 24px 0;
+  letter-spacing: 0.05em;
+  font-size: 16px;
+  width: 100%;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  border: 1px solid #42b983;
+  -webkit-text-fill-color: #42b983;
+  -webkit-box-shadow: 0 0 0px 1000px #000 inset;
+  transition: background-color 5000s ease-in-out 0s;
 }
 </style>
