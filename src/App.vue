@@ -117,6 +117,10 @@ a {
   text-decoration: none;
 }
 
+p {
+  margin: 0;
+}
+
 body {
   background-color: black;
   margin: 0;
@@ -127,6 +131,7 @@ body {
 label {
   opacity: 0.6;
   margin-bottom: 16px;
+  font-size: 14px;
 }
 
 .buttonPrimary {
@@ -156,7 +161,7 @@ input {
   font-size: 16px;
   padding-left: 16px;
   border: 1px solid rgba(255, 255, 255, 0.5);
-  border-radius: 4px;
+  border-radius: 2px;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
@@ -169,7 +174,7 @@ input:focus {
 }
 
 ::-webkit-scrollbar {
-  width: 2px;
+  width: 1px;
 }
 
 ::-webkit-scrollbar-track {

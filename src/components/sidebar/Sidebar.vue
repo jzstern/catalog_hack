@@ -84,7 +84,7 @@ export default {
   align-items: center;
   height: 85px;
   box-sizing: border-box;
-  border-bottom: 2px solid #666666;
+  border-bottom: 1px solid #666666;
   z-index: 200;
   padding: 0 24px;
 }
