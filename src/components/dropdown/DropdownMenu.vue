@@ -1,15 +1,15 @@
 <template>
   <div class="dropdown-menu">
-    <div
+    <router-link
+      :to="`/${this.user.handle}`"
       class="menu-item"
-      @click="goToUserCatalog"
     >
       {{ user.name }}
       <img
         class="dropdown-icon"
         src="../../assets/other/dropDown.svg"
       >
-    </div>
+    </router-link>
     <div class="menu-item">
       <router-link :to="'/'">
         Home
@@ -44,9 +44,6 @@ export default {
     },
   },
   methods: {
-    goToUserCatalog() {
-      this.$router.push(`/${this.user.handle}`);
-    },
     openSidebar(component) {
       this.$store.commit("sidebarComponent", component);
     },

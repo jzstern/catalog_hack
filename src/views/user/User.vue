@@ -7,11 +7,6 @@ export default {
       this.refreshUserInfo()
     }
   },
-  computed: {
-    path() {
-      return this.$route.path
-    }
-  },
   data: () => ({
     editing: false,
     loading: false
@@ -19,6 +14,9 @@ export default {
   computed: {
     artist() {
       return this.$store.state.artist
+    },
+    path() {
+      return this.$route.path
     },
     sidebar() {
       return this.$store.state.sidebar;
