@@ -3,8 +3,14 @@
 export default {
   name: "Login",
   computed: {
+    badLogin() {
+      return this.$store.state.user.loginStatus === 'BAD_LOGIN'
+    },
+    emptyFields() {
+      return this.$store.state.user.loginStatus === 'EMPTY_FIELDS'
+    },
     loggingIn() {
-      return this.$store.state.user.isLoggingIn
+      return this.$store.state.user.loginStatus === 'LOGGING_IN'
     },
     missingEmail() {
       return !this.email && this.invalidForm
@@ -24,7 +30,13 @@ export default {
     },
     login() {
       if (this.email && this.password) this.$store.dispatch('login', { email: this.email, pw: this.password})
-      else this.invalidForm = true
+      else {
+        this.$store.commit('user', {
+          ...this.$store.state.user,
+          loginStatus: "EMPTY_FIELDS"
+        })
+        this.invalidForm = true
+      }
     },
     register() {
       this.$store.commit("sidebarComponent", "Register");
@@ -32,8 +44,14 @@ export default {
   },
   mounted() {
     document.onkeydown = e => {
-      if (e.keyCode === 13 && !this.loggingIn) this.login
+      if (e.keyCode === 13 && !this.loggingIn) this.login()
     }
+  },
+  beforeDestroy() {
+    this.$store.commit('user', {
+      ...this.$store.state.user,
+      loginStatus: "NOT_LOGGED_IN"
+    })
   }
 };
 </script>
@@ -60,14 +78,14 @@ export default {
     <br>
     <button
       class="buttonPrimary"
-      v-if="!loggingIn"
       @click="login"
+      :class="{ disabled: loggingIn }"
     >
-      Login
+      {{ loggingIn ? "logging in..." : "Login"}}
     </button>
-    <p v-else>signing you in...</p>
-    <p v-if="invalidForm">
-      Looks like you're missing an email // pw
+    <p v-if="badLogin">bad credentials fam</p>
+    <p v-else-if="emptyFields">
+      gotta fill out the whole form ya dingus
     </p>
     <br>
     <br>
@@ -96,5 +114,9 @@ export default {
 
 .invalidForm {
   border: 1px solid red;
+}
+
+.disabled {
+  opacity: .5;
 }
 </style>

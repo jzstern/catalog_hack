@@ -2,7 +2,7 @@ export const LOGGED_OUT_USER = {
   catalog: null,
   collection: [],
   email: null,
-  isLoggingIn: false,
+  loginStatus: "loggedOut",
   name: null,
   handle: null,
   walletAddress: null
@@ -34,7 +34,7 @@ export const LOGGED_IN_USER = {
   ],
   collection: [],
   email: "quicklyquickly@gmail.com",
-  isLoggingIn: false,
+  loginStatus: "loggedIn",
   name: "quickly, quickly",
   handle: "quicklyquickly",
   walletAddress: "0x13ouhfAnv937NkPa1g"
@@ -44,7 +44,6 @@ export const NULL_ARTIST = {
   catalog: null,
   collection: null,
   email: null,
-  isLoggingIn: false,
   name: null,
   handle: null,
   walletAddress: null
@@ -52,7 +51,10 @@ export const NULL_ARTIST = {
 
 export const ARTISTS = [
   {
-    name: "appa", handle: "appa", catalog: [], collection: [], walletAddress: null
+    name: "appa", handle: "jzstern", catalog: [], collection: [], walletAddress: null
+  },
+  {
+    name: "buns", handle: "buns", catalog: [], collection: [], walletAddress: null
   },
   { name: "chromonicci", handle: "chromonicci",  catalog: [], collection: [], walletAddress: null },
   {

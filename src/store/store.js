@@ -1,3 +1,4 @@
+/* eslint-disable */
 import Vue from 'vue'
 import Vuex from 'vuex'
 import ethers from './ethers/index.js'
@@ -5,7 +6,7 @@ import ethers from './ethers/index.js'
 
 // import { LOGGED_OUT_USER, LOGGED_IN_USER, ARTISTS, NULL_ARTIST } from './constants'
 import { LOGGED_OUT_USER, ARTISTS, NULL_ARTIST } from './constants'
-import init from './audius'
+import { init, getAudiusAccountUser, setAudiusAccountUser, clearAudiusAccountUser, clearAudiusAccount } from './audius'
 
 Vue.use(Vuex)
 
@@ -69,28 +70,45 @@ export default new Vuex.Store({
     async initAudius({ commit }) {
       const libs = await init()
       commit('libs', libs)
+
+      const user = await getAudiusAccountUser()
+      if (user) commit('user', user)
+      console.log(user)
     },
     async logout({ state, commit }) {
       await state.libs.Account.logout()
       commit('user', LOGGED_OUT_USER)
+      clearAudiusAccount()
+      clearAudiusAccountUser()
     },
     async login({ state, commit }, credentials) {
       commit('user', {
         ...state.user,
-        isLoggingIn: true
+        loginStatus: "LOGGING_IN"
       })
-      // TODO - detect incorrect pw
-      const user = await state.libs.Account.login(credentials.email, credentials.pw)
-      commit('user', {
-        catalog: null,
-        collection: null,
-        email: credentials.email,
-        name: user.user.name,
-        handle: user.user.handle,
-        walletAddress: user.user.wallet,
-        isLoggingIn: false
-      })
-      commit('sidebarComponent', "Account")
+      var user
+      try {
+        user = await state.libs.Account.login(credentials.email, credentials.pw)
+        console.log(user);
+        const userModel = {
+          audiusId: user.user.id,
+          catalog: [],
+          collection: [],
+          email: credentials.email,
+          name: user.user.name,
+          handle: user.user.handle,
+          walletAddress: user.user.wallet,
+          loginStatus: "LOGGED_IN"
+        }
+        commit('user', userModel)
+        commit('sidebarComponent', "Account")
+        setAudiusAccountUser(userModel)
+      } catch (e) {
+        commit('user', {
+          ...state.user,
+          loginStatus: "BAD_LOGIN"
+        })
+      }
     }
   }
 })
