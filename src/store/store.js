@@ -77,20 +77,28 @@ export default new Vuex.Store({
     async login({ state, commit }, credentials) {
       commit('user', {
         ...state.user,
-        isLoggingIn: true
+        loginStatus: "LOGGING_IN"
       })
-      // TODO - detect incorrect pw
-      const user = await state.libs.Account.login(credentials.email, credentials.pw)
-      commit('user', {
-        catalog: null,
-        collection: null,
-        email: credentials.email,
-        name: user.user.name,
-        handle: user.user.handle,
-        walletAddress: user.user.wallet,
-        isLoggingIn: false
-      })
-      commit('sidebarComponent', "Account")
+      var user
+      try {
+        user = await state.libs.Account.login(credentials.email, credentials.pw)
+        commit('user', {
+          catalog: null,
+          collection: null,
+          email: credentials.email,
+          name: user.user.name,
+          handle: user.user.handle,
+          walletAddress: user.user.wallet,
+          loginStatus: "LOGGED_IN"
+        })
+        commit('sidebarComponent', "Account")
+      } catch (e) {
+        commit('user', {
+          ...state.user,
+          loginStatus: "BAD_LOGIN"
+        })
+      }
+
     }
   }
 })
