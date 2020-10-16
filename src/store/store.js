@@ -1,70 +1,26 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-// import { Magic } from 'magic-sdk'
 import ethers from './ethers/index.js'
+// import Audius from '@audius/libs'
+
+// import { LOGGED_OUT_USER, LOGGED_IN_USER, ARTISTS, NULL_ARTIST } from './constants'
+import { LOGGED_OUT_USER, ARTISTS, NULL_ARTIST } from './constants'
+import init from './audius'
 
 Vue.use(Vuex)
-
-// const MAGIC = new Magic('pk_test_5975B67E22265359')
-
-const LOGGED_OUT_USER = {
-  catalog: null,
-  collection: [],
-  email: null,
-  // isLoggedIn: false,
-  loading: false,
-  name: null,
-  url: null,
-  walletAddress: null
-}
-
-const LOGGED_IN_USER = {
-  catalog: [],
-  collection: [],
-  email: "crowncomfort@gmail.com",
-  // isLoggedIn: false,
-  loading: false,
-  name: "crown comfort",
-  url: "crowncomfort",
-  walletAddress: "0xjaIJz9d1mw9dhb3"
-}
 
 export default new Vuex.Store({
   modules: {
     ethers
   },
   state: {
-    artist: {
-      name: "Omari Jazz",
-      url: "omarijazz",
-      catalog: [
-        {
-          title: "Dream Child",
-          artist: 'Omari Jazz',
-          price: 1
-        },
-        {
-          title: "Kindling",
-          artist: 'Omari Jazz',
-          price: null
-        },
-        {
-          title: "Atlas",
-          artist: 'Omari Jazz',
-          price: 2
-        }
-      ],
-      collection: [{
-        title: "shimmer",
-        artist: "crown comfort",
-        price: 1
-      }]
-    },
-    user: LOGGED_IN_USER,
+    artist: NULL_ARTIST,
+    libs: null,
     sidebar: {
       component: "Catalog",
       item: null
-    }
+    },
+    user: LOGGED_OUT_USER
   },
   getters: {
     onHome() {
@@ -78,12 +34,18 @@ export default new Vuex.Store({
     addToCollection(state, item) {
       state.user.collection.push(item)
     },
-    logout(state) {
-      state.user = LOGGED_OUT_USER
-      state.sidebar.component = "Login"
+    artist(state, artist) {
+      state.artist = artist
     },
     closeSidebar(state) {
       state.sidebar.component = ""
+    },
+    libs(state, libs) {
+      state.libs = libs
+    },
+    logout(state) {
+      state.user = LOGGED_OUT_USER
+      state.sidebar.component = "Login"
     },
     sidebar(state, value) {
       state.sidebar = value
@@ -99,51 +61,36 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    logout({ state, commit, dispatch}) {
-      // commit('walletAddress', null)
+    async getArtistData({ commit }, handle) {
+      // TODO - fetch user data from Textile & Audius
+      const artist = ARTISTS.find(artist => artist.handle === handle)
+      commit('artist', artist )
+    },
+    async initAudius({ commit }) {
+      const libs = await init()
+      commit('libs', libs)
+    },
+    async logout({ state, commit }) {
+      await state.libs.Account.logout()
+      commit('user', LOGGED_OUT_USER)
+    },
+    async login({ state, commit }, credentials) {
+      commit('user', {
+        ...state.user,
+        isLoggingIn: true
+      })
+      // TODO - detect incorrect pw
+      const user = await state.libs.Account.login(credentials.email, credentials.pw)
       commit('user', {
         catalog: null,
-        collection: [],
-        email: null,
-        // isLoggedIn: false,
-        loading: false,
-        name: null,
-        walletAddress: null
+        collection: null,
+        email: credentials.email,
+        name: user.user.name,
+        handle: user.user.handle,
+        walletAddress: user.user.wallet,
+        isLoggingIn: false
       })
-      // commit('user', LOGGED_OUT_USER)
-      dispatch('ethers/disconnect')
-      // ctx.dispatch('ethers/logout')
-      console.log(state.user.walletAddress)
+      commit('sidebarComponent', "Account")
     }
-    // async loadMagic({ state, dispatch }) {
-    //   await MAGIC.preload()
-    //   if (!state.user.isLoggedIn) dispatch('checkMagicLogin')
-    // },
-    // async loginWithMagic({ dispatch }, email) {
-    //   await MAGIC.auth.loginWithMagicLink({ email })
-    //   dispatch('checkMagicLogin')
-    // },
-    // async logout({ commit }) {
-    //   await MAGIC.user.logout()
-    //   commit('logout')
-    // },
-    // async checkMagicLogin({ state, commit }) {
-    //   const loggedIn = await MAGIC.user.isLoggedIn()
-
-    //   if (loggedIn) {
-    //     commit('user', {
-    //       ...state.user,
-    //       loading: true
-    //     })
-    //     const user = await MAGIC.user.getMetadata()
-    //     commit('user', {
-    //       ...state.user,
-    //       email: user.email,
-    //       walletAddress: user.publicAddress,
-    //       isLoggedIn: true,
-    //       loading: false
-    //     })
-    //   }
-    // }
   }
 })

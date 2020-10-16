@@ -15,16 +15,23 @@ export default {
   methods: {
     create() {
       if (this.price === 0) this.price = null;
+
       const item = {
         title: this.title,
         artist: this.user.name,
         description: this.description,
-        price: this.price,
+        price: this.price
       };
+
       this.$store.commit("addToCatalog", item);
-      if (this.$router.path !== `/${this.user.url}`)
-        this.$router.push(`/${this.user.url}`);
-      // open song in sidebar
+
+      // TODO - upload confirmation in sidebar w/ link to Catalog/song?
+      // this.$store.commit('sidebar', {
+      //   component: "Upload Confirmed"
+      // })
+
+      // ? do we route to the user's catalog after they upload a song?
+      // if (this.$route.path !== `/${this.user.handle}`) this.$router.push(`/${this.user.handle}`);
     },
   },
 };
@@ -33,7 +40,12 @@ export default {
 <template>
   <div class="upload">
     <label>Title</label>
-    <input v-model="title" placeholder="cool song name" type="text" />
+    <input
+      v-model="title"
+      placeholder="cool song name"
+      type="text"
+      required
+    >
 
     <label>Description</label>
     <input

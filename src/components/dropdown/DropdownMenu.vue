@@ -1,14 +1,32 @@
 <template>
   <div class="dropdown-menu">
-    <div class="menu-item" @click="goToUserCatalog">
+    <div
+      class="menu-item"
+      @click="goToUserCatalog"
+    >
       {{ user.name }}
-      <img class="dropdown-icon" src="../../assets/other/dropDown.svg" />
+      <img
+        class="dropdown-icon"
+        src="../../assets/other/dropDown.svg"
+      >
     </div>
     <div class="menu-item">
-      <router-link :to="'/'">Home</router-link>
+      <router-link :to="'/'">
+        Home
+      </router-link>
     </div>
-    <div class="menu-item" @click="openSidebar('Account')">Account</div>
-    <div class="menu-item" @click="openSidebar('Upload')">Upload</div>
+    <div
+      class="menu-item"
+      @click="openSidebar('Account')"
+    >
+      Account
+    </div>
+    <div
+      class="menu-item"
+      @click="openSidebar('Upload')"
+    >
+      Upload
+    </div>
   </div>
 </template>
 
@@ -27,7 +45,7 @@ export default {
   },
   methods: {
     goToUserCatalog() {
-      this.$router.push(`/${this.user.url}`);
+      this.$router.push(`/${this.user.handle}`);
     },
     openSidebar(component) {
       this.$store.commit("sidebarComponent", component);

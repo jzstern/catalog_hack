@@ -2,14 +2,24 @@
 /* eslint-disable */
 export default {
   name: "User",
+  watch: {
+    $route() {
+      this.refreshUserInfo()
+    }
+  },
+  computed: {
+    path() {
+      return this.$route.path
+    }
+  },
   data: () => ({
-    artist: null,
     editing: false,
-    loading: false,
-    name: "",
-    url: "",
+    loading: false
   }),
   computed: {
+    artist() {
+      return this.$store.state.artist
+    },
     sidebar() {
       return this.$store.state.sidebar;
     },
@@ -17,22 +27,28 @@ export default {
       return this.$store.state.user;
     },
   },
-  mounted() {
-    this.$store.commit("closeSidebar");
-    this.name = "Omari Jazz";
-    this.url = "omarijazz";
+  methods: {
+    refreshUserInfo() {
+      var handle = this.$route.path.substring(1)
+      if (handle.includes("/")) handle = handle.substring(0, handle.indexOf('/'))
+      this.$store.dispatch('getArtistData', handle)
+    }
   },
+  mounted() {
+    this.$store.commit("closeSidebar")
+    this.refreshUserInfo()
+  }
 };
 </script>
 
 <template>
   <div class="user">
     <div class="profile-info">
-      <h3 class="profile-title">{{ name }}</h3>
+      <h3 class="profile-title">{{ artist ? artist.name : null }}</h3>
     </div>
     <div class="nav">
-      <router-link :to="`/${url}`" class="nav-item">Catalog</router-link>
-      <router-link :to="`/${url}/collection`" class="nav-item">
+      <router-link :to="`/${artist.handle}`" class="nav-item">Catalog</router-link>
+      <router-link :to="`/${artist.handle}/collection`" class="nav-item">
         Collection
       </router-link>
     </div>

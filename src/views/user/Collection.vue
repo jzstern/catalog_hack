@@ -4,11 +4,11 @@ export default {
 
   name: "Collection",
   components: {
-    Item: () => import("../../components/shop/Item"),
+    ItemCard: () => import('../../components/shop/ItemCard')
   },
   computed: {
     collection() {
-      return this.$store.state.user.collection;
+      return this.$store.state.artist.collection;
     },
   },
 };
@@ -16,11 +16,11 @@ export default {
 
 <template>
   <div class="collection">
-    <Item
+    <h1>Collection</h1>
+    <ItemCard
       v-for="item in collection"
       :key="item.title + item.artist"
       :item="item"
-      collection
     />
   </div>
 </template>
