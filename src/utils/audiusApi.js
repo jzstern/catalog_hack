@@ -26,29 +26,28 @@ export const audiusResolveProfileURL = async (url) => {
   }
 }
 
-
 export const getUserByAudiusHandle = async (audiusHandle) => {
   const path = `${BASE_URL}/users?handle=${audiusHandle}`
 
   try {
-    console.log('🎵 Resolving Audius URL...', { path })
+    // console.log('🎵 Resolving Audius handle...', { audiusHandle })
     const response = await fetch(path, {
       method: 'GET'
       // mode: 'no-cors'
     })
     const data = await response.json()
-    console.log('🎵✅ Resolved Audius Handle', { data })
+    // console.log('🎵✅ Resolved Audius Handle', { data })
     return data
   } catch (err) {
     throw new Error(err)
   }
 }
 
-export const audiusGetUserByAudiusId = async (audiusId) => {
-  const path = `${BASE_URL}/v1/users/${audiusId}`
+export const audiusGetUserByAudiusId = async (userIdAudius) => {
+  const path = `${BASE_URL}/v1/users/${userIdAudius}`
 
   try {
-    console.log(`🎵 Getting Profile with audiusId ${audiusId}... `)
+    console.log(`🎵 Getting Profile with audiusId ${userIdAudius}... `)
 
     const response = await fetch(path, {
       method: 'GET',
@@ -65,11 +64,11 @@ export const audiusGetUserByAudiusId = async (audiusId) => {
   }
 }
 
-export const audiusGetUserUploads = async (audiusId) => {
-  const path = `${BASE_URL}/v1/users/${audiusId}/tracks`
+export const audiusGetUserUploads = async (userIdAudius) => {
+  const path = `${BASE_URL}/v1/users/${userIdAudius}/tracks`
 
   try {
-    console.log(`🎵 Getting tracks by user with audiusId ${audiusId}... `)
+    // console.log(`🎵 Getting tracks by user with audiusId ${userIdAudius}... `)
 
     const response = await fetch(path, {
       method: 'GET',
@@ -78,7 +77,7 @@ export const audiusGetUserUploads = async (audiusId) => {
 
     const { data } = await response.json()
 
-    console.log('🎵✅  Resolved Tracks by Audius User', { data })
+    // console.log('🎵✅  Resolved Tracks by Audius User', { data })
     return data
 
   } catch (err) {
@@ -87,11 +86,11 @@ export const audiusGetUserUploads = async (audiusId) => {
 }
 
 
-export const audiusGetTrackByAudiusId = async (audiusId) => {
-  const path = `${BASE_URL}/v1/tracks/${audiusId}`
+export const audiusGetTrackByAudiusId = async (trackIdAudius) => {
+  const path = `${BASE_URL}/v1/tracks/${trackIdAudius}`
 
   try {
-    console.log(`🎵 Getting Track with audiusId ${audiusId}... `)
+    // console.log(`🎵 Getting Track with audiusId ${trackIdAudius}... `)
 
     const response = await fetch(path, {
       method: 'GET',
@@ -100,7 +99,7 @@ export const audiusGetTrackByAudiusId = async (audiusId) => {
 
     const { data } = await response.json()
 
-    console.log('🎵✅  Resolved Audius Track', { data })
+    // console.log('🎵✅  Resolved Audius Track', { data })
     return data
 
   } catch (err) {
