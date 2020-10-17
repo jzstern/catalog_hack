@@ -1,6 +1,5 @@
 <script>
 /* eslint-disable */
-
 export default {
   props: {
     item: {
@@ -32,6 +31,7 @@ export default {
 
 <template>
   <div class="item-card" @click="selectItem">
+    <img class="artwork" :src="item.artwork['480x480']" />
     <p>{{ item.title }}</p>
     <router-link
       :to="`/${item.artistHandle}`"
@@ -48,7 +48,7 @@ export default {
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .item-card {
   max-width: 200px;
   margin-bottom: 20px;
@@ -64,5 +64,10 @@ export default {
   &:hover {
     color: pink;
   }
+}
+
+.artwork {
+  width: 400px;
+  height: 400px;
 }
 </style>

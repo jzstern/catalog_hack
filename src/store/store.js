@@ -1,17 +1,15 @@
 /* eslint-disable */
 import Vue from 'vue'
 import Vuex from 'vuex'
-import ethers from './ethers/index.js'
 
-import { LOGGED_OUT_USER, ARTISTS, NULL_ARTIST } from './constants'
+import { LOGGED_OUT_USER, NULL_ARTIST } from './constants'
 import { init, getAudiusAccountUser, setAudiusAccountUser, clearAudiusAccountUser, clearAudiusAccount } from './audius'
+// import { getUserByAudiusHandle, audiusResolveProfileURL, audiusGetUserByAudiusId, audiusGetUserUploads } from '../utils/audiusApi'
+import { getUserAudiusData } from '../utils/audiusHelpers'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  modules: {
-    ethers
-  },
   state: {
     artist: NULL_ARTIST,
     libs: null,
@@ -20,11 +18,6 @@ export default new Vuex.Store({
       item: null
     },
     user: LOGGED_OUT_USER
-  },
-  getters: {
-    onHome() {
-      return this.$route.path === '/'
-    }
   },
   mutations: {
     addToCatalog(state, item) {
@@ -61,9 +54,9 @@ export default new Vuex.Store({
   },
   actions: {
     async getArtistData({ commit }, handle) {
-      // TODO - fetch user data from Textile & Audius
-      const artist = ARTISTS.find(artist => artist.handle === handle)
-      commit('artist', artist )
+      const userAudius = await getUserAudiusData(handle)
+      // TODO - fetch user data from Textile
+      commit('artist', userAudius )
     },
     async initAudius({ commit }) {
       const libs = await init()
@@ -71,11 +64,10 @@ export default new Vuex.Store({
 
       const user = await getAudiusAccountUser()
       if (user) commit('user', user)
-      console.log(user)
     },
     async logout({ state, commit }) {
       await state.libs.Account.logout()
-      commit('user', LOGGED_OUT_USER)
+      commit('logout')
       clearAudiusAccount()
       clearAudiusAccountUser()
     },
@@ -87,7 +79,7 @@ export default new Vuex.Store({
       var user
       try {
         user = await state.libs.Account.login(credentials.email, credentials.pw)
-        console.log(user);
+
         const userModel = {
           audiusId: user.user.id,
           catalog: [],
@@ -98,6 +90,7 @@ export default new Vuex.Store({
           walletAddress: user.user.wallet,
           loginStatus: "LOGGED_IN"
         }
+
         commit('user', userModel)
         commit('sidebarComponent', "Account")
         setAudiusAccountUser(userModel)
