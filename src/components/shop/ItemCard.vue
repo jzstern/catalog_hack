@@ -29,6 +29,7 @@ export default {
 
 <template>
   <div class="item-card" @click="selectItem">
+    <img class="artwork" :src="item.artwork['480x480']" />
     <p>{{ item.title }}</p>
     <router-link :to="`/${item.artistHandle}`" v-if="!ownedByUser" class="artist">{{ item.artist }}</router-link>
     <!-- <p v-if="!ownedByUser" class="artist">{{ item.artist }}</p> -->
@@ -58,5 +59,10 @@ export default {
   &:hover {
     color: pink;
   }
+}
+
+.artwork {
+  width: 400px;
+  height: 400px;
 }
 </style>
