@@ -8,7 +8,7 @@
     >
       <li class="artist">
         {{ artist.name }}
-        <div class="divider" />
+        <div class="list-divider" />
       </li>
     </router-link>
   </ul>
@@ -54,7 +54,7 @@ export default {
   }
 }
 
-.divider {
+.list-divider {
   border-bottom: 1px solid #4e3e5b;
 }
 </style>

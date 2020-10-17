@@ -41,25 +41,16 @@ export default {
   <div class="upload">
     <div class="form-item">
       <label>Title</label>
-      <input
-        v-model="title"
-        placeholder="cool song name"
-        type="text"
-        required
-      />
+      <input v-model="title" placeholder="song name" type="text" required />
     </div>
     <div class="form-item">
       <label>Description</label>
-      <input
-        v-model="description"
-        placeholder="description for your cool song"
-        type="text"
-      />
+      <input v-model="description" placeholder="song description" type="text" />
     </div>
 
     <div class="form-item">
       <label>Price (USD)</label>
-      <input v-model="price" placeholder="$1" type="number" />
+      <input v-model="price" placeholder="$0+" type="number" />
     </div>
 
     <!-- <div class="form-item">
@@ -82,7 +73,7 @@ export default {
 .upload {
   display: flex;
   flex-direction: column;
-  padding: 0 24px;
+  padding: 0 32px;
   font-family: Inconsolata;
 }
 </style>
