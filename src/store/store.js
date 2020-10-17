@@ -1,17 +1,15 @@
 /* eslint-disable */
 import Vue from 'vue'
 import Vuex from 'vuex'
-import ethers from './ethers/index.js'
 
-import { LOGGED_OUT_USER, ARTISTS, NULL_ARTIST } from './constants'
+import { LOGGED_OUT_USER, NULL_ARTIST } from './constants'
 import { init, getAudiusAccountUser, setAudiusAccountUser, clearAudiusAccountUser, clearAudiusAccount } from './audius'
+// import { getUserByAudiusHandle, audiusResolveProfileURL, audiusGetUserByAudiusId, audiusGetUserUploads } from '../utils/audiusApi'
+import { getUserAudiusData } from '../utils/audiusHelpers'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  modules: {
-    ethers
-  },
   state: {
     artist: NULL_ARTIST,
     libs: null,
@@ -56,11 +54,11 @@ export default new Vuex.Store({
   },
   actions: {
     async getArtistData({ commit }, handle) {
-      // TODO - fetch user data from Textile & Audius
-      const artist = ARTISTS.find(artist => artist.handle === handle)
-      commit('artist', artist )
+      const userAudius = await getUserAudiusData(handle)
+      // TODO - fetch user data from Textile
+      commit('artist', userAudius )
     },
-    async initAudius({ state, commit }) {
+    async initAudius({ commit }) {
       const libs = await init()
       commit('libs', libs)
 

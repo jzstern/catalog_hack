@@ -58,7 +58,7 @@ export const ARTISTS = [
   },
   { name: "chromonicci", handle: "chromonicci",  catalog: [], collection: [], walletAddress: null },
   {
-    name: "crown comfort", handle: "crowncomfort", catalog: [{
+    name: "crown comfort", handle: "_mike", catalog: [{
       title: "shimmer",
       artist: "crown comfort",
       artistHandle: "crowncomfort",
