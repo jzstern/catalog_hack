@@ -42,7 +42,7 @@ export default {
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .item-card {
   max-width: 200px;
   margin-bottom: 20px;

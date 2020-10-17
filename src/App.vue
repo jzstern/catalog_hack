@@ -159,11 +159,6 @@ input {
   color: white;
 }
 
-::-webkit-autofill {
-  color: red !important;
-  background-color: red !important;
-}
-
 textarea:focus,
 input:focus,
 button:focus {
