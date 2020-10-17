@@ -2,7 +2,7 @@
 import { audiusResolveProfileURL, audiusGetUserUploads } from './audiusApi'
 
 // Returns a formatted Audius user
-export const getUserAudiusData = async (handle) => {
+export const getUserDataAudius = async (handle) => {
   const user = await audiusResolveProfileURL(`https://audius.co/${handle}`)
   const uploads = await audiusGetUserUploads(user.id)
   const catalog = getCatalog(uploads)
@@ -15,7 +15,12 @@ export const getUserAudiusData = async (handle) => {
     wallet_addr: user.wallet_addr,
     cover_photo: user.cover_photo,
     catalog: catalog,
-    collection: collection
+    collection: collection,
+    loading: {
+      user_info: false,
+      catalog: false,
+      collection: false
+    }
   }
 }
 

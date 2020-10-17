@@ -9,12 +9,16 @@ export default {
     catalog() {
       return this.$store.state.artist.catalog;
     },
+    loading() {
+      return this.$store.state.artist.loading.catalog
+    }
   },
 };
 </script>
 
 <template>
   <div class="catalog">
+    <h1 v-if="loading">loading...</h1>
     <ItemCard
       v-for="item in catalog"
       :key="item.title + item.artist"

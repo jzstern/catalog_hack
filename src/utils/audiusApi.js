@@ -10,14 +10,14 @@ export const audiusResolveProfileURL = async (url) => {
   //  path = `${BASE_URL}/v1/resolve?url=${url}`
 
   try {
-    console.log('🎵 Resolving Audius URL...', { path })
+    // console.log('🎵 Resolving Audius URL...', { path })
     const response = await fetch(path, {
       method: 'GET',
       mode: 'cors'
     })
 
     const { data } = await response.json()
-    console.log('🎵✅ Resolved Audius URL!', { data })
+    // console.log('🎵✅ Resolved Audius URL!', { data })
 
     return data
 
@@ -47,7 +47,7 @@ export const audiusGetUserByAudiusId = async (userIdAudius) => {
   const path = `${BASE_URL}/v1/users/${userIdAudius}`
 
   try {
-    console.log(`🎵 Getting Profile with audiusId ${userIdAudius}... `)
+    // console.log(`🎵 Getting Profile with audiusId ${userIdAudius}... `)
 
     const response = await fetch(path, {
       method: 'GET',
@@ -56,7 +56,7 @@ export const audiusGetUserByAudiusId = async (userIdAudius) => {
 
     const { data } = await response.json()
 
-    console.log('🎵✅ Resolved Audius Profile 🎵', { data })
+    // console.log('🎵✅ Resolved Audius Profile 🎵', { data })
     return data
 
   } catch (err) {
