@@ -2,9 +2,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import ethers from './ethers/index.js'
-// import Audius from '@audius/libs'
 
-// import { LOGGED_OUT_USER, LOGGED_IN_USER, ARTISTS, NULL_ARTIST } from './constants'
 import { LOGGED_OUT_USER, ARTISTS, NULL_ARTIST } from './constants'
 import { init, getAudiusAccountUser, setAudiusAccountUser, clearAudiusAccountUser, clearAudiusAccount } from './audius'
 
