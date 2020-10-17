@@ -28,9 +28,8 @@ export default {
   methods: {
     refreshUserInfo() {
       var handle = this.$route.path.substring(1);
-      if (handle.includes("/"))
-        handle = handle.substring(0, handle.indexOf("/"));
-      this.$store.dispatch("getArtistData", handle);
+      if (handle.includes("/")) handle = handle.substring(0, handle.indexOf("/"));
+      if (this.artist.handle !== handle) this.$store.dispatch("getArtistData", handle);
     },
   },
   mounted() {

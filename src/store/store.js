@@ -4,7 +4,6 @@ import Vuex from 'vuex'
 
 import { LOGGED_OUT_USER, NULL_ARTIST } from './constants'
 import { init, getAudiusAccountUser, setAudiusAccountUser, clearAudiusAccountUser, clearAudiusAccount } from './audius'
-// import { getUserByAudiusHandle, audiusResolveProfileURL, audiusGetUserByAudiusId, audiusGetUserUploads } from '../utils/audiusApi'
 import { getUserDataAudius } from '../utils/audiusHelpers'
 
 Vue.use(Vuex)
