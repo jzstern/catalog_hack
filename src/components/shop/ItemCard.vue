@@ -1,6 +1,5 @@
 <script>
 /* eslint-disable */
-
 export default {
   props: {
     item: {

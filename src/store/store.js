@@ -21,11 +21,6 @@ export default new Vuex.Store({
     },
     user: LOGGED_OUT_USER
   },
-  getters: {
-    onHome() {
-      return this.$route.path === '/'
-    }
-  },
   mutations: {
     addToCatalog(state, item) {
       state.user.catalog.push(item)
@@ -65,17 +60,16 @@ export default new Vuex.Store({
       const artist = ARTISTS.find(artist => artist.handle === handle)
       commit('artist', artist )
     },
-    async initAudius({ commit }) {
+    async initAudius({ state, commit }) {
       const libs = await init()
       commit('libs', libs)
 
       const user = await getAudiusAccountUser()
       if (user) commit('user', user)
-      console.log(user)
     },
     async logout({ state, commit }) {
       await state.libs.Account.logout()
-      commit('user', LOGGED_OUT_USER)
+      commit('logout')
       clearAudiusAccount()
       clearAudiusAccountUser()
     },
@@ -87,7 +81,7 @@ export default new Vuex.Store({
       var user
       try {
         user = await state.libs.Account.login(credentials.email, credentials.pw)
-        console.log(user);
+
         const userModel = {
           audiusId: user.user.id,
           catalog: [],
@@ -98,6 +92,7 @@ export default new Vuex.Store({
           walletAddress: user.user.wallet,
           loginStatus: "LOGGED_IN"
         }
+
         commit('user', userModel)
         commit('sidebarComponent', "Account")
         setAudiusAccountUser(userModel)
