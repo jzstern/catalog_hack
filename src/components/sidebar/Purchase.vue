@@ -1,60 +1,60 @@
 <template>
   <div class="purchase">
-    <p>{{ item.title }}</p>
-    <p>{{ item.artist }}</p>
+    <p class="song-title">{{ item.title }}</p>
+    <p class="artist">{{ item.artist }}</p>
     <p>${{ item.price }}+</p>
-    <input
-      v-model="payment"
-      type="number"
-    >
+    <input v-model="payment" type="number" />
     <p>Include message</p>
-    <input
-      v-model="message"
-      type="Text"
-    >
-    <button @click="purchaseItem">
-      Purchase
-    </button>
-    <button @click="back">
-      Go back
-    </button>
+    <input v-model="message" type="Text" />
+    <button class="buttonPrimary" @click="purchaseItem">Purchase</button>
+
+    <p class="disclaimer">
+      Upon purchase, you’ll get 1,450 Omari Jazz tokens, which entitle you to a
+      portion of 10% of future revenue from Omari Jazz. You’ll also receive a
+      download in mp3 and wav, and unlimited streaming via Catalog.
+    </p>
+    <button class="buttonSecondary" @click="back">Go back</button>
   </div>
 </template>
 
 <script>
+/* eslint-disable */
+
 export default {
   name: "Purchase",
-    data: () => ({
+  data: () => ({
     payment: null,
-    message: null
+    message: null,
   }),
   computed: {
     item() {
-      return this.$store.state.sidebar.item
-    }
+      return this.$store.state.sidebar.item;
+    },
   },
   methods: {
     back() {
-      this.$store.commit('sidebar', {
+      this.$store.commit("sidebar", {
         component: "Item",
-        item: this.item
-      })
+        item: this.item,
+      });
     },
     purchaseItem() {
       const purchase = {
-          ...this.item,
-          price: this.payment
-        }
-      this.$store.commit("addToCollection", purchase)
-      this.$store.commit('sidebar', {
+        ...this.item,
+        price: this.payment,
+      };
+      this.$store.commit("addToCollection", purchase);
+      this.$store.commit("sidebar", {
         component: "Receipt",
-        item: purchase
-      })
-    }
-  }
-}
+        item: purchase,
+      });
+    },
+  },
+};
 </script>
 
 <style style="scss">
-
+.purchase {
+  padding: 24px;
+}
 </style>

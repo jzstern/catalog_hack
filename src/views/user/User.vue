@@ -4,19 +4,19 @@ export default {
   name: "User",
   watch: {
     $route() {
-      this.refreshUserInfo()
-    }
+      this.refreshUserInfo();
+    },
   },
   data: () => ({
     editing: false,
-    loading: false
+    loading: false,
   }),
   computed: {
     artist() {
-      return this.$store.state.artist
+      return this.$store.state.artist;
     },
     path() {
-      return this.$route.path
+      return this.$route.path;
     },
     sidebar() {
       return this.$store.state.sidebar;
@@ -27,15 +27,16 @@ export default {
   },
   methods: {
     refreshUserInfo() {
-      var handle = this.$route.path.substring(1)
-      if (handle.includes("/")) handle = handle.substring(0, handle.indexOf('/'))
-      this.$store.dispatch('getArtistData', handle)
-    }
+      var handle = this.$route.path.substring(1);
+      if (handle.includes("/"))
+        handle = handle.substring(0, handle.indexOf("/"));
+      this.$store.dispatch("getArtistData", handle);
+    },
   },
   mounted() {
-    this.$store.commit("closeSidebar")
-    this.refreshUserInfo()
-  }
+    this.$store.commit("closeSidebar");
+    this.refreshUserInfo();
+  },
 };
 </script>
 
@@ -45,9 +46,11 @@ export default {
       <h3 class="profile-title">{{ artist ? artist.name : null }}</h3>
     </div>
     <div class="nav">
-      <router-link :to="`/${artist.handle}`" class="nav-item">Catalog</router-link>
+      <router-link :to="`/${artist.handle}`" class="nav-item"
+        >catalog</router-link
+      >
       <router-link :to="`/${artist.handle}/collection`" class="nav-item">
-        Collection
+        collection
       </router-link>
     </div>
 
@@ -58,7 +61,7 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import "../../styles/global.scss";
+// @import "../../styles/global.scss";
 
 .nav {
   padding: 16px;

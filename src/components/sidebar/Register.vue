@@ -54,12 +54,4 @@ export default {
 .register {
   padding: 0px 24px;
 }
-
-.disclaimer {
-  padding: 0px 32px;
-  line-height: 24px;
-  margin-top: 32px;
-  text-align: center;
-  opacity: 0.7;
-}
 </style>

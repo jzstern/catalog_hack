@@ -20,7 +20,7 @@ export default {
         title: this.title,
         artist: this.user.name,
         description: this.description,
-        price: this.price
+        price: this.price,
       };
 
       this.$store.commit("addToCatalog", item);
@@ -39,29 +39,29 @@ export default {
 
 <template>
   <div class="upload">
-    <label>Title</label>
-    <input
-      v-model="title"
-      placeholder="cool song name"
-      type="text"
-      required
-    >
+    <div class="form-item">
+      <label>Title</label>
+      <input v-model="title" placeholder="song name" type="text" required />
+    </div>
+    <div class="form-item">
+      <label>Description</label>
+      <input v-model="description" placeholder="song description" type="text" />
+    </div>
 
-    <label>Description</label>
-    <input
-      v-model="description"
-      placeholder="description for your cool song"
-      type="text"
-    />
+    <div class="form-item">
+      <label>Price (USD)</label>
+      <input v-model="price" placeholder="$0+" type="number" />
+    </div>
 
-    <label>Price (USD)</label>
-    <input v-model="price" placeholder="$1" type="number" />
+    <!-- <div class="form-item">
+      <label>Thumbnail</label>
+      <p>TODO - drag & drop thumbail</p>
+    </div>
 
-    <label>Thumbnail</label>
-    <p>TODO - drag & drop thumbail</p>
-
-    <label>File</label>
-    <p>TODO - drag & drop music/sample pack/etc</p>
+    <div class="form-item">
+      <label>File</label>
+      <p>TODO - drag & drop music/sample pack/etc</p>
+    </div> -->
 
     <label>Collaborators (not yet supported)</label>
 
@@ -73,16 +73,7 @@ export default {
 .upload {
   display: flex;
   flex-direction: column;
-  padding: 24px;
+  padding: 0 32px;
   font-family: Inconsolata;
-}
-
-input {
-  max-width: 400px;
-  margin-bottom: 20px;
-}
-
-button {
-  max-width: 80px;
 }
 </style>

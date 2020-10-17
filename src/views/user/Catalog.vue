@@ -3,7 +3,7 @@
 export default {
   name: "Catalog",
   components: {
-    ItemCard: () => import('../../components/shop/ItemCard')
+    ItemCard: () => import("../../components/shop/ItemCard"),
   },
   computed: {
     catalog() {
@@ -15,7 +15,6 @@ export default {
 
 <template>
   <div class="catalog">
-    <h1>Catalog</h1>
     <ItemCard
       v-for="item in catalog"
       :key="item.title + item.artist"

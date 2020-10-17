@@ -59,7 +59,7 @@ export default {
 </template>
 
 <style lang="scss">
-@import "../../styles/global.scss";
+// @import "../../styles/global.scss";
 
 .close {
   width: 40px;
