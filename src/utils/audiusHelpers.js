@@ -18,8 +18,8 @@ export const getUserDataAudius = async (handle) => {
     collection: collection,
     loading: {
       user_info: false,
-      catalog: false,
-      collection: false
+      catalog: true,
+      collection: true
     }
   }
 }

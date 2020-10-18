@@ -17,7 +17,7 @@ export default {
   },
   async mounted() {
     this.$store.dispatch("initAudius");
-    // this.$store.dispatch("initTextile");
+    this.$store.dispatch("initTextile");
     // this.$store.dispatch("ethers/init");
   },
   methods: {},

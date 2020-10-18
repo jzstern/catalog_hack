@@ -29,7 +29,8 @@ export default {
     refreshUserInfo() {
       var handle = this.$route.path.substring(1);
       if (handle.includes("/")) handle = handle.substring(0, handle.indexOf("/"));
-      if (this.artist.handle !== handle) this.$store.dispatch("getArtistData", handle);
+      if (this.user.handle === handle) this.$store.commit('artist', this.user)
+      else if (this.artist.handle !== handle) this.$store.dispatch("getArtistData", handle);
     },
   },
   mounted() {

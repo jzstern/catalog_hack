@@ -7,7 +7,7 @@ import { init, getAudiusAccountUser, setAudiusAccountUser, clearAudiusAccountUse
 import { audiusResolveProfileURL } from '../utils/audiusApi'
 import { getUserDataAudius } from '../utils/audiusHelpers'
 import { loginAndSetupDB } from '../utils/setup'
-import { getUserById, findTextileUserByAudiusId } from '../services/users'
+import { findTextileUserByAudiusId } from '../services/users'
 
 Vue.use(Vuex)
 
@@ -31,6 +31,9 @@ export default new Vuex.Store({
     },
     artist(state, artist) {
       state.artist = artist
+    },
+    client(state, client) {
+      state.client = client
     },
     closeSidebar(state) {
       state.sidebar.component = ""
@@ -58,7 +61,7 @@ export default new Vuex.Store({
   actions: {
     async getArtistData({ state, commit }, handle) {
       commit('artist', {
-        ...state.artist,
+        ...NULL_ARTIST,
         loading: {
           user_info: true,
           catalog: true,
@@ -67,35 +70,32 @@ export default new Vuex.Store({
       })
       const userAudius = await getUserDataAudius(handle)
       commit('artist', userAudius )
-      // TODO - fetch user data from Textile
+      const userTextile = await findTextileUserByAudiusId(state.client, userAudius.id_audius)
+      console.log("artist Textile info");
+      console.log(userTextile);
+      commit('artist', {
+        ...userAudius,
+        id_textile: userTextile.id,
+        catalog: userTextile.catalog,
+        collection: userTextile.collection,
+        loading: {
+          user_info: false,
+          catalog: false,
+          collection: false
+        }
+      })
     },
-    async initAudius({ commit, dispatch }) {
+    async initAudius({ commit }) {
       const libs = await init()
       commit('libs', libs)
 
+      // Check if user exists in local storage
       const user = await getAudiusAccountUser()
       if (user) commit('user', user)
-
-      dispatch("initTextile");
     },
     async initTextile({ state, commit }) {
-      const [ client ] = await loginAndSetupDB({ newIdentity: false })
-
-      if (state.user.login_status === 'LOGGED_IN') {
-        try {
-          // TODO - fetch textileUserByTextileID()
-          // const user = await getUserById(client, id)
-          const user = await findTextileUserByAudiusId(client, state.user.id_audius)
-
-          commit('user', {
-            ...state.user,
-            id_textile: user._id,
-            catalog: user.catalog,
-            collection: user.collection,
-            links: user.links
-          })
-        } catch (err) { console.error(err) }
-      }
+      const [client] = await loginAndSetupDB({ newIdentity: false })
+      commit('client', client)
     },
     async logout({ state, commit }) {
       await state.libs.Account.logout()
@@ -127,9 +127,20 @@ export default new Vuex.Store({
         commit('user', userModel)
         commit('sidebarComponent', "Account")
 
-        // fetch "real" audius id & update user
+        // fetch "real" audius ID & update user
         const id_audius = (await audiusResolveProfileURL(`https://audius.co/${userModel.handle}`)).id
         userModel.id_audius = id_audius
+        commit('user', userModel)
+
+        const userTextile = await findTextileUserByAudiusId(state.client, state.user.id_audius)
+
+        userModel = {
+          ...userModel,
+          id_textile: userTextile._id,
+          catalog: userTextile.catalog,
+          collection: userTextile.collection,
+          links: userTextile.links
+        }
 
         commit('user', userModel)
         setAudiusAccountUser(userModel)
