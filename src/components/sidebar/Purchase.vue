@@ -1,7 +1,12 @@
 <template>
   <div class="purchase">
-    <p class="song-title">{{ item.title }}</p>
-    <p class="artist">{{ item.artist }}</p>
+    <div class="purchase-item">
+      <img class="purchase-artwork" :src="item.artwork['480x480']" />
+      <div>
+        <p class="song-title">{{ item.title }}</p>
+        <p class="artist">{{ item.artist }}</p>
+      </div>
+    </div>
     <p>${{ item.price }}+</p>
     <input v-model="payment" type="number" />
     <p>Include message</p>
@@ -55,6 +60,15 @@ export default {
 
 <style style="scss">
 .purchase {
-  padding: 24px;
+  padding: 32px;
+}
+
+.purchase-artwork {
+  width: 60px;
+  height: 60px;
+}
+
+.purchase-item {
+  display: flex;
 }
 </style>

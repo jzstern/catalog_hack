@@ -30,7 +30,7 @@ export default {
 <style lang="scss">
 .artist-list {
   margin-top: 0;
-  padding: 0 24px;
+  padding: 16px 32px;
   list-style-type: none;
 }
 

@@ -112,7 +112,7 @@ export default {
 
 .disclaimer {
   font-size: 16px;
-  padding: 0px 32px;
+  padding: 32px;
   line-height: 24px;
   margin-top: 32px;
   text-align: center;
@@ -120,7 +120,7 @@ export default {
 }
 
 .login {
-  padding: 0px 24px;
+  padding: 16px 32px;
 }
 
 .invalidForm {

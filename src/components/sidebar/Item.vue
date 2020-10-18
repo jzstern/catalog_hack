@@ -1,5 +1,6 @@
 <template>
   <div class="item-sidebar">
+    <img class="item-artwork" :src="item.artwork['480x480']" />
     <p class="song-title">{{ item.title }}</p>
     <p class="artist">song by {{ item.artist }}</p>
     <p v-if="ownedByUser">You own this 💪🏼</p>
@@ -38,7 +39,7 @@ export default {
 
 <style lang="scss">
 .item-sidebar {
-  padding: 24px;
+  padding: 32px;
 }
 
 .song-title {
@@ -49,5 +50,12 @@ export default {
 
 .artist {
   font-family: Tenor Sans, serif;
+}
+
+.item-artwork {
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
 }
 </style>

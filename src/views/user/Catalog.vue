@@ -24,4 +24,24 @@ export default {
 </template>
 
 <style lang="scss">
+.catalog {
+  // position: relative;
+  margin: 10% auto 0 auto;
+  width: 85%;
+  // border: 5vw solid transparent;
+  box-sizing: border-box;
+
+  display: grid;
+  grid-auto-flow: row;
+  grid-gap: 35px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(auto, auto);
+  z-index: 200;
+}
+
+// .item::before {
+//   content: "";
+//   display: block;
+//   padding-top: 100%;
+// }
 </style>

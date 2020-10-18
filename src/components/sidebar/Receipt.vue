@@ -42,7 +42,7 @@ export default {
 
 <style lang="scss">
 .receipt {
-  padding: 24px;
+  padding: 32px;
 }
 
 .receipt-item-0 {

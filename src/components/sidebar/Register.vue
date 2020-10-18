@@ -52,6 +52,6 @@ export default {
 
 <style lang="scss">
 .register {
-  padding: 0px 24px;
+  padding: 32px;
 }
 </style>

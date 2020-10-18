@@ -34,7 +34,6 @@ export default {
     <div class="content">
       <router-view />
     </div>
-    <!-- <Home class="content"/> -->
   </div>
 </template>
 

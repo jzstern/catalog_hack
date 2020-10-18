@@ -1,32 +1,16 @@
 <template>
   <div class="dropdown-menu">
-    <router-link
-      :to="`/${this.user.handle}`"
-      class="menu-item"
-    >
-      {{ user.name }}
-      <img
-        class="dropdown-icon"
-        src="@/assets/other/dropDown.svg"
-      >
-    </router-link>
     <div class="menu-item">
-      <router-link :to="'/'">
-        Home
+      <router-link :to="`/${this.user.handle}`">
+        {{ user.name }}
+        <img class="dropdown-icon" src="@/assets/other/dropDown.svg" />
       </router-link>
     </div>
-    <div
-      class="menu-item"
-      @click="openSidebar('Account')"
-    >
-      Account
-    </div>
-    <div
-      class="menu-item"
-      @click="openSidebar('Upload')"
-    >
-      Upload
-    </div>
+    <!-- <div class="menu-item">
+      <router-link :to="'/'"> Home </router-link>
+    </div> -->
+    <div class="menu-item" @click="openSidebar('Account')">Account</div>
+    <div class="menu-item" @click="openSidebar('Upload')">Upload</div>
   </div>
 </template>
 
@@ -53,14 +37,13 @@ export default {
 
 <style lang="scss">
 .dropdown-icon {
-  padding: 0px 4px 0px 8px;
+  padding-left: 4px;
 }
 
 .dropdown-menu {
   background-color: rgb(16, 16, 16);
 
   opacity: 0.3;
-  // padding: 12px;
   border-radius: 4px;
 
   &:hover {
@@ -71,6 +54,7 @@ export default {
 .menu-item {
   color: #f2ba00;
   padding: 8px 16px;
+  box-sizing: border-box;
   &:hover {
     background-color: rgba(87, 87, 87, 0.1);
   }

@@ -27,10 +27,10 @@ export default {
 
 <style lang="scss">
 .dropdown {
-  z-index: 200;
   position: fixed;
-  top: 15px;
-  right: 15px;
+  top: 24px;
+  right: 24px;
+  z-index: 200;
   cursor: url("../../assets/other/cursor.png"), pointer;
 }
 

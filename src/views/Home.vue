@@ -45,16 +45,18 @@ a {
   align-items: flex-start;
   flex-direction: column;
   height: 100%;
+  width: 100%;
   overflow: hidden;
   background-image: url("../assets/other/bgHome.png");
   background-repeat: no-repeat;
-  box-sizing: border-box;
+  background-size: cover;
 }
 
 .home-content {
   height: 100%;
   width: 70%;
   padding: 48px;
+  box-sizing: border-box;
 }
 
 .login {

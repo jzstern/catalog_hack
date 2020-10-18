@@ -64,10 +64,18 @@ export default {
 .close {
   width: 40px;
   opacity: 0.3;
+  transition: transform 6s ease-in;
   cursor: url("../../assets/other/cursor.png"), pointer;
 
   &:hover {
+    transform: rotate(3600deg);
+    transition: transform 30s ease-in;
     opacity: 1;
+    will-change: transform;
+  }
+
+  &:before {
+    transition: transform 30s ease-in;
   }
 }
 
@@ -115,7 +123,7 @@ export default {
   // min-width: 30%;
   // max-width: 30%;
   height: 100%;
-  flex: initial;
+  // flex: initial;
   overflow: scroll;
   overflow-x: hidden;
   border-left: 1px solid #666666;

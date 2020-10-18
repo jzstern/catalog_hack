@@ -65,7 +65,7 @@ export default {
 
     <label>Collaborators (not yet supported)</label>
 
-    <button class="buttonSecondary" @click="create">Create</button>
+    <button class="buttonSecondary" @click="create">Upload</button>
   </div>
 </template>
 
@@ -73,7 +73,7 @@ export default {
 .upload {
   display: flex;
   flex-direction: column;
-  padding: 0 32px;
+  padding: 16px 32px;
   font-family: Inconsolata;
 }
 </style>

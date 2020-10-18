@@ -53,54 +53,48 @@ export default {
         collection
       </router-link>
     </div>
-
     <transition name="fade" mode="out-in">
       <router-view />
     </transition>
+    <div class="user-background"></div>
+
+    <router-link :to="'/'">
+      <img class="home-nav" src="../../assets/other/catalog.svg" />
+    </router-link>
   </div>
 </template>
 
 <style scoped lang="scss">
 // @import "../../styles/global.scss";
+.user {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.home-nav {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 24px;
+  opacity: 0.3;
+  cursor: url("../../assets/other/cursor.png"), pointer;
+
+  &:hover {
+    opacity: 1;
+  }
+}
 
 .nav {
-  padding: 16px;
+  position: fixed;
+  margin: 24px 0 0 0;
   display: flex;
   justify-content: center;
   width: 100%;
-  justify-self: center;
+  z-index: 200;
 }
-
-// .info {
-//   font-family: "Inconsolata-SemiBold";
-//   margin: 0px 16px;
-//   white-space: normal;
-// }i have
-
-// .info-item {
-//   margin: 32px 0;
-//   letter-spacing: 0.05em;
-//   font-size: 14px;
-// }
-
-// .label {
-//   margin-bottom: 8px;
-//   opacity: 0.6;
-// }
-
-// .mod {
-//   font-family: "Inconsolata-ExtraExpanded-Black";
-// color: #75a251;
-//   cursor: url("../../assets/other/cursor.png"), auto;
-//   padding-right: 16px;
-// }
-
-// .mod-box {
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: space-between;
-//   align-items: center;
-// }
 
 .nav-item {
   color: gray;
@@ -116,27 +110,28 @@ export default {
 }
 
 .profile-info {
-  position: absolute;
-  top: 16px;
-  left: 16px;
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  z-index: 200;
 }
 
 .profile-title {
   font-family: "Tenor Sans", sans-serif;
   font-size: 18px;
-  vertical-align: middle;
-  letter-spacing: 0.05em;
-  opacity: 0.8;
-  margin: 4px 0 0 4px;
-  justify-self: flex-start;
+  margin: 0;
 }
 
-.user {
-  // display: flex;
+.user-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
   height: 100%;
-  justify-content: center;
-  // overflow: hidden;
+  background-size: cover;
   background-image: url("../../assets/other/bgUser.png");
   background-repeat: no-repeat;
+  opacity: 0.3;
+  z-index: 0;
 }
 </style>
