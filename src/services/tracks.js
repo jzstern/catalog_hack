@@ -11,14 +11,15 @@ import {
 } from "../textile_constants/queries"
 
 import ItemModel from "../models/Item"
-import mockItem from "../mocks/item"
+// import mockItem from "../mocks/item"
 
 // Utils
 import {
     makeQuery,
     addDocument,
-    removeDocument
-} from "../utils/api"
+    removeDocument,
+    fetchCollection
+} from "../utils/textileApi"
 
 
 const ITEMS_COLLECTION = "Items"
@@ -56,7 +57,7 @@ export const addTrackToCatalog = async (client, audiusTrack) => {
         // Create or get Track in Textile
         // Create a model instance for the track 
         const itemModel = new ItemModel({
-            ...mockItem,
+            // ...mockItem,
             // Textile Data
             audiusId,
             artist,
@@ -142,10 +143,10 @@ const createItem = async (client, itemDocument) => {
     }
 }
 
-export const deleteItem = async (client, itemDocument) => {
+export const deleteItem = async (client, itemId) => {
     try {
         console.log(`💽 Deleting item...`)
-        const result = await removeDocument(client, ITEMS_COLLECTION, itemDocument._id)
+        const result = await removeDocument(client, ITEMS_COLLECTION, itemId)
         console.log(`💽✅🗑 Deleted item! `, { result })
         return result
     } catch (err) {
@@ -177,4 +178,11 @@ export const textileGetItemsByUserAudiusId = async (client, userAudiusId) => {
     } catch (err) {
         console.error('textileFindItemByAudiusId', err)
     }
+}
+
+export const getAllTracks = async (client) => {
+    console.log(`💽 Getting all tracks...`)
+    const tracksTextile = await fetchCollection(client, ITEMS_COLLECTION)
+    console.log(`💽✅ Got all tracks!👌`)
+    return tracksTextile
 }

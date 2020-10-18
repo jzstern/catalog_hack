@@ -24,6 +24,8 @@ export default {
         component: "Item",
         item: this.item,
       });
+
+      this.$store.dispatch('getTrackSrc', this.item.id)
     },
   },
 };

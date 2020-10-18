@@ -13,7 +13,8 @@ import {
 
 import {
     audiusGetUserByAudiusId,
-    audiusResolveProfileURL,
+    // audiusResolveProfileURL,
+    // getUserByAudiusHandle,
     audiusGetUserUploads
 } from "../utils/audiusApi"
 
@@ -30,28 +31,14 @@ export const createUser = async (client, userObj) => {
     console.log(`💽 Creating user...`)
 
     // resolve the Audius URL against Audius to get their data
-    const audiusProfile = await audiusResolveProfileURL(userObj.audiusURL)
-
-    // Merge mock data with form input data (for nows)
-    // Coerce User data using the model
-    const userModel = new UserModel({
-        // Textile Data
-        audiusId: audiusProfile.id,
-        audiusURL: userObj.audiusURL,
-        catalog: [],
-        collection: [],
-        links: [],
-        // Audius Data
-        name: audiusProfile.name,
-        background: audiusProfile.cover_photo['2000x'],
-        profilePicture: audiusProfile.profile_picture['1000x1000']
-    })
+    // const audiusProfile = await audiusResolveProfileURL(userObj.handle)
 
     // Get just the data we're pushing to Textile from the model
-    const textileData = userModel.getTextileData()
+    // const textileData = userModel.getTextileData()
 
     // Push the User Textile document to Users Collection
-    const result = await addDocument(client, USERS_COLLECTION, textileData)
+    // const result = await addDocument(client, USERS_COLLECTION, textileData)
+    const result = await addDocument(client, USERS_COLLECTION, userObj)
 
     const t1 = performance.now()
     console.log(`💽✅ Created user! Took ${t1 - t0}ms`, { result })
@@ -76,11 +63,11 @@ export const getUserById = async (client, userId) => {
         const userTextile = await findDocument(client, USERS_COLLECTION, userId)
 
         // Using the audiusID, get the user from Audius
-        const userAudius = await audiusGetUserByAudiusId(userTextile.audiusId)
+        const userAudius = await audiusGetUserByAudiusId(userTextile.id_audius)
         const { name, cover_photo, profile_picture } = userAudius
 
         // Get tracks user has uploaded on Audius
-        let audiusUploads = await audiusGetUserUploads(userTextile.audiusId)
+        let audiusUploads = await audiusGetUserUploads(userTextile.id_audius)
         // audiusUploads = audiusUploads.map(({ id, title }) => ({ id, title }))
 
         // Find out which Audius uploads of the user are in their Catalog
@@ -124,16 +111,17 @@ export const deleteUser = async (client, userId) => {
 export const updateUser = async (client, userId, updatedData) => {
     try {
         console.log(`💽 Updating user ${userId} in ${USERS_COLLECTION}...`)
-        const user = await getUserById(client,  userId)
+        // const user = await getUserById(client,  userId)
 
-        const updatedUser = {
-            ...user,
-            ...updatedData
-        }   
+        // const updatedUser = {
+        //     ...user,
+        //     ...updatedData
+        // }   
 
-        console.log({updatedUser})
+        // console.log({updatedUser})
 
-        const result = await updateDocument(client, USERS_COLLECTION, updatedUser)
+        // const result = await updateDocument(client, USERS_COLLECTION, updatedUser)
+        const result = await updateDocument(client, USERS_COLLECTION, updatedData)
         console.log(`💽✅ Updated user! 😩 `, { result })
         return result
     } catch (err) {

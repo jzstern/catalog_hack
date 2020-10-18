@@ -3,9 +3,9 @@ import { audiusResolveProfileURL, audiusGetUserUploads } from './audiusApi'
 
 // Returns a formatted Audius user
 export const getUserDataAudius = async (handle) => {
-  const user = await audiusResolveProfileURL(`https://audius.co/${handle}`)
-  const uploads = await audiusGetUserUploads(user.id)
-  const catalog = getCatalog(uploads)
+  const user = await audiusResolveProfileURL(handle)
+  const uploads = await audiusGetUserUploads(user.id) // * should only use this for choosing songs to upload
+  const catalog = getCatalog(uploads) // * this should come from textile
   const collection = []
 
   return {
@@ -14,8 +14,8 @@ export const getUserDataAudius = async (handle) => {
     handle,
     wallet_addr: user.wallet_addr,
     cover_photo: user.cover_photo,
-    catalog: catalog,
-    collection: collection,
+    catalog,
+    collection,
     loading: {
       user_info: false,
       catalog: true,

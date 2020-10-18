@@ -1,13 +1,37 @@
 <script>
 /* eslint-disable */
-
 export default {
   name: "Home",
   components: {
     Dropdown: () => import("../components/dropdown/Dropdown"),
   },
-  mounted() {
-    this.$store.commit("sidebarComponent", "Browse Artists");
+  methods: {
+    deleteUsers() {
+      this.$store.dispatch('deleteUser', "01emyhvdy2v4a2zszc0bpjsjmr")
+      this.$store.dispatch('deleteUser', "01emyj159qxvh7qndeb9sf2z1v")
+    },
+    getAllTracks() {
+      this.$store.dispatch('getAllTracks')
+    },
+    deleteTracks() {
+      this.$store.dispatch('deleteItem', "01emq563f5265cegtb28rm1bmf")
+      this.$store.dispatch('deleteItem', "01emq5k4fst0ek95x2fzsqzp9f")
+      this.$store.dispatch('deleteItem', "01emqst61xjydaxkwsmwz9djg6")
+      this.$store.dispatch('deleteItem', "01emqtsa6xb48gsbg703tvby0m")
+    },
+    updateUser() {
+      this.$store.dispatch('updateUser', "01empev9nwfpxzcss6y1m4ktaj", {
+        id_audius: "D90wn",
+        handle: "jzstern",
+        name: "appa",
+        catalog: [],
+        collection: [],
+        links: [ "https://twitter.com/jzstern", "https://audius.co/jzstern", "https://soundcloud.com/appappa"]
+      })
+    }
+  },
+  async mounted() {
+    this.$store.commit("sidebarComponent", "Browse Artists")
   },
 };
 </script>
@@ -32,6 +56,10 @@ export default {
       <p>Want to talk?</p>
       <a>Message us</a>
     </div>
+    <button @click="updateUser">update user</button>
+    <button @click="deleteUsers">delete users</button>
+    <button @click="getAllTracks">get tracks</button>
+    <button @click="deleteTracks">delete tracks</button>
   </div>
 </template>
 

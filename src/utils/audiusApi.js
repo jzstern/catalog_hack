@@ -1,13 +1,13 @@
 
-let BASE_URL = 'https://discoveryprovider.audius.co'
+var BASE_URL = 'https://discoveryprovider.audius.co'
 BASE_URL = 'https://discoveryprovider.mumbaudius.com'
 
-let CORS_PROXY = 'https://cors-anywhere.herokuapp.com'
+const CORS_PROXY = 'https://cors-anywhere.herokuapp.com'
 
 // Doesn't work rn
-export const audiusResolveProfileURL = async (url) => {
-  let path = `${CORS_PROXY}/${BASE_URL}/v1/resolve?url=${url}`
-  //  path = `${BASE_URL}/v1/resolve?url=${url}`
+export const audiusResolveProfileURL = async (handle) => {
+  let path = `${CORS_PROXY}/${BASE_URL}/v1/resolve?url=https://audius.co/${handle}`
+  // path = `${BASE_URL}/v1/resolve?url=https://audius.co/${handle}`
 
   try {
     // console.log('🎵 Resolving Audius URL...', { path })
@@ -32,12 +32,14 @@ export const getUserByAudiusHandle = async (audiusHandle) => {
   try {
     // console.log('🎵 Resolving Audius handle...', { audiusHandle })
     const response = await fetch(path, {
-      method: 'GET'
+      method: 'GET',
+      mode: 'cors'
       // mode: 'no-cors'
     })
+
     const data = await response.json()
     // console.log('🎵✅ Resolved Audius Handle', { data })
-    return data
+    return data.data
   } catch (err) {
     throw new Error(err)
   }
@@ -94,6 +96,28 @@ export const audiusGetTrackByAudiusId = async (trackIdAudius) => {
 
     const response = await fetch(path, {
       method: 'GET',
+      mode: 'cors'
+    })
+
+    const { data } = await response.json()
+
+    // console.log('🎵✅  Resolved Audius Track', { data })
+    return data
+
+  } catch (err) {
+    throw new Error(err)
+  }
+}
+
+export const getTrackSrcAudiusId = async (trackIdAudius) => {
+  const path = `https://discoveryprovider2.audius.co/v1/tracks/${trackIdAudius}/stream`
+
+  try {
+    // console.log(`🎵 Getting Track with audiusId ${trackIdAudius}... `)
+
+    const response = await fetch(path, {
+      method: 'GET',
+      // mode: 'no-cors'
       mode: 'cors'
     })
 

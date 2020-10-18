@@ -19,8 +19,7 @@ export default {
     this.$store.dispatch("initAudius");
     this.$store.dispatch("initTextile");
     // this.$store.dispatch("ethers/init");
-  },
-  methods: {},
+  }
 };
 </script>
 

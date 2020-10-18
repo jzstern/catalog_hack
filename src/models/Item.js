@@ -1,4 +1,4 @@
-import BaseModel from './Base';
+import BaseModel from './Base'
 
 export const PROP_TYPES = {
     // Textile Schema
@@ -7,37 +7,37 @@ export const PROP_TYPES = {
     //     type: 'string',
     // },
     audiusId: {
-        type: 'string',
+        type: 'string'
     },
     artist: {
-        type: 'object',
+        type: 'object'
         // { textileId: string, audiusId: string }
     },
     price: {
         type: 'number'
     },
     purchasedBy: {
-        type: 'array',
+        type: 'array'
         // { textileID: 'string', audiusId: 'string' }
     },  
     //   Audius Additional Schema - not stored in Textile
     title: {
-        type: 'string',
+        type: 'string'
     },
     description: {
-        type: 'string',
+        type: 'string'
     },
     background: {
-        type: 'string',
-    },
-};
+        type: 'string'
+    }
+}
 
 const TEXTILE_FIELDS = [
     'id',
     'audiusId',
     'artist',
     'price',
-    'purchasedBy',
+    'purchasedBy'
 ]
 
 const AUDIUS_FIELDS = [
@@ -53,7 +53,7 @@ const AUDIUS_FIELDS = [
  */
 export default class Item extends BaseModel {
     constructor(props) {
-        super(props, PROP_TYPES);
+        super(props, PROP_TYPES)
     }
 
     getTextileData() {
