@@ -5,7 +5,7 @@ import Vuex from 'vuex'
 import { LOGGED_OUT_USER, NULL_ARTIST } from './constants'
 import { init, getAudiusAccountUser, setAudiusAccountUser, clearAudiusAccountUser, clearAudiusAccount } from './audius'
 // import { getUserByAudiusHandle, audiusResolveProfileURL, audiusGetUserByAudiusId, audiusGetUserUploads } from '../utils/audiusApi'
-import { getUserAudiusData } from '../utils/audiusHelpers'
+import { getUserDataAudius } from '../utils/audiusHelpers'
 
 Vue.use(Vuex)
 
@@ -53,10 +53,18 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async getArtistData({ commit }, handle) {
-      const userAudius = await getUserAudiusData(handle)
-      // TODO - fetch user data from Textile
+    async getArtistData({ state, commit }, handle) {
+      commit('artist', {
+        ...state.artist,
+        loading: {
+          user_info: true,
+          catalog: true,
+          collection: true
+        }
+      })
+      const userAudius = await getUserDataAudius(handle)
       commit('artist', userAudius )
+      // TODO - fetch user data from Textile
     },
     async initAudius({ commit }) {
       const libs = await init()

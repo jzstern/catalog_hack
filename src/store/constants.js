@@ -46,7 +46,12 @@ export const NULL_ARTIST = {
   email: null,
   name: null,
   handle: null,
-  walletAddress: null
+  walletAddress: null,
+  loading: {
+    user_info: true,
+    catalog: true,
+    collection: true
+  }
 }
 
 export const ARTISTS = [
