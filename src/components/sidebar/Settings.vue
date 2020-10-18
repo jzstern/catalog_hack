@@ -25,7 +25,7 @@
           ETH Address
         </p>
         <p class="field">
-          {{ user.walletAddress.substr(user.walletAddress.length - 4) }}
+          {{ user.wallet_addr.substr(user.wallet_addr.length - 4) }}
         </p>
       </div>
     </div>
@@ -64,7 +64,7 @@
         </p>
         <p class="field">
           {{
-            user.walletAddress ? user.walletAddress : "loading address..."
+            user.wallet_addr ? user.wallet_addr : "loading address..."
           }}
         </p>
       </div>
@@ -72,24 +72,24 @@
 
     <div class="divider-2" />
     <div class="nav-item">
-      <router-link :to="`/${this.user.walletAddress}/upload`">
+      <router-link :to="`/${this.user.wallet_addr}/upload`">
         upload ⟶
       </router-link>
     </div>
 
     <div class="nav-item">
-      <router-link :to="`/${this.user.walletAddress}/catalog`">
+      <router-link :to="`/${this.user.wallet_addr}/catalog`">
         your catalog ⟶
       </router-link>
     </div>
 
     <div class="nav-item">
-      <router-link :to="`/${this.user.walletAddress}/collection`">
+      <router-link :to="`/${this.user.wallet_addr}/collection`">
         your collection ⟶
       </router-link>
     </div> -->
 
-    <!-- <router-link :to="`/${this.usser.walletAddress}`"> cancel </router-link> -->
+    <!-- <router-link :to="`/${this.usser.wallet_addr}`"> cancel </router-link> -->
 
     <!-- <router-view /> -->
   </div>

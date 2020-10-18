@@ -9,7 +9,7 @@ export const getUserDataAudius = async (handle) => {
   const collection = []
 
   return {
-    audiusId: user.id,
+    id_audius: user.id,
     name: user.name,
     handle,
     wallet_addr: user.wallet_addr,
@@ -37,3 +37,60 @@ const getCatalog = (uploads) => {
     }
   })
 }
+
+// const createPlaylist = async (
+//   userId,
+//   metadata,
+//   isAlbum = false,
+//   trackIds = [],
+//   isPrivate = true
+// ) => {
+//   const playlistName = metadata.playlist_name
+//   const coverArt = metadata.artwork ? metadata.artwork.file : null
+//   const description = metadata.description
+//   // Creating an album is automatically public.
+//   if (isAlbum) isPrivate = false
+
+//   try {
+//     const { playlistId, error } = await window.libs.Playlist.createPlaylist(
+//       userId,
+//       playlistName,
+//       isPrivate,
+//       isAlbum,
+//       trackIds
+//     )
+
+//     if (error) return { playlistId, error }
+
+//     // If this playlist is being created from an existing cover art, use it.
+//     if (metadata.playlist_image_sizes_multihash) {
+//       // await window.libs.contracts.PlaylistFactoryClient.updatePlaylistCoverPhoto(
+//       //   playlistId,
+//       //   Utils.formatOptionalMultihash(metadata.playlist_image_sizes_multihash)
+//       // )
+//     } else if (coverArt) {
+//       await window.libs.Playlist.updatePlaylistCoverPhoto(playlistId, coverArt)
+//     }
+//     if (description) {
+//       await window.libs.Playlist.updatePlaylistDescription(
+//         playlistId,
+//         description
+//       )
+//     }
+//     return { playlistId, error: false }
+//   } catch (err) {
+//     // This code path should never execute
+//     console.error(err.message)
+//     return { playlistId: null, error: true }
+//   }
+// }
+
+// const addPlaylistTrack = async (playlistId, trackId) => {
+//   try {
+//     await window.libs.Playlist.addPlaylistTrack(playlistId, trackId)
+//     return { error: false }
+//   } catch (error) {
+//     console.error(error.message)
+//     return { error }
+//   }
+// }

@@ -1,6 +1,6 @@
 
 import { 
-    textileFindUserByAudiusId,
+    findTextileUserByAudiusId,
     updateUser
 } from './users'
 
@@ -8,7 +8,7 @@ import {
 import {
     queryItemByAudiusId,
     queryItemsByUserAudiusId
-} from "../constants/queries"
+} from "../textile_constants/queries"
 
 import ItemModel from "../models/Item"
 import mockItem from "../mocks/item"
@@ -47,7 +47,7 @@ export const addTrackToCatalog = async (client, audiusTrack) => {
         /**************************/
 
         // Get the artist info for this track
-        const textileUser = await textileFindUserByAudiusId(client, audiusTrack.user.id)
+        const textileUser = await findTextileUserByAudiusId(client, audiusTrack.user.id)
         const artist = {
             audiusId: audiusTrack.user.id,
             textileId: textileUser._id
@@ -65,8 +65,8 @@ export const addTrackToCatalog = async (client, audiusTrack) => {
             // Audius Only data
             title: audiusTrack.title,
             description: audiusTrack.description,
-            background: audiusTrack.artwork['1000x1000'],
-        });
+            background: audiusTrack.artwork['1000x1000']
+        })
 
         /** VALIDATION **/
 
@@ -74,12 +74,12 @@ export const addTrackToCatalog = async (client, audiusTrack) => {
         console.log({textileUser})
 
         let foundTrack = textileUser.catalog.find((Item) => Item.audiusId === audiusTrack.id)
-        if (!!foundTrack) {
+        if (foundTrack) {
             throw new Error('Track is already in this Users Catalog.')
         }
         // If the track already exists in 'Items', then throw
         foundTrack = await textileFindItemByAudiusId(client, audiusId)
-        if (!!foundTrack) {
+        if (foundTrack) {
             throw new Error('Track is already in Items collection.')
         }
 
@@ -88,8 +88,8 @@ export const addTrackToCatalog = async (client, audiusTrack) => {
 
         // Add Item to Textile 
         //Returns ITEM type for Textile
-        let textileItem = itemModel.getTextileData();
-        let result;
+        let textileItem = itemModel.getTextileData()
+        let result
 
         // Emulated DB transaction - (this is not all or nothing)
         try {
@@ -99,7 +99,7 @@ export const addTrackToCatalog = async (client, audiusTrack) => {
             // Add the returned `textileId` to the Textile 'Item' document we are creating in the User's catalog.
             textileItem = {
                 ...textileItem,
-                textileId,
+                textileId
             }
 
             // Construct the User object with the updated catalog
@@ -158,7 +158,7 @@ export const textileFindItemByAudiusId = async (client, audiusId) => {
     try {
         console.log(`💽 Querying item in ${ITEMS_COLLECTION} by Audius Id ${audiusId} ...`)
         const query = queryItemByAudiusId(audiusId)
-        const item = (await makeQuery(client, ITEMS_COLLECTION, query))[0];
+        const item = (await makeQuery(client, ITEMS_COLLECTION, query))[0]
         console.log(`💽✅ Queried item by Audius Id!`, { item })
         return item
     } catch (err) {
@@ -171,7 +171,7 @@ export const textileGetItemsByUserAudiusId = async (client, userAudiusId) => {
     try {
         console.log(`💽 Querying item in ${ITEMS_COLLECTION} by User Audius Id ${userAudiusId} ...`)
         const query = queryItemsByUserAudiusId(userAudiusId)
-        const items = (await makeQuery(client, ITEMS_COLLECTION, query));
+        const items = (await makeQuery(client, ITEMS_COLLECTION, query))
         console.log(`💽✅ Queried item by Audius Id!`, { items })
         return items
     } catch (err) {

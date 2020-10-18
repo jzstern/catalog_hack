@@ -1,11 +1,13 @@
 export const LOGGED_OUT_USER = {
+  id_textile: null,
+  id_audius: null,
   catalog: null,
   collection: [],
   email: null,
-  loginStatus: "loggedOut",
+  login_status: "loggedOut",
   name: null,
   handle: null,
-  walletAddress: null
+  wallet_addr: null
 }
 
 export const LOGGED_IN_USER = {
@@ -34,10 +36,10 @@ export const LOGGED_IN_USER = {
   ],
   collection: [],
   email: "quicklyquickly@gmail.com",
-  loginStatus: "loggedIn",
+  login_status: "loggedIn",
   name: "quickly, quickly",
   handle: "quicklyquickly",
-  walletAddress: "0x13ouhfAnv937NkPa1g"
+  wallet_addr: "0x13ouhfAnv937NkPa1g"
 }
 
 export const NULL_ARTIST = {
@@ -46,7 +48,7 @@ export const NULL_ARTIST = {
   email: null,
   name: null,
   handle: null,
-  walletAddress: null,
+  wallet_addr: null,
   loading: {
     user_info: true,
     catalog: true,
@@ -56,12 +58,12 @@ export const NULL_ARTIST = {
 
 export const ARTISTS = [
   {
-    name: "appa", handle: "jzstern", catalog: [], collection: [], walletAddress: null
+    name: "appa", handle: "jzstern", catalog: [], collection: [], wallet_addr: null
   },
   {
-    name: "buns", handle: "buns", catalog: [], collection: [], walletAddress: null
+    name: "buns", handle: "buns", catalog: [], collection: [], wallet_addr: null
   },
-  { name: "chromonicci", handle: "chromonicci",  catalog: [], collection: [], walletAddress: null },
+  { name: "chromonicci", handle: "chromonicci",  catalog: [], collection: [], wallet_addr: null },
   {
     name: "crown comfort", handle: "_mike", catalog: [{
       title: "shimmer",
@@ -69,15 +71,15 @@ export const ARTISTS = [
       artistHandle: "crowncomfort",
       price: 1,
       id: "3"
-    }], collection: [], walletAddress: null },
-  { name: "drumloop", handle: "drumloop",  catalog: [], collection: [], walletAddress: null },
-  { name: "feewet", handle: "feewet",  catalog: [], collection: [], walletAddress: null },
-  { name: "g l u e 7 0", handle: "glue70",  catalog: [], collection: [], walletAddress: null },
-  { name: "gohda", handle: "gohda",  catalog: [], collection: [], walletAddress: null },
-  { name: "KMB", handle: "kmb",  catalog: [], collection: [], walletAddress: null },
-  { name: "Melo-Zed", handle: "melozed",  catalog: [], collection: [], walletAddress: null },
-  { name: "MssingNo", handle: "mssingno",  catalog: [], collection: [], walletAddress: null },
-  { name: "pandi", handle: "pandi",  catalog: [], collection: [], walletAddress: null },
+    }], collection: [], wallet_addr: null },
+  { name: "drumloop", handle: "drumloop",  catalog: [], collection: [], wallet_addr: null },
+  { name: "feewet", handle: "feewet",  catalog: [], collection: [], wallet_addr: null },
+  { name: "g l u e 7 0", handle: "glue70",  catalog: [], collection: [], wallet_addr: null },
+  { name: "gohda", handle: "gohda",  catalog: [], collection: [], wallet_addr: null },
+  { name: "KMB", handle: "kmb",  catalog: [], collection: [], wallet_addr: null },
+  { name: "Melo-Zed", handle: "melozed",  catalog: [], collection: [], wallet_addr: null },
+  { name: "MssingNo", handle: "mssingno",  catalog: [], collection: [], wallet_addr: null },
+  { name: "pandi", handle: "pandi",  catalog: [], collection: [], wallet_addr: null },
   {
     name: "Omari Jazz",
     handle: "omarijazz",
@@ -112,7 +114,7 @@ export const ARTISTS = [
       id: "3"
     }]
   },
-  { name: "sharad", handle: "sharad",  catalog: [], collection: [], walletAddress: null },
-  { name: "WISHNOMORE", handle: "wishnomore",  catalog: [], collection: [], walletAddress: null },
+  { name: "sharad", handle: "sharad",  catalog: [], collection: [], wallet_addr: null },
+  { name: "WISHNOMORE", handle: "wishnomore",  catalog: [], collection: [], wallet_addr: null },
   LOGGED_IN_USER
 ]

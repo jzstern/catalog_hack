@@ -1,10 +1,10 @@
 // Textile API 
 
-import { THREAD_ID } from '../constants/textile'
+import { THREAD_ID } from '../textile_constants/textile'
 
 import {
     ThreadID
-} from '@textile/hub';
+} from '@textile/hub'
 
 
 // Get a Single Collection and list it's documents
@@ -46,7 +46,7 @@ export const findDocument = async (
 export const updateDocument = async (
     client,
     collectionName,
-    updatedDocument,
+    updatedDocument
 ) => {
     console.log(`🧵 Updating document ${updatedDocument._id} in ${collectionName}...`)
     const threadID = ThreadID.fromString(THREAD_ID)
@@ -76,7 +76,7 @@ export const makeQuery = async (
     console.log(`🧵 Making query ${query} on ${collectionName}...`)
     const threadID = ThreadID.fromString(THREAD_ID)
     const res = await client.find(threadID, collectionName, query)
-    // console.log('🧵✅ Query Succeeded!', { res })
+    console.log('🧵✅ Query Succeeded!', { res })
     return res
 }
 

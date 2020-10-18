@@ -29,7 +29,7 @@ export default {
     <div class="form-item">
       <label>Wallet Address</label>
       <p class="field">
-        {{ user.walletAddress.substr(user.walletAddress.length - 12) }}
+        {{ user.wallet_addr.substr(user.wallet_addr.length - 12) }}
       </p>
     </div>
     <div class="form-item">

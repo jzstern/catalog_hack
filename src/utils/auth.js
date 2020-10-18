@@ -4,13 +4,13 @@ import {
     createUserAuth
 } from '@textile/hub'
 
-import { KEY_INFO } from '../constants/textile'
+import { KEY_INFO } from '../textile_constants/textile'
 
 
 // Get UserAuth instance using KeyInfo
 export const getUserAuth = async () => {
     // Create an expiration and create a signature. 60s or less is recommended.
-    const expiration = new Date(Date.now() + 60 * 1000)
+    const expiration = new Date(Date.now() + 5 * 1000)
 
     const { key, secret } = KEY_INFO
     

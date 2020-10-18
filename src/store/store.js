@@ -4,13 +4,17 @@ import Vuex from 'vuex'
 
 import { LOGGED_OUT_USER, NULL_ARTIST } from './constants'
 import { init, getAudiusAccountUser, setAudiusAccountUser, clearAudiusAccountUser, clearAudiusAccount } from './audius'
+import { audiusResolveProfileURL } from '../utils/audiusApi'
 import { getUserDataAudius } from '../utils/audiusHelpers'
+import { loginAndSetupDB } from '../utils/setup'
+import { getUserById, findTextileUserByAudiusId } from '../services/users'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
     artist: NULL_ARTIST,
+    client: null,
     libs: null,
     sidebar: {
       component: "Catalog",
@@ -47,8 +51,8 @@ export default new Vuex.Store({
     user(state, user) {
       state.user = user
     },
-    walletAddress(state, address) {
-      state.user.walletAddress = address
+    wallet_addr(state, address) {
+      state.user.wallet_addr = address
     }
   },
   actions: {
@@ -65,12 +69,33 @@ export default new Vuex.Store({
       commit('artist', userAudius )
       // TODO - fetch user data from Textile
     },
-    async initAudius({ commit }) {
+    async initAudius({ commit, dispatch }) {
       const libs = await init()
       commit('libs', libs)
 
       const user = await getAudiusAccountUser()
       if (user) commit('user', user)
+
+      dispatch("initTextile");
+    },
+    async initTextile({ state, commit }) {
+      const [ client ] = await loginAndSetupDB({ newIdentity: false })
+
+      if (state.user.login_status === 'LOGGED_IN') {
+        try {
+          // TODO - fetch textileUserByTextileID()
+          // const user = await getUserById(client, id)
+          const user = await findTextileUserByAudiusId(client, state.user.id_audius)
+
+          commit('user', {
+            ...state.user,
+            id_textile: user._id,
+            catalog: user.catalog,
+            collection: user.collection,
+            links: user.links
+          })
+        } catch (err) { console.error(err) }
+      }
     },
     async logout({ state, commit }) {
       await state.libs.Account.logout()
@@ -81,30 +106,38 @@ export default new Vuex.Store({
     async login({ state, commit }, credentials) {
       commit('user', {
         ...state.user,
-        loginStatus: "LOGGING_IN"
+        login_status: "LOGGING_IN"
       })
       var user
       try {
         user = await state.libs.Account.login(credentials.email, credentials.pw)
-
-        const userModel = {
-          audiusId: user.user.id,
+        
+        var userModel = {
+          id_audius: user.user.user_id,
+          id_textile: null,
           catalog: [],
           collection: [],
           email: credentials.email,
           name: user.user.name,
           handle: user.user.handle,
-          walletAddress: user.user.wallet,
-          loginStatus: "LOGGED_IN"
+          wallet_addr: user.user.wallet,
+          login_status: "LOGGED_IN"
         }
 
         commit('user', userModel)
         commit('sidebarComponent', "Account")
+
+        // fetch "real" audius id & update user
+        const id_audius = (await audiusResolveProfileURL(`https://audius.co/${userModel.handle}`)).id
+        userModel.id_audius = id_audius
+
+        commit('user', userModel)
         setAudiusAccountUser(userModel)
       } catch (e) {
+        console.error("yikes: ", e)
         commit('user', {
           ...state.user,
-          loginStatus: "BAD_LOGIN"
+          login_status: "BAD_LOGIN"
         })
       }
     }

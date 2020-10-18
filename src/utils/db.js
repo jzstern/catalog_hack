@@ -1,9 +1,9 @@
 
-import { THREAD_ID } from '../constants/textile'
+import { THREAD_ID } from '../textile_constants/textile'
 
 import {
     ThreadID
-} from '@textile/hub';
+} from '@textile/hub'
 
 // Lists threads for this client
 export const listThreads = async (client) => {
@@ -11,7 +11,8 @@ export const listThreads = async (client) => {
     return threads
 }
 
-export const getThread = async (client) => {
+export const getThread = async () => {
+// export const getThread = async (client) => {
     const thread = ThreadID.fromString(THREAD_ID)
     return thread
 }
@@ -35,7 +36,7 @@ export const getOrCreateCollection = async (
         let collection = await client.getCollectionInfo(threadID, collectionName)
         return collection
     } catch {
-        await client.newCollection(threadID, { name: collectionName });
+        await client.newCollection(threadID, { name: collectionName })
     } 
 
 }

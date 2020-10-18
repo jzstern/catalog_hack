@@ -4,13 +4,13 @@ export default {
   name: "Login",
   computed: {
     badLogin() {
-      return this.$store.state.user.loginStatus === "BAD_LOGIN";
+      return this.$store.state.user.login_status === "BAD_LOGIN";
     },
     emptyFields() {
-      return this.$store.state.user.loginStatus === "EMPTY_FIELDS";
+      return this.$store.state.user.login_status === "EMPTY_FIELDS";
     },
     loggingIn() {
-      return this.$store.state.user.loginStatus === "LOGGING_IN";
+      return this.$store.state.user.login_status === "LOGGING_IN";
     },
     missingEmail() {
       return !this.email && this.invalidForm;
@@ -34,7 +34,7 @@ export default {
       else {
         this.$store.commit("user", {
           ...this.$store.state.user,
-          loginStatus: "EMPTY_FIELDS",
+          login_status: "EMPTY_FIELDS",
         });
         this.invalidForm = true;
       }
@@ -51,7 +51,7 @@ export default {
   beforeDestroy() {
     this.$store.commit("user", {
       ...this.$store.state.user,
-      loginStatus: "NOT_LOGGED_IN",
+      login_status: "NOT_LOGGED_IN",
     });
   },
 };
