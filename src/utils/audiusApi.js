@@ -66,11 +66,11 @@ export const audiusGetUserByAudiusId = async (userIdAudius) => {
   }
 }
 
-export const audiusGetUserUploads = async (userIdAudius) => {
+export const getAudiusUploads = async (userIdAudius) => {
   const path = `${BASE_URL}/v1/users/${userIdAudius}/tracks`
 
   try {
-    // console.log(`🎵 Getting tracks by user with audiusId ${userIdAudius}... `)
+    console.log(`🎵 Getting tracks by user with audiusId ${userIdAudius}... `)
 
     const response = await fetch(path, {
       method: 'GET',
@@ -79,7 +79,7 @@ export const audiusGetUserUploads = async (userIdAudius) => {
 
     const { data } = await response.json()
 
-    // console.log('🎵✅  Resolved Tracks by Audius User', { data })
+    console.log('🎵✅  Resolved Tracks by Audius User', { data })
     return data
 
   } catch (err) {

@@ -31,6 +31,7 @@ export default {
       if (handle.includes("/")) handle = handle.substring(0, handle.indexOf("/"));
       if (this.user.handle === handle) this.$store.commit('artist', this.user)
       else if (this.artist.handle !== handle) this.$store.dispatch("getArtistData", handle);
+      // TODO - make sure textile is ready before fetching artist data!!!!
     },
   },
   mounted() {

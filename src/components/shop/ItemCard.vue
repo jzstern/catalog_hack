@@ -33,7 +33,9 @@ export default {
 
 <template>
   <div class="item-card" @click="selectItem">
-    <img class="artwork" :src="item.artwork['480x480']" />
+      <p>{{ item._id }}</p>
+      <p>{{ item.id_audius }}</p>
+    <!-- <img class="artwork" :src="item.artwork['480x480']" />
     <p>{{ item.title }}</p>
     <router-link
       :to="`/${item.artistHandle}`"
@@ -41,12 +43,12 @@ export default {
       class="artist"
       >{{ item.artist }}</router-link
     >
-    <!-- <p v-if="!ownedByUser" class="artist">{{ item.artist }}</p> -->
     <p>{{ item.description }}</p>
     <p v-if="!pathContainsCollection || !ownedByUser">
       {{ item.price ? `$${item.price}` : "Name your price" }}
     </p>
-    <p v-else>u own this 💪🏼</p>
+    <p v-else>u own this 💪🏼</p> -->
+    <!-- <p v-if="!ownedByUser" class="artist">{{ item.artist }}</p> -->
   </div>
 </template>
 

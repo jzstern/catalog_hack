@@ -64,7 +64,7 @@ export const removeDocument = async (
     console.log(`🧵 Removing document ${documentID} from ${collectionName}...`)
     const threadID = ThreadID.fromString(THREAD_ID)
     const res = await client.delete(threadID, collectionName, [documentID])
-    console.log('🧵✅ Deleted document!')
+    // console.log('🧵✅ Deleted document!')
     return res
 }
 

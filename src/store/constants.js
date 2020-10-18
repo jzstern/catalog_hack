@@ -1,8 +1,9 @@
 export const LOGGED_OUT_USER = {
-  id_textile: null,
+  _id: null,
   id_audius: null,
-  catalog: null,
+  catalog: [],
   collection: [],
+  uploads: [],
   email: null,
   login_status: "loggedOut",
   name: null,
@@ -43,8 +44,8 @@ export const LOGGED_IN_USER = {
 }
 
 export const NULL_ARTIST = {
-  catalog: null,
-  collection: null,
+  catalog: [],
+  collection: [],
   email: null,
   name: null,
   handle: null,

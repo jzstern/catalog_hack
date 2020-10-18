@@ -4,11 +4,11 @@ import Vuex from 'vuex'
 
 import { LOGGED_OUT_USER, NULL_ARTIST } from './constants'
 import { init, getAudiusAccountUser, setAudiusAccountUser, clearAudiusAccountUser, clearAudiusAccount } from './audius'
-import { audiusResolveProfileURL, getTrackSrcAudiusId } from '../utils/audiusApi'
+import { audiusResolveProfileURL, getAudiusUploads, getTrackSrcAudiusId } from '../utils/audiusApi'
 import { getUserDataAudius } from '../utils/audiusHelpers'
 import { loginAndSetupDB } from '../utils/setup'
-import { getUsers, findTextileUserByAudiusId, updateUser, deleteUser, createUser } from '../services/users'
-import { getAllTracks, deleteItem } from '../services/tracks'
+import { getAllUsers, findTextileUserByAudiusId, updateUser, deleteUser, createUser } from '../services/users'
+import { addItemToCatalog, deleteItem, getAllTracks } from '../services/tracks'
 
 Vue.use(Vuex)
 
@@ -25,10 +25,10 @@ export default new Vuex.Store({
     user: LOGGED_OUT_USER
   },
   mutations: {
-    addToCatalog(state, item) {
-      state.user.catalog.push(item)
+    addItemToCatalog(state, item) {
+      state.user.catalog = state.user.catalog.push(item)
     },
-    addToCollection(state, item) {
+    addItemToCollection(state, item) {
       state.user.collection.push(item)
     },
     artist(state, artist) {
@@ -64,6 +64,18 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    async addItemToCatalog({ state, commit }, item) {
+      // if (state.user.catalog.find(track => track.id_audius === item.id_audius)) console.warn("Track already exists in collection")
+      // else {
+        const result = await addItemToCatalog(state.client, item, state.user)
+        commit('addItemToCatalog', result.textileItem)
+        commit('user', result.updatedTextileUser)
+      // }
+    },
+    async getAllUsers({ state }) {
+      const users = await getAllUsers(state.client)
+      console.log(users)
+    },
     async getArtistData({ state, commit }, handle) {
       commit('artist', {
         ...NULL_ARTIST,
@@ -73,35 +85,48 @@ export default new Vuex.Store({
           collection: true
         }
       })
+
       const userAudius = await getUserDataAudius(handle)
       commit('artist', userAudius)
+
       try {
         const userTextile = await findTextileUserByAudiusId(state.client, userAudius.id_audius)
-        console.log("artist Textile info");
-        console.log(userTextile);
+        commit('artist', {
+          ...userAudius,
+          _id: userTextile._id,
+          catalog: userTextile.catalog,
+          collection: userTextile.collection,
+          loading: {
+            user_info: false,
+            catalog: false,
+            collection: false
+          }
+        })
       } catch (e) {
-        console.log("Artist not found in Textile DB");
+        alert("Artist not found in Textile DB");
       }
-      commit('artist', {
-        ...userAudius,
-        id_textile: userTextile.id,
-        catalog: userTextile.catalog,
-        collection: userTextile.collection,
-        loading: {
-          user_info: false,
-          catalog: false,
-          collection: false
-        }
-      })
     },
     async getArtistList({ state, commit }) {
-      const artists = await getUsers(state.client)
+      const artists = await getAllUsers(state.client)
       commit('artistList', artists)
     },
     async getTrackSrc({ state, commit }, trackId) {
       const src = await getTrackSrcAudiusId(trackId)
       console.log("traccck src");
       console.log(src);
+    },
+    async getAudiusUploads({ state, commit }, userIdAudius) {
+      const uploads = await getAudiusUploads(userIdAudius)
+      const formattedUploads = uploads.map(item => {
+        return {
+          id_audius: item.id,
+          title: item.title,
+          description: item.description,
+          artwork: item.artwork,
+          duration: item.duration,
+        }
+      })
+      commit('user', { ...state.user, uploads: formattedUploads })
     },
     async initAudius({ commit }) {
       const libs = await init()
@@ -132,11 +157,11 @@ export default new Vuex.Store({
         user = await state.libs.Account.login(credentials.email, credentials.pw)
         
         var userModel = {
-          // id_audius: user.user.user_id,
+          _id: null,
           id_audius: null,
-          id_textile: null,
           catalog: [],
           collection: [],
+          uploads: [],
           email: credentials.email,
           name: user.user.name,
           handle: user.user.handle,
@@ -154,34 +179,37 @@ export default new Vuex.Store({
 
         // fetch "real" audius ID & update user
         const id_audius = (await audiusResolveProfileURL(userModel.handle)).id
-        // const id_audius = (await getUserByAudiusHandle(userModel.handle)).id
         userModel.id_audius = id_audius
         commit('user', userModel)
 
-        var userTextile = await findTextileUserByAudiusId(state.client, userModel.id_audius)
+        console.log("userModel");
+        console.log(userModel);
 
-        if (!userTextile) {
+        var userTextile = {}
+        userTextile._id = await findTextileUserByAudiusId(state.client, userModel.id_audius)
+
+        if (!userTextile._id) {
           console.warn("User does not exist in our DB (yet) - creating an entry");
           
           userTextile = {
             id_audius: userModel.id_audius,
             name: userModel.name,
             handle: userModel.handle,
-            catalog: [],
-            collection: [],
             links: []
           }
           
-          const newUser = await createUser(state.client, userTextile)
-          userTextile = newUser
+          const newUserId = await createUser(state.client, userTextile)
           dispatch('getArtistList')
+
+          userModel = {
+            ...userModel,
+            _id: newUserId,
+            links: []
+          }
         }
 
         userModel = {
           ...userModel,
-          id_textile: userTextile._id,
-          catalog: userTextile.catalog,
-          collection: userTextile.collection,
           links: userTextile.links,
           loading: {
             user_info: false,
@@ -194,16 +222,10 @@ export default new Vuex.Store({
         setAudiusAccountUser(userModel)
       } catch (e) {
         console.error("yikes: ", e)
-        commit('user', {
-          ...state.user,
-          login_status: "BAD_LOGIN"
-        })
+        commit('user', { ...state.user, login_status: "BAD_LOGIN" })
       }
     },
-    async createUser({ state, commit, dispatch }, textileUser) {
-      const user = await createUser(state.client, textileUser)
-    },
-    async updateUser({ state, commit }, { id, user }) {
+    async updateUser({ state }, { id, user }) {
       const updatedUser = await updateUser(state.client, id, user)
       console.log(updatedUser)
     },

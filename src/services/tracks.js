@@ -1,6 +1,7 @@
 
 import { 
     findTextileUserByAudiusId,
+    formatUser,
     updateUser
 } from './users'
 
@@ -20,9 +21,36 @@ import {
     removeDocument,
     fetchCollection
 } from "../utils/textileApi"
-
-
 const ITEMS_COLLECTION = "Items"
+
+export const addItemToCatalog = async (client, item, user) => {
+    console.log('💽 Adding track to catalog...', item.title )
+
+    try {
+        // Create the Textile 'Item' Document
+        const _id = await createItem(client, item)
+        const textileItem = { _id, id_audius: item.id_audius }
+
+        console.log("dafffqqq user")
+        console.log(user)
+
+        // Format the user to be Textile-friendly
+        const formattedUser = formatUser(user)
+        const updatedCatalog = [ ...formattedUser.catalog, textileItem ]
+        // const updatedCatalog = formattedUser.catalog.push(textileItem)
+
+        // Construct the User object with the updated catalog
+        const updatedTextileUser = { ...formattedUser, catalog: updatedCatalog }
+
+        // Update the Textile 'User' Document 
+        await updateUser(client, updatedTextileUser)
+
+        return { textileItem, updatedTextileUser}
+    } catch (err) {
+        console.error('addItemToCatalog error', err)
+    }
+}
+
 /*  
  * Adds a track to a User's Catalog.
  * @param client: Client
@@ -95,7 +123,7 @@ export const addTrackToCatalog = async (client, audiusTrack) => {
         // Emulated DB transaction - (this is not all or nothing)
         try {
             // Create the Textile 'Item' Document
-            const textileId = (await createItem(client, textileItem))[0]
+            const textileId = await createItem(client, textileItem)
 
             // Add the returned `textileId` to the Textile 'Item' document we are creating in the User's catalog.
             textileItem = {
@@ -133,10 +161,10 @@ export const addTrackToCatalog = async (client, audiusTrack) => {
 
 const createItem = async (client, itemDocument) => {
     try {
-        console.log(`💽 Creating user...`)
-        const result = await addDocument(client, ITEMS_COLLECTION, itemDocument)
-        console.log(`💽✅ Created item!`, { result })
-        return result
+        console.log(`💽 Creating item...`)
+        const resultId = await addDocument(client, ITEMS_COLLECTION, itemDocument)
+        console.log(`💽✅ Created item!`, resultId[0])
+        return resultId[0]
     } catch (err) {
         console.error('createItem error', err)
         throw new Error(err)
