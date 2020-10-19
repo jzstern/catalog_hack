@@ -25,9 +25,9 @@ export default {
 
 <template>
   <div id="app">
-    <!-- <transition name="fade" mode="out-in"> -->
-    <Sidebar v-if="showSideBar" />
-    <!-- </transition> -->
+    <transition name="slide" mode="out-in">
+      <Sidebar v-if="showSideBar" />
+    </transition>
     <transition name="fade" mode="out-in">
       <Dropdown />
     </transition>
@@ -65,8 +65,18 @@ export default {
   src: url("./assets/fonts/InconsolataExtraExpanded-Black.ttf");
 }
 
+@font-face {
+  font-family: "Syne";
+  src: url("./assets/fonts/Syne-Bold.ttf");
+}
+
+@font-face {
+  font-family: "SpaceGrotesk";
+  src: url("./assets/fonts/SpaceGrotesk-Regular.ttf");
+}
+
 #app {
-  font-family: Inconsolata, Helvetica, sans-serif;
+  font-family: Tenor Sans, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: white;

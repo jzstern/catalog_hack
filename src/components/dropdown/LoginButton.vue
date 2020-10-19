@@ -32,8 +32,12 @@ export default {
 <style lang="scss">
 .login-button {
   color: #f2ba00;
-  font-size: 14px;
+  font-size: 13px;
   padding: 10px 24px;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 .disable {
@@ -41,5 +45,8 @@ export default {
   opacity: 0.5;
   text-decoration: line-through;
   cursor: default;
+  &:hover {
+    text-decoration: line-through;
+  }
 }
 </style>

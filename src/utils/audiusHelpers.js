@@ -5,7 +5,7 @@ import { audiusResolveProfileURL, audiusGetUserUploads } from './audiusApi'
 export const getUserDataAudius = async (handle) => {
   const user = await audiusResolveProfileURL(`https://audius.co/${handle}`)
   const uploads = await audiusGetUserUploads(user.id)
-  const catalog = getCatalog(uploads)
+  const catalog = getCatalog(uploads, user.name)
   const collection = []
 
   return {
@@ -25,12 +25,13 @@ export const getUserDataAudius = async (handle) => {
 }
 
 // Returns an array of formatted tracks with Audius info
-const getCatalog = (uploads) => {
+const getCatalog = (uploads, artist) => {
   return uploads.map(track => {
     return {
       id: track.id,
       release_date: track.release_date,
       title: track.title,
+      artist,
       description: track.description,
       artwork: track.artwork,
       price: null

@@ -40,17 +40,17 @@ export default {
 <template>
   <div class="upload">
     <div class="form-item">
-      <label>Title</label>
-      <input v-model="title" placeholder="song name" type="text" required />
+      <label>Song name</label>
+      <input v-model="title" placeholder="required" type="text" required />
     </div>
     <div class="form-item">
       <label>Description</label>
-      <input v-model="description" placeholder="song description" type="text" />
+      <input v-model="description" placeholder="optional" type="text" />
     </div>
 
     <div class="form-item">
-      <label>Price (USD)</label>
-      <input v-model="price" placeholder="$0+" type="number" />
+      <label>Price ($0+ USD)</label>
+      <input v-model="price" placeholder="required" type="number" />
     </div>
 
     <!-- <div class="form-item">

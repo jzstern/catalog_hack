@@ -27,10 +27,12 @@ export default {
 
 <style lang="scss">
 .dropdown {
+  font-family: "Supply", sans-serif;
+  font-size: 14px;
   position: fixed;
   top: 24px;
   right: 24px;
-  z-index: 200;
+  z-index: 300;
   cursor: url("../../assets/other/cursor.png"), pointer;
 }
 

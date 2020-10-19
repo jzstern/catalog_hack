@@ -2,23 +2,34 @@
   <div class="purchase">
     <div class="purchase-item">
       <img class="purchase-artwork" :src="item.artwork['480x480']" />
-      <div>
-        <p class="song-title">{{ item.title }}</p>
-        <p class="artist">{{ item.artist }}</p>
+      <div class="purchase-song-info">
+        <p class="purchase-song-title">{{ item.title }}</p>
+        <p class="purchase-artist">{{ item.artist }}</p>
       </div>
     </div>
-    <p>${{ item.price }}+</p>
-    <input v-model="payment" type="number" />
-    <p>Include message</p>
-    <input v-model="message" type="Text" />
+    <div class="divider"></div>
+    <div class="form-item">
+      <label
+        >Name your price ({{ item.price ? `$${item.price}` : "$0.00+" }})</label
+      >
+      <br />
+      <input class="price-input" v-model="payment" type="number" />
+    </div>
+    <div class="form-item">
+      <label>Include message</label>
+      <br />
+      <input v-model="message" type="Text" />
+    </div>
     <button class="buttonPrimary" @click="purchaseItem">Purchase</button>
+    <button class="buttonSecondary" @click="back">Go back</button>
 
     <p class="disclaimer">
-      Upon purchase, you’ll get 1,450 Omari Jazz tokens, which entitle you to a
-      portion of 10% of future revenue from Omari Jazz. You’ll also receive a
-      download in mp3 and wav, and unlimited streaming via Catalog.
+      Upon purchase, you’ll receive <b>1,450</b> {{ item.artist }} tokens, which
+      entitle you to a portion of <b>10%</b> of future revenue from
+      {{ item.artist }} on Catalog, as well as other token holder rewards.
+      You’ll also get unlimited streaming via Catalog, and a download in mp3 and
+      wav.
     </p>
-    <button class="buttonSecondary" @click="back">Go back</button>
   </div>
 </template>
 
@@ -70,5 +81,23 @@ export default {
 
 .purchase-item {
   display: flex;
+}
+
+.purchase-song-title {
+  font-size: 24px;
+  margin: 0;
+}
+
+.purchase-artist {
+  /* font-family: "supply", sans-serif; */
+  margin-top: 8px;
+}
+
+.purchase-song-info {
+  margin: 0 16px;
+}
+
+.price-input {
+  width: 30%;
 }
 </style>

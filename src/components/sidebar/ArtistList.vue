@@ -35,13 +35,14 @@ export default {
 }
 
 .artist {
-  font-family: "Inconsolata", sans-serif;
+  font-family: "Supply", sans-serif;
+  font-weight: 500;
   list-style-type: none;
-  color: white;
+  color: rgba(255, 255, 255, 0.6);
   height: 60px;
   line-height: 60px;
   font-size: 14px;
-  opacity: 0.8;
+
   cursor: url("../../assets/other/cursor.png"), pointer;
 
   &:hover {

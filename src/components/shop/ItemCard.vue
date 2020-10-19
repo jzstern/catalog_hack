@@ -16,6 +16,9 @@ export default {
     pathContainsCollection() {
       return this.$route.path.includes("collection");
     },
+    itemSrc() {
+      return `https://creatornode2.audius.co/tracks/stream/${this.item.id}`;
+    },
   },
   methods: {
     selectItem() {
@@ -24,39 +27,67 @@ export default {
         component: "Item",
         item: this.item,
       });
+      this.$store.dispatch("getTrackSrc", this.item.id);
+    },
+    playItem() {
+      if (this.$refs.song.paused) {
+        this.$refs.song.play();
+      } else this.$refs.song.pause();
     },
   },
 };
 </script>
 
 <template>
-  <div class="item-card" @click="selectItem">
-    <img class="card-artwork" :src="item.artwork['480x480']" />
-    <p class="title">{{ item.title }}</p>
-    <router-link
-      :to="`/${item.artistHandle}`"
-      v-if="!ownedByUser"
-      class="artist"
-      >{{ item.artist }}</router-link
-    >
-    <!-- <p v-if="!ownedByUser" class="artist">{{ item.artist }}</p> -->
-    <!-- <p>{{ item.description }}</p> -->
-    <p class="price" v-if="!pathContainsCollection || !ownedByUser">
-      {{ item.price ? `$${item.price}` : "Name your price" }}
-    </p>
-    <p v-else>u own this 💪🏼</p>
+  <div class="item-card">
+    <img
+      class="card-artwork"
+      :src="item.artwork['480x480']"
+      @click="selectItem"
+    />
+    <div class="card-info">
+      <div>
+        <p class="card-title" @click="playItem()">{{ item.title }}</p>
+        <audio ref="song" :src="itemSrc"></audio>
+        <router-link :to="`/${item.artistHandle}`" class="card-artist">
+          {{ item.artist }}</router-link
+        >
+        <p>{{ item.desription }}</p>
+      </div>
+
+      <!-- <p v-if="!ownedByUser" class="artist">{{ item.artist }}</p> -->
+      <!-- <p>{{ item.description }}</p> -->
+      <p class="card-price" v-if="!pathContainsCollection || !ownedByUser">
+        {{ item.price ? `$${item.price}` : "$0.00+" }}
+      </p>
+      <p v-else>you own this work</p>
+    </div>
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped lang="scss" >
+.card-title {
+  // font-family: Inconsolata-ExtraBold, sans-serif;
+  font-family: SpaceGrotesk, sans-serif;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+  line-height: 100%;
+  cursor: url("../../assets/other/cursor.png"), pointer;
+}
+
+.card-info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-price {
+  font-family: "Supply", sans-serif;
+  opacity: 0.5;
+}
 .item-card {
   position: relative;
   z-index: 100;
-  &:hover {
-    cursor: url("../../assets/other/cursor.png"), pointer;
-    transform: scale(0.995);
-    opacity: 0.8;
-  }
+  font-size: 16px;
 }
 
 .item-card::before {
@@ -65,15 +96,29 @@ export default {
   // padding-top: 100%;
 }
 
-.artist {
+.card-artist {
   // color: red;
+  // margin-top: 8px;
+  opacity: 0.6;
+  font-family: SpaceGrotesk, sans-serif;
+
   &:hover {
-    color: pink;
+    color: #f2ba00;
   }
 }
 
 .card-artwork {
   width: 100%;
   border-radius: 1px;
+  &:hover {
+    box-sizing: border-box;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: url("../../assets/other/cursor.png"), pointer;
+    // transform: scale(0.999);
+
+    &:active {
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+  }
 }
 </style>

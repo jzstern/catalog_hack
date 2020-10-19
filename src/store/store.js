@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 
 import { LOGGED_OUT_USER, NULL_ARTIST } from './constants'
 import { init, getAudiusAccountUser, setAudiusAccountUser, clearAudiusAccountUser, clearAudiusAccount } from './audius'
+import { audiusResolveProfileURL, getTrackSrcAudiusId } from '../utils/audiusApi'
 // import { getUserByAudiusHandle, audiusResolveProfileURL, audiusGetUserByAudiusId, audiusGetUserUploads } from '../utils/audiusApi'
 import { getUserDataAudius } from '../utils/audiusHelpers'
 
@@ -65,6 +66,11 @@ export default new Vuex.Store({
       const userAudius = await getUserDataAudius(handle)
       commit('artist', userAudius )
       // TODO - fetch user data from Textile
+    },
+    async getTrackSrc({ state, commit }, trackId) {
+      const src = await getTrackSrcAudiusId(trackId)
+      console.log("traccck src");
+      console.log(src);
     },
     async initAudius({ commit }) {
       const libs = await init()

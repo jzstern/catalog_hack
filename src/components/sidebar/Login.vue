@@ -110,15 +110,6 @@ export default {
   transform: translate(-50%, -50%);
 }
 
-.disclaimer {
-  font-size: 16px;
-  padding: 32px;
-  line-height: 24px;
-  margin-top: 32px;
-  text-align: center;
-  opacity: 0.7;
-}
-
 .login {
   padding: 16px 32px;
 }

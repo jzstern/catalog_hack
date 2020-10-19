@@ -29,7 +29,7 @@ button:focus {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #a9a9a9;
+  background-color: #a9a9a900;
   // opacity: 0.3;
   // -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
 }
@@ -56,8 +56,8 @@ textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
-  border: 1px solid #42b983;
-  -webkit-text-fill-color: #42b983;
+  border: 1px solid #5e8191;
+  -webkit-text-fill-color: #5e8191;
   -webkit-box-shadow: 0 0 0px 1000px #000 inset;
   transition: background-color 5000s ease-in-out 0s;
 }
@@ -115,6 +115,28 @@ input[type="number"] {
   transform: translateX(1em);
 }
 
+.slide-leave-active {
+  transition-duration: 0.25s;
+  transition-property: transform;
+  transition-timing-function: ease;
+  // transition: opacity 0.1s ease-in;
+  // transition: transform 0.1s ease-in;
+}
+.slide-enter-active {
+  transition-duration: 0.25s;
+  transition-property: transform;
+  transition-timing-function: ease;
+
+  // transition: opacity 0.4s ease-in;
+  // transition: transform 0.4s ease-in;
+  // overflow: hidden;
+}
+
+.slide-enter,
+.slide-leave-to {
+  transform: translateX(100%);
+}
+
 .buttonPrimary {
   font-family: Inconsolata-ExtraBold;
   height: 45px;
@@ -161,8 +183,18 @@ input[type="number"] {
 }
 
 .divider {
-  margin: 32px 0;
+  margin: 16px 0;
   border-top: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.disclaimer {
+  font-family: SpaceGrotesk;
+  font-size: 14px;
+  padding: 8px;
+  line-height: 24px;
+  margin-top: 32px;
+  text-align: center;
+  opacity: 0.7;
 }
 
 input {
@@ -180,4 +212,65 @@ input {
   -moz-box-shadow: none;
   box-shadow: none;
   color: white;
+}
+
+.receive-item-0 {
+  color: #f2ba00;
+}
+.receive-item-1 {
+  color: #9269b3;
+}
+.receive-item-2 {
+  color: #42b983;
+}
+.receive-item-3 {
+  color: #9b5a3e;
+}
+.receive-item-4 {
+  color: #77abc9;
+}
+
+@keyframes loadAnimation {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-o-keyframes loadAnimation {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-moz-keyframes loadAnimation {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes loadAnimation {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

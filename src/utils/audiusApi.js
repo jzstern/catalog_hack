@@ -106,3 +106,25 @@ export const audiusGetTrackByAudiusId = async (trackIdAudius) => {
     throw new Error(err)
   }
 }
+
+export const getTrackSrcAudiusId = async (trackIdAudius) => {
+  const path = `https://discoveryprovider2.audius.co/v1/tracks/${trackIdAudius}/stream`
+
+  try {
+    // console.log(`🎵 Getting Track with audiusId ${trackIdAudius}... `)
+
+    const response = await fetch(path, {
+      method: 'GET',
+      // mode: 'no-cors'
+      mode: 'cors'
+    })
+
+    const { data } = await response.json()
+
+    // console.log('🎵✅  Resolved Audius Track', { data })
+    return data
+
+  } catch (err) {
+    throw new Error(err)
+  }
+}

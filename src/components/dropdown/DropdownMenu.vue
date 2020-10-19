@@ -1,16 +1,22 @@
 <template>
   <div class="dropdown-menu">
-    <div class="menu-item">
-      <router-link :to="`/${this.user.handle}`">
-        {{ user.name }}
-        <img class="dropdown-icon" src="@/assets/other/dropDown.svg" />
-      </router-link>
+    <div @click="toggleDropdown()" class="menu-item">
+      {{ user.name }}
+      <img class="dropdown-icon" src="@/assets/other/dropDown.svg" />
     </div>
-    <!-- <div class="menu-item">
-      <router-link :to="'/'"> Home </router-link>
-    </div> -->
-    <div class="menu-item" @click="openSidebar('Account')">Account</div>
-    <div class="menu-item" @click="openSidebar('Upload')">Upload</div>
+
+    <div class="expanded" v-show="expanded">
+      <div class="menu-item">
+        <router-link :to="`/${this.user.handle}`">Catalog </router-link>
+      </div>
+      <!-- <div class="menu-item">
+        <router-link :to="`/${this.user.handle}/collection`">
+          Collection
+        </router-link>
+      </div> -->
+      <div class="menu-item" @click="openSidebar('Upload')">Upload</div>
+      <div class="menu-item" @click="openSidebar('Account')">Account</div>
+    </div>
   </div>
 </template>
 
@@ -27,9 +33,15 @@ export default {
       return this.$store.state.user;
     },
   },
+  data: () => ({
+    expanded: false,
+  }),
   methods: {
     openSidebar(component) {
       this.$store.commit("sidebarComponent", component);
+    },
+    toggleDropdown() {
+      this.expanded = !this.expanded;
     },
   },
 };
@@ -42,8 +54,7 @@ export default {
 
 .dropdown-menu {
   background-color: rgb(16, 16, 16);
-
-  opacity: 0.3;
+  opacity: 0.5;
   border-radius: 4px;
 
   &:hover {
@@ -56,6 +67,10 @@ export default {
   padding: 8px 16px;
   box-sizing: border-box;
   &:hover {
+    box-sizing: border-box;
+
+    // border: 1px solid rgba(255, 255, 255, 0.1);
+    // border-radius: 4px;
     background-color: rgba(87, 87, 87, 0.1);
   }
 }

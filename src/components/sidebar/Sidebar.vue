@@ -32,7 +32,7 @@ export default {
 </script>
 
 <template>
-  <div :class="['sidebar', { sidebarTransparent: onHome }]">
+  <div :class="['sidebar', { sidebarHome: onHome }]">
     <div class="header no-select">
       <h1 class="title">
         {{ sidebar.component }}
@@ -96,7 +96,7 @@ export default {
   box-sizing: border-box;
   border-bottom: 1px solid #666666;
   z-index: 200;
-  padding: 0 24px;
+  padding: 0 32px;
   backdrop-filter: blur(12px);
 }
 
@@ -118,20 +118,33 @@ export default {
 }
 
 .sidebar {
-  position: absolute;
+  position: fixed;
   width: 30%;
-  // min-width: 30%;
-  // max-width: 30%;
-  height: 100%;
+  // min-width: 500px;
   // flex: initial;
+  box-sizing: border-box;
   overflow: scroll;
   overflow-x: hidden;
-  border-left: 1px solid #666666;
-  z-index: 300;
+  z-index: 400;
   background-color: black;
+  // height: 100%;
+  // border-left: 1px solid #666666;
+  height: 96%;
+  border: 1px solid #666666;
+  align-self: center;
+  margin-right: 2%;
+  -webkit-box-shadow: 0 10px 6px -6px rgb(63, 63, 63);
+  -moz-box-shadow: 0 10px 6px -6px rgb(63, 63, 63);
+  box-shadow: 0 10px 6px -6px rgb(63, 63, 63);
 }
 
-.sidebarTransparent {
+.sidebarHome {
+  height: 100%;
   background-color: transparent;
+  border-left: 1px solid #666666;
+  border-top: transparent;
+  border-right: transparent;
+  border-bottom: transparent;
+  margin-right: 0;
 }
 </style>

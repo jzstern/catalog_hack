@@ -16,22 +16,20 @@ export default {
   <div class="home">
     <div class="home-content">
       <div class="home-title">
-        <img src="../assets/other/catalog.svg" />
+        <img src="../assets/other/catalog2.svg" />
         <p class="home-heading">CATALOG</p>
       </div>
-      <p class="home-text">
-        Catalog empowers artists to sell their music directly to fans, who share
-        in the upside through revenue share and exclusive rewards.
-      </p>
-      <p class="home-text">
-        Artists receive 90% of direct sales <br />Supporters receive 10% of
-        direct sales
-      </p>
+      <div class="home-text">
+        <p>Sell your music on your terms.</p>
+        <p>Present your work beautifully.</p>
+        <p>Share revenue & rewards with <br />your biggest supporters.</p>
+      </div>
     </div>
     <div class="home-footer">
       <p>Want to talk?</p>
-      <a>Message us</a>
+      <a href="https://discord.gg/YBzUcah" target="_blank">Message us</a>
     </div>
+    <div class="home-background"></div>
   </div>
 </template>
 
@@ -47,16 +45,21 @@ a {
   height: 100%;
   width: 100%;
   overflow: hidden;
-  background-image: url("../assets/other/bgHome.png");
-  background-repeat: no-repeat;
-  background-size: cover;
+  text-align: center;
+  // background-image: url("../assets/other/bgHome.png");
+  // background-repeat: no-repeat;
+  // background-size: cover;
 }
 
 .home-content {
   height: 100%;
   width: 70%;
-  padding: 48px;
+  padding: 48px 48px 96px 48px;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .login {
@@ -82,10 +85,10 @@ a {
 .home-title {
   display: flex;
   align-items: center;
+  justify-content: center;
   font-family: "Tenor Sans", sans-serif;
-  font-size: 36px;
+  font-size: 42px;
   margin-bottom: 0px;
-  vertical-align: middle;
   letter-spacing: 0.05em;
 }
 
@@ -123,13 +126,31 @@ a {
 
 .home-heading {
   padding-left: 16px;
+  margin: 16px 0;
 }
 
 .home-text {
-  font-family: Inconsolata;
-  font-size: 18px;
+  font-family: Syne, sans-serif;
+
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 15px;
   max-width: 90%;
-  line-height: 150%;
-  opacity: 0.8;
+  line-height: 160%;
+  text-align: center;
+  letter-spacing: 0.1em;
+  opacity: 0.7;
+}
+.home-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-image: url("../assets/other/bgHome.png");
+  background-repeat: no-repeat;
+  opacity: 0.3;
+  z-index: -100;
 }
 </style>

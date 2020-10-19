@@ -43,7 +43,9 @@ export default {
 <template>
   <div class="user">
     <div class="profile-info">
-      <h3 class="profile-title">{{ artist.loading.user_info ? "loading..." : artist.name }}</h3>
+      <h3 class="profile-title">
+        {{ artist.loading.user_info ? "loading..." : artist.name }}
+      </h3>
     </div>
     <div class="nav">
       <router-link :to="`/${artist.handle}`" class="nav-item"
@@ -77,9 +79,9 @@ export default {
 .home-nav {
   position: fixed;
   bottom: 24px;
-  right: 24px;
+  left: 24px;
   width: 24px;
-  opacity: 0.3;
+  opacity: 0.5;
   cursor: url("../../assets/other/cursor.png"), pointer;
 
   &:hover {
@@ -118,7 +120,10 @@ export default {
 
 .profile-title {
   font-family: "Tenor Sans", sans-serif;
-  font-size: 18px;
+
+  font-size: 16px;
+  opacity: 0.7;
+  letter-spacing: 0.05em;
   margin: 0;
 }
 
