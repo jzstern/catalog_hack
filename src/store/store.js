@@ -79,11 +79,7 @@ export default new Vuex.Store({
     async getArtistData({ state, commit }, handle) {
       commit('artist', {
         ...NULL_ARTIST,
-        loading: {
-          user_info: true,
-          catalog: true,
-          collection: true
-        }
+        loading: { user_info: true, catalog: true, collection: true }
       })
 
       const userAudius = await getUserDataAudius(handle)
@@ -96,10 +92,7 @@ export default new Vuex.Store({
           _id: userTextile._id,
           catalog: userTextile.catalog,
           collection: userTextile.collection,
-          loading: {
-            user_info: false,
-            catalog: false,
-            collection: false
+          loading: { user_info: false, catalog: false, collection: false
           }
         })
       } catch (e) {
@@ -109,6 +102,13 @@ export default new Vuex.Store({
     async getArtistList({ state, commit }) {
       const artists = await getAllUsers(state.client)
       commit('artistList', artists)
+    },
+    // User must have textile catalog/collection info
+    async getUsersFullTracks({ state }, user) {
+      const catalog = await getAudiusTracksInCatalog(state.client, user.catalog)
+      const collection = await getAudiusTracksInCollection(state.client, user.collection)
+      const updatedUser = { ...user, catalog, collection }
+      return updatedUser
     },
     async getTrackSrc({ state, commit }, trackId) {
       const src = await getTrackSrcAudiusId(trackId)
@@ -138,19 +138,23 @@ export default new Vuex.Store({
         commit('user', userLocalStorage)
         
         // Also fetch user from textile & update w/ any new data
-        if (!state.client) {
-          setTimeout(async () => { 
-            dispatch('refreshUser', userLocalStorage.id_audius)
-          }, 2000)
-        } else {
-          dispatch('refreshUser', userLocalStorage.id_audius)
-        }
+        // if (!state.client) {
+        //   console.log("no cliet yet... waiting");
+        //   setTimeout(async () => { 
+        //     console.log("seems like that's plenty o time");
+        //     dispatch('refreshUser', userLocalStorage.id_audius)
+        //   }, 4500)
+        // } else {
+        //   dispatch('refreshUser', userLocalStorage.id_audius)
+        // }
       }
     },
-    async initTextile({ commit, dispatch }) {
+    async initTextile({ state, commit, dispatch }) {
       const [client] = await loginAndSetupDB({ newIdentity: false })
       commit('client', client)
       dispatch('getArtistList')
+
+      if (state.user.id_audius) dispatch('refreshUser', state.user.id_audius)
     },
     async logout({ state, commit }) {
       await state.libs.Account.logout()
@@ -191,7 +195,7 @@ export default new Vuex.Store({
         commit('user', userModel)
 
         var userTextile = await findTextileUserByAudiusId(state.client, userModel.id_audius)
-
+        
         if (!userTextile) {
           console.warn("User does not exist in our DB (yet) - creating an entry");
           
@@ -231,7 +235,8 @@ export default new Vuex.Store({
         commit('user', { ...state.user, login_status: "BAD_LOGIN" })
       }
     },
-    async refreshUser({ state, commit }, userIdAudius) {
+    async refreshUser({ state, commit, dispatch }, userIdAudius) {
+      // Get user metadata
       var user = await findTextileUserByAudiusId(state.client, userIdAudius)
       user = {
         ...state.user,
@@ -239,6 +244,15 @@ export default new Vuex.Store({
         collection: user.collection,
         links: user.links
       }
+
+      console.log("loading states?")
+      console.log(state.user.loading);
+
+      commit('user', user)
+
+      // Get full Audius track info for Catalog & collection
+      user = await dispatch('getUsersFullTracks', user)
+
       commit('user', user)
       setAudiusAccountUser(user)
     },
