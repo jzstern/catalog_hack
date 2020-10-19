@@ -18,7 +18,7 @@ export default {
   <div class="collection">
     <ItemCard
       v-for="item in collection"
-      :key="item.title + item.artist"
+      :key="item._id"
       :item="item"
     />
   </div>

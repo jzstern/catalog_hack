@@ -1,10 +1,6 @@
-import UserModel from "../models/User"
-// import mockUser from '../mocks/user'
-
-// Utils
 import {
     addDocument,
-    findDocument,
+    // findDocument,
     removeDocument,
     makeQuery,
     fetchCollection,
@@ -12,18 +8,15 @@ import {
 } from "../utils/textileApi"
 
 import {
-    audiusGetUserByAudiusId,
+    // audiusGetUserByAudiusId,
     // audiusResolveProfileURL,
     // getUserByAudiusHandle,
-    getAudiusUploads
+    // getAudiusUploads
 } from "../utils/audiusApi"
 
 
 // Constants
-import {
-    queryUserByAudiusId
-} from "../textile_constants/queries"
-
+import { queryUserByAudiusId } from "../textile_constants/queries"
 const USERS_COLLECTION = "Users"
 
 export const formatUser = (user) => {
@@ -37,14 +30,12 @@ export const formatUser = (user) => {
             }
         })
     } else catalog = []
-
-    console.log("user from FORMAT USER")
-    console.log(user)
         
     const formattedUser = {
         _id: user._id,
         id_audius: user.id_audius,
         handle: user.handle,
+        name: user.name,
         catalog,
         collection: user.collection,
         links: []
@@ -59,9 +50,6 @@ export const createUser = async (client, userObj) => {
 
     // resolve the Audius URL against Audius to get their data
     // const audiusProfile = await audiusResolveProfileURL(userObj.handle)
-
-    // Get just the data we're pushing to Textile from the model
-    // const textileData = userModel.getTextileData()
 
     // Push the User Textile document to Users Collection
     // const result = await addDocument(client, USERS_COLLECTION, textileData)
@@ -81,43 +69,43 @@ export const getAllUsers = async (client) => {
 }
 
 // userID is textileID
-export const getUserById = async (client, userId) => {
-    try {
-        const t0 = performance.now()
-        console.log(`💽 Fetching user with Textile ID ${userId}`)
+// export const getUserById = async (client, userId) => {
+//     try {
+//         const t0 = performance.now()
+//         console.log(`💽 Fetching user with Textile ID ${userId}`)
 
-        // Get textile data for the user
-        const userTextile = await findDocument(client, USERS_COLLECTION, userId)
+//         // Get textile data for the user
+//         const userTextile = await findDocument(client, USERS_COLLECTION, userId)
 
-        // Using the audiusID, get the user from Audius
-        const userAudius = await audiusGetUserByAudiusId(userTextile.id_audius)
-        const { name, cover_photo, profile_picture } = userAudius
+//         // Using the audiusID, get the user from Audius
+//         const userAudius = await audiusGetUserByAudiusId(userTextile.id_audius)
+//         const { name, cover_photo, profile_picture } = userAudius
 
-        // Get tracks user has uploaded on Audius
-        let audiusUploads = await getAudiusUploads(userTextile.id_audius)
-        // audiusUploads = audiusUploads.map(({ id, title }) => ({ id, title }))
+//         // Get tracks user has uploaded on Audius
+//         let audiusUploads = await getAudiusUploads(userTextile.id_audius)
+//         // audiusUploads = audiusUploads.map(({ id, title }) => ({ id, title }))
 
-        // Find out which Audius uploads of the user are in their Catalog
-        // We may need to do this if we want to expand out their Catalog in this function 
-        // const catalog = []
+//         // Find out which Audius uploads of the user are in their Catalog
+//         // We may need to do this if we want to expand out their Catalog in this function 
+//         // const catalog = []
 
-        // Stitch textile and Audius Data
-        const user = new UserModel({
-            ...userTextile,
-            name,
-            background: cover_photo['2000x'],
-            profilePicture: profile_picture['1000x1000'],
-            audiusUploads
-        }).getData()
+//         // Stitch textile and Audius Data
+//         const user = new UserModel({
+//             ...userTextile,
+//             name,
+//             background: cover_photo['2000x'],
+//             profilePicture: profile_picture['1000x1000'],
+//             audiusUploads
+//         }).getData()
 
-        const t1 = performance.now()
-        console.log(`💽✅ Fetched user ${userId}! Took ${t1 - t0}ms`, { user })
-        return user
+//         const t1 = performance.now()
+//         console.log(`💽✅ Fetched user ${userId}! Took ${t1 - t0}ms`, { user })
+//         return user
 
-    } catch (err) {
-        throw new Error(err)
-    }
-}
+//     } catch (err) {
+//         throw new Error(err)
+//     }
+// }
 
 // Instance not found ? 
 // userId is textile ID
@@ -133,7 +121,6 @@ export const deleteUser = async (client, userId) => {
         throw new Error(err)
     }
 }
-
 
 export const updateUser = async (client, user) => {
     try {

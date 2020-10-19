@@ -128,13 +128,24 @@ export default new Vuex.Store({
       })
       commit('user', { ...state.user, uploads: formattedUploads })
     },
-    async initAudius({ commit }) {
+    async initAudius({ state, commit, dispatch }) {
       const libs = await init()
       commit('libs', libs)
 
-      // Check if user exists in local storage
-      const user = await getAudiusAccountUser()
-      if (user) commit('user', user)
+      const userLocalStorage = await getAudiusAccountUser()
+
+      if (userLocalStorage) {
+        commit('user', userLocalStorage)
+        
+        // Also fetch user from textile & update w/ any new data
+        if (!state.client) {
+          setTimeout(async () => { 
+            dispatch('refreshUser', userLocalStorage.id_audius)
+          }, 1500)
+        } else {
+          dispatch('refreshUser', userLocalStorage.id_audius)
+        }
+      }
     },
     async initTextile({ commit, dispatch }) {
       const [client] = await loginAndSetupDB({ newIdentity: false })
@@ -148,10 +159,7 @@ export default new Vuex.Store({
       clearAudiusAccountUser()
     },
     async login({ state, commit, dispatch }, credentials) {
-      commit('user', {
-        ...state.user,
-        login_status: "LOGGING_IN"
-      })
+      commit('user', { ...state.user, login_status: "LOGGING_IN" })
       var user
       try {
         user = await state.libs.Account.login(credentials.email, credentials.pw)
@@ -177,18 +185,14 @@ export default new Vuex.Store({
         commit('user', userModel)
         commit('sidebarComponent', "Account")
 
-        // fetch "real" audius ID & update user
+        // fetch audius ID & update user
         const id_audius = (await audiusResolveProfileURL(userModel.handle)).id
         userModel.id_audius = id_audius
         commit('user', userModel)
 
-        console.log("userModel");
-        console.log(userModel);
+        var userTextile = await findTextileUserByAudiusId(state.client, userModel.id_audius)
 
-        var userTextile = {}
-        userTextile._id = await findTextileUserByAudiusId(state.client, userModel.id_audius)
-
-        if (!userTextile._id) {
+        if (!userTextile) {
           console.warn("User does not exist in our DB (yet) - creating an entry");
           
           userTextile = {
@@ -218,12 +222,25 @@ export default new Vuex.Store({
           }
         }
 
+        // double check user has their catlaog // collection here
+
         commit('user', userModel)
         setAudiusAccountUser(userModel)
       } catch (e) {
         console.error("yikes: ", e)
         commit('user', { ...state.user, login_status: "BAD_LOGIN" })
       }
+    },
+    async refreshUser({ state, commit }, userIdAudius) {
+      var user = await findTextileUserByAudiusId(state.client, userIdAudius)
+      user = {
+        ...state.user,
+        catalog: user.catalog,
+        collection: user.collection,
+        links: user.links
+      }
+      commit('user', user)
+      setAudiusAccountUser(user)
     },
     async updateUser({ state }, { id, user }) {
       const updatedUser = await updateUser(state.client, id, user)

@@ -2,12 +2,22 @@
 /* eslint-disable */
 export default {
   name: "Home",
+  // watch: {
+  //   client(newValue, oldValue) {
+  //     if (!oldValue) this.$store.dispatch('getArtistList')
+  //   }
+  // },
+  // computed: {
+  //   client() {
+  //     return this.$store.state.client
+  //   }
+  // },
   components: {
     Dropdown: () => import("../components/dropdown/Dropdown"),
   },
   methods: {
     deleteUsers() {
-      this.$store.dispatch('deleteUser', "01emyz5yth1xq31dk5j1phax3p")
+      this.$store.dispatch('deleteUser', "01emz25ecb29ds8qaenserncy6")
     },
     getAllUsers() {
       this.$store.dispatch('getAllUsers')
@@ -16,10 +26,7 @@ export default {
       this.$store.dispatch('getAllTracks')
     },
     deleteTracks() {
-      this.$store.dispatch('deleteItem', "01emyx10xxanxppggwnvwpdx31")
-      this.$store.dispatch('deleteItem', "01emyx4d71ejgye58xet4hr580")
-      this.$store.dispatch('deleteItem', "01emyxcc9hg2g83fcyt2fqww19")
-      this.$store.dispatch('deleteItem', "01emyxg1nwc2msq8dtnd0r7tb4")
+      this.$store.dispatch('deleteItem', "01emz26ce009v4v4a85183cgaa")
     },
     updateUser() {
       this.$store.dispatch('updateUser', "01empev9nwfpxzcss6y1m4ktaj", {
@@ -32,7 +39,10 @@ export default {
       })
     }
   },
-  async mounted() {
+  // beforeMount() {
+  //   if (this.client) this.$store.dispatch('getArtistList')
+  // },
+  mounted() {
     this.$store.commit("sidebarComponent", "Browse Artists")
   },
 };

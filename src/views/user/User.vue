@@ -28,10 +28,10 @@ export default {
   methods: {
     refreshUserInfo() {
       var handle = this.$route.path.substring(1);
-      if (handle.includes("/")) handle = handle.substring(0, handle.indexOf("/"));
+      if (handle.includes("/")) handle = handle.substring(0, handle.indexOf("/")); // Remove /collection from route to get the handle
       if (this.user.handle === handle) this.$store.commit('artist', this.user)
       else if (this.artist.handle !== handle) this.$store.dispatch("getArtistData", handle);
-      // TODO - make sure textile is ready before fetching artist data!!!!
+      // TODO - make sure textile is ready before fetching artist data
     },
   },
   mounted() {

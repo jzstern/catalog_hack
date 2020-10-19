@@ -10,7 +10,7 @@ export default {
   computed: {
     ownedByUser() {
       return this.$store.state.user.collection.find(
-        (item) => item.id === this.item.id
+        (item) => item.id_audius === this.item.id_audius
       );
     },
     pathContainsCollection() {
@@ -25,7 +25,7 @@ export default {
         item: this.item,
       });
 
-      this.$store.dispatch('getTrackSrc', this.item.id)
+      this.$store.dispatch('getTrackSrc', this.item.id_audius)
     },
   },
 };
