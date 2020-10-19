@@ -19,11 +19,11 @@ export default {
 <template>
   <div class="catalog">
     <h1 v-if="loading">loading...</h1>
-      <ItemCard
-        v-for="item in catalog"
-        :key="item._id"
-        :item="item"
-      />
+    <ItemCard
+      v-for="item in catalog"
+      :key="item._id"
+      :item="item"
+    />
   </div>
 </template>
 

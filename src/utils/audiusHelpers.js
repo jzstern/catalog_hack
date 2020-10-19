@@ -1,18 +1,57 @@
-// import { getUserByAudiusHandle, audiusResolveProfileURL, audiusGetUserByAudiusId, getAudiusUploads } from './audiusApi'
-import { audiusResolveProfileURL, getAudiusUploads } from './audiusApi'
+import { audiusGetTrackByAudiusId, audiusResolveProfileURL, getAudiusUploads, getUserByAudiusHandle } from './audiusApi'
+
+export const getAudiusTracksInCatalog = async (userIdAudius, catalogTextile) => {
+  // fetch all Audius uploads from a user
+  const uploads = await getAudiusUploads(userIdAudius)
+  const formattedUploads = await formatUploads(uploads)
+  
+  // filter out tracks not in a user's Textile catalog
+  var catalog = []
+  
+  // TODO - make the looping more efficient
+  formattedUploads.forEach(track => {
+    const item = catalogTextile.find(item => item.id_audius === track.id_audius)
+    if (item) catalog.push({
+      ...track,
+      _id: item._id,
+      price: item.price
+    })
+  })
+
+  return catalog
+}
+
+// export const getAudiusTracksInCollection = async (userIdAudius, collectionTextile) => {
+export const getAudiusTracksInCollection = async (collectionTextile) => {
+  // fetch all tracks in a user's collection
+  const collection = collectionTextile.map(async (track) => {
+    const item = await audiusGetTrackByAudiusId(track.id_audius)
+    return {
+      _id: track._id,
+      price: track.price,
+      id_audius: item.id,
+      title: item.title,
+      description: item.description,
+      artwork: item.artwork
+    }
+  })
+
+  return collection
+}
 
 // Returns a formatted Audius user
 export const getUserDataAudius = async (handle) => {
   const user = await audiusResolveProfileURL(handle)
+  const wallet_addr = (await getUserByAudiusHandle(handle))[0].wallet
   const uploads = await getAudiusUploads(user.id) // * should only use this for choosing songs to upload
-  const catalog = getCatalog(uploads) // * this should come from textile
+  const catalog = formatUploads(uploads) // * this should come from textile
   const collection = []
 
   return {
     id_audius: user.id,
     name: user.name,
     handle,
-    wallet_addr: user.wallet_addr,
+    wallet_addr,
     cover_photo: user.cover_photo,
     catalog,
     collection,
@@ -25,11 +64,10 @@ export const getUserDataAudius = async (handle) => {
 }
 
 // Returns an array of formatted tracks with Audius info
-const getCatalog = (uploads) => {
+const formatUploads = (uploads) => {
   return uploads.map(track => {
     return {
-      id: track.id,
-      release_date: track.release_date,
+      id_audius: track.id,
       title: track.title,
       description: track.description,
       artwork: track.artwork,

@@ -87,7 +87,6 @@ export const getAudiusUploads = async (userIdAudius) => {
   }
 }
 
-
 export const audiusGetTrackByAudiusId = async (trackIdAudius) => {
   const path = `${BASE_URL}/v1/tracks/${trackIdAudius}`
 
@@ -110,23 +109,34 @@ export const audiusGetTrackByAudiusId = async (trackIdAudius) => {
 }
 
 export const getTrackSrcAudiusId = async (trackIdAudius) => {
-  const path = `https://discoveryprovider2.audius.co/v1/tracks/${trackIdAudius}/stream`
+  // const path = `https://discoveryprovider2.audius.co/v1/tracks/${trackIdAudius}/stream`
+  // const path = `https://discoveryprovider2.audius.co/v1/tracks/nkjkp/stream`
+  // const path = `${BASE_URL}/v1/tracks/${trackIdAudius}/stream`
+  // const path = `${BASE_URL}/v1/tracks/nkjkp/stream`
+  return `https://creatornode2.audius.co/tracks/stream/${trackIdAudius}`
 
-  try {
-    // console.log(`🎵 Getting Track with audiusId ${trackIdAudius}... `)
+  // const path = `https://discoveryprovider.audius.co/v1/tracks/D7KyD/stream`
 
-    const response = await fetch(path, {
-      method: 'GET',
-      // mode: 'no-cors'
-      mode: 'cors'
-    })
+  // try {
+  //   // console.log(`🎵 Getting Track with audiusId ${trackIdAudius}... `)
 
-    const { data } = await response.json()
+  //   const response = await fetch(path, {
+  //     method: 'GET',
+  //     mode: 'no-cors'
+  //     // mode: 'cors'
+  //   })
+    
+  //   console.log("response")
+  //   console.log(response)
 
-    // console.log('🎵✅  Resolved Audius Track', { data })
-    return data
+  //   const { data } = await response.json()
+    
+  //   console.log("data")
+  //   console.log(data)
+  //   // console.log('🎵✅  Resolved Audius Track', { data })
+  //   return data
 
-  } catch (err) {
-    throw new Error(err)
-  }
+  // } catch (err) {
+  //   throw new Error(err)
+  // }
 }

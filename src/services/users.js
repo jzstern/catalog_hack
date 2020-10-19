@@ -145,7 +145,6 @@ export const updateUser = async (client, user) => {
     }
 }
 
-
 export const findTextileUserByAudiusId = async (client, audiusId) => {
     try {   
         console.log(`💽 Finding user in ${USERS_COLLECTION} by Audius Id ${audiusId} ...`)
