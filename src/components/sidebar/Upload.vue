@@ -38,7 +38,7 @@ export default {
           _id: this.user._id,
           id_audius: this.user.id_audius,
           handle: this.user.handle,
-          // name: this.user.name,
+          name: this.user.name,
         },
         price: this.price,
         purchased_by: {

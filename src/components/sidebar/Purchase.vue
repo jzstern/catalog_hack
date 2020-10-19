@@ -1,25 +1,5 @@
-<template>
-  <div class="purchase">
-    <p class="song-title">{{ item.title }}</p>
-    <p class="artist">{{ item.artist }}</p>
-    <p>${{ item.price }}+</p>
-    <input v-model="payment" type="number" />
-    <p>Include message</p>
-    <input v-model="message" type="Text" />
-    <button class="buttonPrimary" @click="purchaseItem">Purchase</button>
-
-    <p class="disclaimer">
-      Upon purchase, you’ll get 1,450 Omari Jazz tokens, which entitle you to a
-      portion of 10% of future revenue from Omari Jazz. You’ll also receive a
-      download in mp3 and wav, and unlimited streaming via Catalog.
-    </p>
-    <button class="buttonSecondary" @click="back">Go back</button>
-  </div>
-</template>
-
 <script>
 /* eslint-disable */
-
 export default {
   name: "Purchase",
   data: () => ({
@@ -52,6 +32,25 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="purchase">
+    <p class="song-title">{{ item.title }}</p>
+    <p class="artist">{{ item.artist }}</p>
+    <p>${{ item.price }}+</p>
+    <input v-model="payment" type="number" />
+    <p>Include message</p>
+    <input v-model="message" type="Text" />
+    <button class="buttonPrimary" @click="purchaseItem">Purchase</button>
+
+    <p class="disclaimer">
+      Upon purchase, you’ll get 1,450 Omari Jazz tokens, which entitle you to a
+      portion of 10% of future revenue from Omari Jazz. You’ll also receive a
+      download in mp3 and wav, and unlimited streaming via Catalog.
+    </p>
+    <button class="buttonSecondary" @click="back">Go back</button>
+  </div>
+</template>
 
 <style style="scss">
 .purchase {

@@ -20,6 +20,8 @@ export default {
   methods: {
     selectItem() {
       // TODO - don't open sidebar if artist name was clicked
+      console.log("this.item");
+      console.log(this.item);
       this.$store.commit("sidebar", {
         component: "Item",
         item: this.item,
@@ -33,9 +35,7 @@ export default {
 
 <template>
   <div class="item-card" @click="selectItem">
-      <p>{{ item._id }}</p>
-      <p>{{ item.id_audius }}</p>
-    <!-- <img class="artwork" :src="item.artwork['480x480']" />
+    <img class="artwork" :src="item.artwork['480x480']" />
     <p>{{ item.title }}</p>
     <router-link
       :to="`/${item.artistHandle}`"
@@ -47,8 +47,7 @@ export default {
     <p v-if="!pathContainsCollection || !ownedByUser">
       {{ item.price ? `$${item.price}` : "Name your price" }}
     </p>
-    <p v-else>u own this 💪🏼</p> -->
-    <!-- <p v-if="!ownedByUser" class="artist">{{ item.artist }}</p> -->
+    <p v-else>u own this 💪🏼</p>
   </div>
 </template>
 

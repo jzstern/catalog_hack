@@ -43,8 +43,9 @@ export const getAudiusTracksInCollection = async (collectionTextile) => {
 export const getUserDataAudius = async (handle) => {
   const user = await audiusResolveProfileURL(handle)
   const wallet_addr = (await getUserByAudiusHandle(handle))[0].wallet
-  const uploads = await getAudiusUploads(user.id) // * should only use this for choosing songs to upload
-  const catalog = formatUploads(uploads) // * this should come from textile
+  // var uploads = await getAudiusUploads(user.id) // * should only use this for choosing songs to upload
+  // uploads = formatUploads(uploads)
+  const catalog = [] // * this should come from textile
   const collection = []
 
   return {

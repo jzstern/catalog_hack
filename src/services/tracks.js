@@ -16,15 +16,16 @@ export const addItemToCatalog = async (client, item, user) => {
     try {
         // Create the Textile 'Item' Document
         const _id = await createItem(client, item)
-        const textileItem = { _id, id_audius: item.id_audius }
+        const textileItem = { ...item, _id }
 
         // Format the user to be Textile-friendly
-        const formattedUser = formatUser(user)
-        const updatedCatalog = [ ...formattedUser.catalog, textileItem ]
+        var formattedUser = formatUser(user)
+        formattedUser.catalog.push(textileItem)
+        // const updatedCatalog = [ ...formattedUser.catalog, textileItem ]
         // const updatedCatalog = formattedUser.catalog.push(textileItem)
 
         // Construct the User object with the updated catalog
-        const updatedTextileUser = { ...formattedUser, catalog: updatedCatalog, uploads: user.uploads }
+        const updatedTextileUser = { ...formattedUser, uploads: user.uploads }
 
         // Update the Textile 'User' Document 
         await updateUser(client, updatedTextileUser)

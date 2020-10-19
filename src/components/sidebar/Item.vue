@@ -1,19 +1,5 @@
-<template>
-  <div class="item-sidebar">
-    <p class="song-title">{{ item.title }}</p>
-    <p class="artist">song by {{ item.artist }}</p>
-    <p v-if="ownedByUser">You own this 💪🏼</p>
-    <button class="buttonPrimary" v-else @click="purchaseItem">
-      Purchase ({{ item.price }}+)
-    </button>
-    <div class="divider" />
-    <p>{{ item.desription }}</p>
-  </div>
-</template>
-
 <script>
 /* eslint-disable */
-
 export default {
   computed: {
     item() {
@@ -35,6 +21,19 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="item-sidebar">
+    <p class="song-title">{{ item.title }}</p>
+    <p class="artist">song by {{ item.artist.name }}</p>
+    <p v-if="ownedByUser">You own this 💪🏼</p>
+    <button class="buttonPrimary" v-else @click="purchaseItem">
+      Purchase ({{ item.price }}+)
+    </button>
+    <div class="divider" />
+    <p>{{ item.desription }}</p>
+  </div>
+</template>
 
 <style lang="scss">
 .item-sidebar {

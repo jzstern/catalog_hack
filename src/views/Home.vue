@@ -7,7 +7,7 @@ export default {
   },
   methods: {
     deleteUsers() {
-      this.$store.dispatch('deleteUser', "01emz3p3f32nzbwtyr6jma513c")
+      this.$store.dispatch('deleteUser', "01emzprsr72jpzm649ktk3mv26")
     },
     getAllUsers() {
       this.$store.dispatch('getAllUsers')
@@ -16,9 +16,9 @@ export default {
       this.$store.dispatch('getAllTracks')
     },
     deleteTracks() {
-      this.$store.dispatch('deleteItem', "01emz7y0che0y7w8g8n4m8bmbw")
-      this.$store.dispatch('deleteItem', "01emz85drq4d2ee0cbzww7g83e")
-  
+      this.$store.dispatch('deleteItem', "01emzbfwc17d8z72z7skv4wydj")
+      this.$store.dispatch('deleteItem', "01emzd5gck3gzb7ak7wbhgh5ff")
+      this.$store.dispatch('deleteItem', "01emzpf9w84ad04tm5a32kn6rk")
     },
     updateUser() {
       this.$store.dispatch('updateUser', "01empev9nwfpxzcss6y1m4ktaj", {
@@ -31,9 +31,6 @@ export default {
       })
     }
   },
-  // beforeMount() {
-  //   if (this.client) this.$store.dispatch('getArtistList')
-  // },
   mounted() {
     this.$store.commit("sidebarComponent", "Browse Artists")
   },
