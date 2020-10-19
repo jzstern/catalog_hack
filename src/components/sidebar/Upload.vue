@@ -3,8 +3,17 @@
 export default {
   name: "Upload",
   watch: {
-    catalog(oldValue, newValue) {
-      if (oldValue.length === newValue.length++) alert('finished uploading!!')
+    catalog(newValue) {
+      var track
+      if (this.track) track = newValue.find(item => item.id_audius === this.track.id_audius)
+      if (this.track && newValue.length && track) {
+        this.track = {
+          ...this.track,
+          _id: track._id,
+          price: track.price,
+        }
+        this.uploadConfirmed = true
+      }
     }
   },
   computed: {
@@ -19,6 +28,7 @@ export default {
     creating: false,
     price: null,
     track: null,
+    uploadConfirmed: false
   }),
   methods: {
     create() {
@@ -37,18 +47,15 @@ export default {
         }
       };
 
-      console.log(item);
-
       this.$store.dispatch("addItemToCatalog", item);
-
-      // TODO - upload confirmation in sidebar w/ link to Catalog/song?
-      // this.$store.commit('sidebar', {
-      //   component: "Upload Confirmed"
-      // })
 
       // ? do we route to the user's catalog after they upload a song?
       // if (this.$route.path !== `/${this.user.handle}`) this.$router.push(`/${this.user.handle}`);
     },
+    back() {
+      this.uploadConfirmed = false
+      this.track = null
+    }
   },
   mounted() {
     this.$store.dispatch('getAudiusUploads', this.user.id_audius)
@@ -58,17 +65,30 @@ export default {
 
 <template>
   <div class="upload">
-    <div v-if="track" class="form-item">
+    <div v-if="track && !uploadConfirmed" class="form-item">
       <div class="selected-track">
         <img :src="track.artwork['480x480']" class="upload-artwork"/>
         <p>{{ track.title }}</p>
         <p>{{ track.description }}</p>
         <p>{{ track.duration }}</p>
       </div>
+
       <label>Price (USD)</label>
       <input v-model="price" placeholder="$0+" type="number" />
-    <button :disabled="creating" class="buttonPrimary" @click="create">Create</button>
-    <button :disabled="creating" class="buttonSecondary" @click="track = null">Back</button>
+      <button :disabled="creating" class="buttonPrimary" @click="create">Create</button>
+      <button :disabled="creating" class="buttonSecondary" @click="back">Back</button>
+    </div>
+
+    <div v-else-if="track && uploadConfirmed" class="form-item">
+      <div class="selected-track">
+        <img :src="track.artwork['480x480']" class="upload-artwork"/>
+        <p>{{ track.title }}</p>
+        <p>{{ track.description }}</p>
+        <p>Duration: {{ track.duration }}s</p>
+        <p>Price: {{ track.price }}</p>
+      </div>
+
+      <button :disabled="creating" class="buttonSecondary" @click="track = null">Back</button>
     </div>
 
     <div v-else v-for="item in user.uploads" :key="item.id_audius" @click="track = item" class="unselected-track">

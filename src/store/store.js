@@ -65,12 +65,12 @@ export default new Vuex.Store({
   },
   actions: {
     async addItemToCatalog({ state, commit }, item) {
-      // if (state.user.catalog.find(track => track.id_audius === item.id_audius)) console.warn("Track already exists in collection")
-      // else {
+      if (state.user.catalog.find(track => track.id_audius === item.id_audius)) console.warn("Track already exists in collection")
+      else {
         const result = await addItemToCatalog(state.client, item, state.user)
         commit('addItemToCatalog', result.textileItem)
         commit('user', result.updatedTextileUser)
-      // }
+      }
     },
     async getAllUsers({ state }) {
       const users = await getAllUsers(state.client)
@@ -141,7 +141,7 @@ export default new Vuex.Store({
         if (!state.client) {
           setTimeout(async () => { 
             dispatch('refreshUser', userLocalStorage.id_audius)
-          }, 1500)
+          }, 2000)
         } else {
           dispatch('refreshUser', userLocalStorage.id_audius)
         }

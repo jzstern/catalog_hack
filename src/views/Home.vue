@@ -26,7 +26,12 @@ export default {
       this.$store.dispatch('getAllTracks')
     },
     deleteTracks() {
-      this.$store.dispatch('deleteItem', "01emz26ce009v4v4a85183cgaa")
+      this.$store.dispatch('deleteItem', "01emz3pv3pk6bt1qn7f1vq7mt3")
+      this.$store.dispatch('deleteItem', "01emz5jtg2r1cydtya37s3r1y3")
+      this.$store.dispatch('deleteItem', "01emz5n9zwm7qaxvwer94zbd8r")
+      this.$store.dispatch('deleteItem', "01emz6x00c3bpg3tv3tan9q43c")
+      this.$store.dispatch('deleteItem', "01emz7648303qqv9k75zj5bq00")
+      this.$store.dispatch('deleteItem', "01emz7hambjm2tv4m06axykmqk")
     },
     updateUser() {
       this.$store.dispatch('updateUser', "01empev9nwfpxzcss6y1m4ktaj", {

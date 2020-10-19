@@ -1,26 +1,13 @@
 
-import { 
-    findTextileUserByAudiusId,
-    formatUser,
-    updateUser
-} from './users'
-
-// Constants
-import {
-    queryItemByAudiusId,
-    queryItemsByUserAudiusId
-} from "../textile_constants/queries"
-
-import ItemModel from "../models/Item"
-// import mockItem from "../mocks/item"
-
-// Utils
+import { formatUser, updateUser } from './users'
+import { queryItemByAudiusId, queryItemsByUserAudiusId } from "../textile_constants/queries"
 import {
     makeQuery,
     addDocument,
     removeDocument,
     fetchCollection
 } from "../utils/textileApi"
+
 const ITEMS_COLLECTION = "Items"
 
 export const addItemToCatalog = async (client, item, user) => {
@@ -31,16 +18,13 @@ export const addItemToCatalog = async (client, item, user) => {
         const _id = await createItem(client, item)
         const textileItem = { _id, id_audius: item.id_audius }
 
-        console.log("dafffqqq user")
-        console.log(user)
-
         // Format the user to be Textile-friendly
         const formattedUser = formatUser(user)
         const updatedCatalog = [ ...formattedUser.catalog, textileItem ]
         // const updatedCatalog = formattedUser.catalog.push(textileItem)
 
         // Construct the User object with the updated catalog
-        const updatedTextileUser = { ...formattedUser, catalog: updatedCatalog }
+        const updatedTextileUser = { ...formattedUser, catalog: updatedCatalog, uploads: user.uploads }
 
         // Update the Textile 'User' Document 
         await updateUser(client, updatedTextileUser)
@@ -63,101 +47,6 @@ export const addItemToCatalog = async (client, item, user) => {
  *  5.) Create the Item in textile 'Items' collection
  *  6.) Use the item._id returned from #5 to update the User document of the track's artist with the updated catalog.
  */
-export const addTrackToCatalog = async (client, audiusTrack) => {
-    try {
-        /** PREP STUFF **/
-        /****************/
-
-        const t0 = performance.now()
-        const { id: audiusId, title } = audiusTrack
-        console.log('💽 Adding track to catalog...', { audiusId, title })
-
-        /** CONSTRUCT DATA MODEL **/
-        /**************************/
-
-        // Get the artist info for this track
-        const textileUser = await findTextileUserByAudiusId(client, audiusTrack.user.id)
-        const artist = {
-            audiusId: audiusTrack.user.id,
-            textileId: textileUser._id
-        }
-
-        // Create or get Track in Textile
-        // Create a model instance for the track 
-        const itemModel = new ItemModel({
-            // ...mockItem,
-            // Textile Data
-            audiusId,
-            artist,
-            // price : formData.price,
-            purchasedBy: [],
-            // Audius Only data
-            title: audiusTrack.title,
-            description: audiusTrack.description,
-            background: audiusTrack.artwork['1000x1000']
-        })
-
-        /** VALIDATION **/
-
-        // If User already has this song in their Catalog, throw
-        console.log({textileUser})
-
-        let foundTrack = textileUser.catalog.find((Item) => Item.audiusId === audiusTrack.id)
-        if (foundTrack) {
-            throw new Error('Track is already in this Users Catalog.')
-        }
-        // If the track already exists in 'Items', then throw
-        foundTrack = await textileFindItemByAudiusId(client, audiusId)
-        if (foundTrack) {
-            throw new Error('Track is already in Items collection.')
-        }
-
-        /** VALIDATION PASSED - UPDATE DB */
-        /**********************************/
-
-        // Add Item to Textile 
-        //Returns ITEM type for Textile
-        let textileItem = itemModel.getTextileData()
-        let result
-
-        // Emulated DB transaction - (this is not all or nothing)
-        try {
-            // Create the Textile 'Item' Document
-            const textileId = await createItem(client, textileItem)
-
-            // Add the returned `textileId` to the Textile 'Item' document we are creating in the User's catalog.
-            textileItem = {
-                ...textileItem,
-                textileId
-            }
-
-            // Construct the User object with the updated catalog
-            const updatedTextileUser = {
-                ...textileUser,
-                catalog: [
-                    ...textileUser.catalog,
-                    textileItem
-                ]
-            }
-
-            // Update the Textile 'User' Document 
-            result = await updateUser(client, updatedTextileUser._id, updatedTextileUser)
-            
-            console.log({ updatedTextileUser, result })
-        } catch (err) {
-            console.error('DB transaction', err)
-        }
-
-        // Update User and User's Catalog
-        const t1 = performance.now()
-        console.log(`Item took ${t1 - t0}ms`, {
-            result
-        })
-
-    } catch (err) {
-        console.error('addTrackToCatalog', err)
-    }
-}
 
 const createItem = async (client, itemDocument) => {
     try {
