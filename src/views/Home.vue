@@ -7,7 +7,7 @@ export default {
   },
   methods: {
     deleteUsers() {
-      this.$store.dispatch('deleteUser', "01emzprsr72jpzm649ktk3mv26")
+      this.$store.dispatch('deleteUser', "01emzwe2bfxteyg33wewvb5y7n")
     },
     getAllUsers() {
       this.$store.dispatch('getAllUsers')
@@ -16,9 +16,10 @@ export default {
       this.$store.dispatch('getAllTracks')
     },
     deleteTracks() {
-      this.$store.dispatch('deleteItem', "01emzbfwc17d8z72z7skv4wydj")
-      this.$store.dispatch('deleteItem', "01emzd5gck3gzb7ak7wbhgh5ff")
-      this.$store.dispatch('deleteItem', "01emzpf9w84ad04tm5a32kn6rk")
+      this.$store.dispatch('deleteItem', "01emzx8rt0vn5je7sfx29qw809")
+      this.$store.dispatch('deleteItem', "01emzxgyybm50dvpcqkdzjqyk3")
+      this.$store.dispatch('deleteItem', "01emzycjrqrhnre9ds9syrs0yn")
+      this.$store.dispatch('deleteItem', "01emzyn5qkprnbzd4p4vxbk8sd")
     },
     updateUser() {
       this.$store.dispatch('updateUser', "01empev9nwfpxzcss6y1m4ktaj", {
@@ -58,7 +59,7 @@ export default {
       <a>Message us</a>
     </div>
     <button @click="getAllUsers">get all users</button>
-    <button @click="updateUser">update user</button>
+    <!-- <button @click="updateUser">update user</button> -->
     <button @click="deleteUsers">delete users</button>
     <button @click="getAllTracks">get tracks</button>
     <button @click="deleteTracks">delete tracks</button>

@@ -27,7 +27,8 @@ export default new Vuex.Store({
   },
   mutations: {
     addItemToCatalog(state, item) {
-      state.user.catalog = state.user.catalog.push(item)
+      // state.user.catalog = state.user.catalog.push(item)
+      state.user.catalog = [ ...state.user.catalog, item ]
     },
     addItemToCollection(state, item) {
       state.user.collection.push(item)
@@ -37,6 +38,12 @@ export default new Vuex.Store({
     },
     artistList(state, artists) {
       state.artistList = artists
+    },
+    artistCatalog(state, catalog) {
+      state.artist.catalog = catalog
+    },
+    artistCollection(state, collection) {
+      state.artist.collection = collection
     },
     client(state, client) {
       state.client = client

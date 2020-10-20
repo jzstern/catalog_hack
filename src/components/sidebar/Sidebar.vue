@@ -12,6 +12,7 @@ export default {
     Register: () => import("./Register"),
     Settings: () => import("./Settings"),
     Upload: () => import("./Upload"),
+    UploadConfirmed: () => import("./UploadConfirmed"),
   },
   computed: {
     sidebar() {
@@ -54,6 +55,7 @@ export default {
       <Register v-else-if="sidebar.component === 'Register'" />
       <Settings v-else-if="sidebar.component === 'Settings'" />
       <Upload v-else-if="sidebar.component === 'Upload'" />
+      <UploadConfirmed v-else-if="sidebar.component === 'Upload Confirmed'" />
     </transition>
   </div>
 </template>
