@@ -28,6 +28,7 @@ export default {
 <style lang="scss">
 .dropdown {
   font-family: "Supply", sans-serif;
+  font-weight: 400;
   font-size: 14px;
   position: fixed;
   top: 24px;

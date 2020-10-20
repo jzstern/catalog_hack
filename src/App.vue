@@ -14,6 +14,9 @@ export default {
     user() {
       return this.$store.state.user;
     },
+    onHome() {
+      return this.$route.path === "/";
+    },
   },
   beforeMount() {
     this.$store.dispatch("initTextile");

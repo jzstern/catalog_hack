@@ -45,7 +45,7 @@ export default {
 <style lang="scss">
 .catalog {
   // position: relative;
-  margin: 10% auto 0 auto;
+  margin: 10% auto 128px auto;
   width: 84%;
   // border: 5vw solid transparent;
   box-sizing: border-box;

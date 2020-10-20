@@ -8,7 +8,11 @@
       {{ item.title }}
     </p>
     <p class="detail-artist">
-      song by<span class="artist-name"> {{ item.artist.name }}</span>
+      song by
+      <span
+        class="artist-name"
+      ><router-link :to="`/${item.artistHandle}`">
+        {{ item.artist.name }}</router-link></span>
     </p>
     <p v-if="ownedByUser">
       You own this 💪🏼
@@ -20,11 +24,13 @@
     >
       Purchase ({{ item.price ? `$${item.price}` : "$0.00+" }})
     </button>
-    <div class="divider" />
+    <div class="divider divider-anomaly" />
+    <label>Description</label>
     <p>{{ item.description }}</p>
+
     <div
       v-if="item.description"
-      class="divider"
+      class="divider-large"
     />
 
     <p class="disclaimer">
@@ -78,6 +84,8 @@ export default {
 }
 
 .artist-name {
+  cursor: url("../../assets/other/cursor.png"), pointer;
+
   color: #f2ba00;
   &:hover {
     text-decoration: underline;
@@ -89,5 +97,9 @@ export default {
   height: 100%;
   border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 2px;
+}
+
+.divider-anomaly {
+  margin-top: 32px;
 }
 </style>
