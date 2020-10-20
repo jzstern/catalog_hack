@@ -19,9 +19,11 @@ import {
 import { queryUserByAudiusId } from "../textile_constants/queries"
 const USERS_COLLECTION = "Users"
 
+// Convert a user object to be Textile-friendly
 export const formatUser = (user) => {
-    var catalog
+    var catalog, collection = []
 
+    // format catalog to be Textile-friendly
     if (user.catalog.length) {
         catalog = user.catalog.map(item => {
             return {
@@ -29,7 +31,17 @@ export const formatUser = (user) => {
                 id_audius: item.id_audius
             }
         })
-    } else catalog = []
+    }
+
+    // format collection to be Textile-friendly
+    if (user.collection.length) {
+        collection = user.collection.map(item => {
+            return {
+                _id: item._id,
+                id_audius: item.id_audius
+            }
+        })
+    }
         
     const formattedUser = {
         _id: user._id,
@@ -37,7 +49,7 @@ export const formatUser = (user) => {
         handle: user.handle,
         name: user.name,
         catalog,
-        collection: user.collection,
+        collection,
         links: []
     }
 
@@ -124,22 +136,9 @@ export const deleteUser = async (client, userId) => {
 
 export const updateUser = async (client, user) => {
     try {
-        console.log(`💽 Updating user ${user.handle} in ${USERS_COLLECTION}...`)
-
-        // const formattedUser = {
-        //     _id: user._id,
-        //     id_audius: user.id_audius,
-        //     name: user.name,
-        //     catalog: user.catalog,
-        //     collection: user.collection,
-        //     links: []
-        // }
-
-        const updatedUser = await updateDocument(client, USERS_COLLECTION, user)
-
-        console.log(`💽✅ Updated user! 😩 ?`, updatedUser)
-
-        return updatedUser
+        // console.log(`💽 Updating user ${user.handle} in ${USERS_COLLECTION}...`)
+        await updateDocument(client, USERS_COLLECTION, user)
+        // console.log(`💽✅ Updated user! 😩 ?`)
     } catch (err) {
         throw new Error(err)
     }

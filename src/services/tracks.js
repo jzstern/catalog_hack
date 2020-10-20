@@ -10,27 +10,39 @@ import {
 
 const ITEMS_COLLECTION = "Items"
 
-export const addItemToCatalog = async (client, item, user) => {
-    console.log('💽 Adding track to catalog...', item.title )
-
+// Returns a full Textile/Audius item
+export const addItemToCatalog = async (client, track, user) => {
+    // console.log('💽 Adding track to catalog...', track.title )
     try {
+        // Format Audius track to be Textile-friendly
+        const item = {
+            id_audius: track.id_audius,
+            artist: {
+                _id: user._id,
+                id_audius: user.id_audius,
+                handle: user.handle,
+                name: user.name
+            },
+            price: track.price,
+            purchased_by: {
+                user_ids_audius: [],
+                user_ids_textile: []
+            }
+        }
+
         // Create the Textile 'Item' Document
         const _id = await createItem(client, item)
         const textileItem = { ...item, _id }
 
+
         // Format the user to be Textile-friendly
         var formattedUser = formatUser(user)
         formattedUser.catalog.push(textileItem)
-        // const updatedCatalog = [ ...formattedUser.catalog, textileItem ]
-        // const updatedCatalog = formattedUser.catalog.push(textileItem)
-
-        // Construct the User object with the updated catalog
-        const updatedTextileUser = { ...formattedUser, uploads: user.uploads }
 
         // Update the Textile 'User' Document 
-        await updateUser(client, updatedTextileUser)
+        await updateUser(client, formattedUser)
 
-        return { textileItem, updatedTextileUser}
+        return { ...track, ...textileItem }
     } catch (err) {
         console.error('addItemToCatalog error', err)
     }

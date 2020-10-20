@@ -20,8 +20,6 @@ export default {
   methods: {
     selectItem() {
       // TODO - don't open sidebar if artist name was clicked
-      console.log("this.item");
-      console.log(this.item);
       this.$store.commit("sidebar", {
         component: "Item",
         item: this.item,
@@ -41,7 +39,7 @@ export default {
       :to="`/${item.artistHandle}`"
       v-if="!ownedByUser"
       class="artist"
-      >{{ item.artist }}</router-link
+      >{{ item.artist.name }}</router-link
     >
     <p>{{ item.description }}</p>
     <p v-if="!pathContainsCollection || !ownedByUser">

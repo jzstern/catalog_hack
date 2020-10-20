@@ -4,18 +4,21 @@ export default {
   name: "Upload",
   watch: {
     catalog(newVal) {
-      console.log(newVal);
-      var track
-      if (this.track) track = newVal.find(item => item.id_audius === this.track.id_audius)
-      if (this.track && newVal.length && track) {
-        this.$store.commit('sidebar', {
-          component: "Upload Confirmed",
-          item: {
-            ...this.track,
-            _id: track._id,
-            price: track.price,
-          }
-        })
+      if (newVal) {
+        console.log("NEW THING ADDED TO CATALOG");
+        console.log(newVal);
+        var track
+        if (this.track) track = newVal.find(item => item.id_audius === this.track.id_audius)
+        if (this.track && newVal.length && track) {
+          this.$store.commit('sidebar', {
+            component: "Upload Confirmed",
+            item: {
+              ...this.track,
+              _id: track._id,
+              price: track.price,
+            }
+          })
+        }
       }
     }
   },
@@ -30,26 +33,11 @@ export default {
   data: () => ({
     creating: false,
     price: null,
-    track: null,
+    track: null, // full audius track
   }),
   methods: {
     create() {
-      const item = {
-        id_audius: this.track.id_audius,
-        artist: {
-          _id: this.user._id,
-          id_audius: this.user.id_audius,
-          handle: this.user.handle,
-          name: this.user.name,
-        },
-        price: this.price,
-        purchased_by: {
-          user_ids_audius: [],
-          user_ids_textile: [],
-        }
-      };
-
-      this.$store.dispatch("addItemToCatalog", item);
+      this.$store.dispatch("addItemToCatalog", this.track);
 
       // ? do we route to the user's catalog after they upload a song?
       // if (this.$route.path !== `/${this.user.handle}`) this.$router.push(`/${this.user.handle}`);

@@ -26,12 +26,15 @@ export default new Vuex.Store({
     user: LOGGED_OUT_USER
   },
   mutations: {
-    addItemToCatalog(state, item) {
-      // state.user.catalog = state.user.catalog.push(item)
-      state.user.catalog = [ ...state.user.catalog, item ]
+    addItemToUserCatalog(state, item) {
+      state.user.catalog.push(item)
+      // If the logged in user is on their own page, also add it to the artist catalog
+      if (state.artist._id === state.user._id) state.artist.catalog.push(item)
     },
-    addItemToCollection(state, item) {
+    addItemToUserCollection(state, item) {
       state.user.collection.push(item)
+      // If the logged in user is on their own page, also add it to the artist collection
+      if (state.artist._id === state.user._id) state.artist.collection.push(item)
     },
     artist(state, artist) {
       state.artist = artist
@@ -75,14 +78,15 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async addItemToCatalog({ state, commit }, item) {
-      if (state.user.catalog.find(track => track.id_audius === item.id_audius)) console.warn("Track already exists in collection")
+    async addItemToCatalog({ state, commit }, track) {
+      // TODO - in Upload component, filter out tracks that are already in a users catalog from the selection
+      if (state.user.catalog.find(item => track.id_audius === item.id_audius)) {
+        // TODO - handle this on UI
+        console.warn("Track already exists in your catalog")
+      }
       else {
-        const result = await addItemToCatalog(state.client, item, state.user)
-        console.log("result");
-        console.log(result);
-        commit('addItemToCatalog', result.textileItem)
-        commit('user', { ...state.user, catalog: result.textileItem.catalog })
+        const item = await addItemToCatalog(state.client, track, state.user)
+        commit('addItemToUserCatalog', item)
       }
     },
     async getArtistData({ state, commit, dispatch }, handle) {
@@ -115,7 +119,6 @@ export default new Vuex.Store({
     },
     async getUsersFullTracks({ }, user) {
       // User must have textile catalog/collection info
-      
       const catalog = getAudiusTracksInCatalog(user.id_audius, user.catalog)
       const collection = getAudiusTracksInCollection(user.collection)
       
@@ -188,6 +191,7 @@ export default new Vuex.Store({
           name: user.user.name,
           handle: user.user.handle,
           wallet_addr: user.user.wallet,
+          links: [],
           login_status: "LOGGED_IN",
           loading: {
             user_info: false,
@@ -219,27 +223,25 @@ export default new Vuex.Store({
           }
           
           const newUserId = await createUser(state.client, userTextile)
-          dispatch('getArtistList')
 
           userModel = {
             ...userModel,
-            _id: newUserId,
-            links: []
+            _id: newUserId
           }
         }
 
         userModel = {
           ...userModel,
+          _id: userTextile._id,
+          catalog: userTextile.catalog,
+          collection: userTextile.collection,
           links: userTextile.links,
-          loading: {
-            user_info: false,
-            catalog: false,
-            collection: false
-          }
+          loading: { ...userModel.loading, user_info: false }
         }
+        
+        commit('user', userModel)
 
-        // double check user has their catlaog // collection here
-
+        userModel = await dispatch('getUsersFullTracks', userModel)
         commit('user', userModel)
         setAudiusAccountUser(userModel)
       } catch (e) {

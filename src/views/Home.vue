@@ -16,17 +16,19 @@ export default {
       this.$store.dispatch('getAllTracks')
     },
     deleteTracks() {
-      this.$store.dispatch('deleteItem', "01en213qym3bd2nh7qmtzdr38e")
+      this.$store.dispatch('deleteItem', "01en20y7kayw8njgk1dm4dhfbb")
+      this.$store.dispatch('deleteItem', "01en23vm29j74hxakmf2wy6js8")
+      this.$store.dispatch('deleteItem', "01en23zsme378abnart9zwfjvk")
+      this.$store.dispatch('deleteItem', "01en244bxxxkrxwv3es8y7s3vy")
+      this.$store.dispatch('deleteItem', "01en25zq9knvenbfjwqg7at9rm")
     },
     updateUser() {
       this.$store.dispatch('updateUser', {
-        _id: "01en1xj3yhcg4ezsjf92t4ps5h",
-        id_audius: "D90wn",
-        handle: "jzstern",
-        name: "appa",
+        ...this.$store.state.user,
+        _id: "01en20tt3068ybgya3hztcxc5c",
         catalog: [],
-        collection: [],
-        links: [ "https://twitter.com/jzstern", "https://audius.co/jzstern", "https://soundcloud.com/appappa"]
+        collection: []
+        // links: [ "https://twitter.com/jzstern", "https://audius.co/jzstern", "https://soundcloud.com/appappa"]
       })
     }
   },
