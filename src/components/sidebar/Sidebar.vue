@@ -101,7 +101,7 @@ export default {
 }
 
 .title {
-  font-family: "Tenor Sans", sans-serif;
+  font-family: "TenorSans", sans-serif;
   font-size: 22px;
   vertical-align: middle;
   letter-spacing: 0.05em;

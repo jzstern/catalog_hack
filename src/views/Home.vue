@@ -7,33 +7,33 @@ export default {
   },
   methods: {
     deleteUsers() {
-      this.$store.dispatch('deleteUser', "01en20tt3068ybgya3hztcxc5c")
-      this.$store.dispatch('deleteUser', "01en274dmw5zmaftsamb232c4k")
+      this.$store.dispatch("deleteUser", "01en20tt3068ybgya3hztcxc5c");
+      this.$store.dispatch("deleteUser", "01en274dmw5zmaftsamb232c4k");
     },
     getAllUsers() {
-      this.$store.dispatch('getAllUsers')
+      this.$store.dispatch("getAllUsers");
     },
     getAllTracks() {
-      this.$store.dispatch('getAllTracks')
+      this.$store.dispatch("getAllTracks");
     },
     deleteTracks() {
-      this.$store.dispatch('deleteItem', "01en28jxatr03h6z4gvekf9m3d")
-      this.$store.dispatch('deleteItem', "01en28rxh3vawcm0g34qmd7xmk")
-      this.$store.dispatch('deleteItem', "01en28tysta74b1bgzbr07q0nj")
-      this.$store.dispatch('deleteItem', "01en28vwhr9t6fr9f7a2hrkr9p")
+      this.$store.dispatch("deleteItem", "01en28jxatr03h6z4gvekf9m3d");
+      this.$store.dispatch("deleteItem", "01en28rxh3vawcm0g34qmd7xmk");
+      this.$store.dispatch("deleteItem", "01en28tysta74b1bgzbr07q0nj");
+      this.$store.dispatch("deleteItem", "01en28vwhr9t6fr9f7a2hrkr9p");
     },
     updateUser() {
-      this.$store.dispatch('updateUser', {
+      this.$store.dispatch("updateUser", {
         ...this.$store.state.user,
         _id: "01en20tt3068ybgya3hztcxc5c",
         catalog: [],
-        collection: []
+        collection: [],
         // links: [ "https://twitter.com/jzstern", "https://audius.co/jzstern", "https://soundcloud.com/appappa"]
-      })
-    }
+      });
+    },
   },
   mounted() {
-    this.$store.commit("sidebarComponent", "Browse Artists")
+    this.$store.commit("sidebarComponent", "Browse Artists");
   },
 };
 </script>
@@ -117,7 +117,7 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: "Tenor Sans", sans-serif;
+  font-family: "TenorSans", sans-serif;
   font-size: 42px;
   margin-bottom: 0px;
   letter-spacing: 0.05em;
