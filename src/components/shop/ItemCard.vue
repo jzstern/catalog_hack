@@ -8,6 +8,9 @@ export default {
     },
   },
   computed: {
+    currentSong() {
+      return this.$store.state.currentSong
+    },
     ownedByUser() {
       return this.$store.state.user.collection.find(
         (item) => item.id_audius === this.item.id_audius
@@ -15,9 +18,6 @@ export default {
     },
     pathContainsCollection() {
       return this.$route.path.includes("collection");
-    },
-    itemSrc() {
-      return `https://creatornode2.audius.co/tracks/stream/${this.item.id_audius}`;
     },
   },
   data: () => ({
@@ -32,10 +32,9 @@ export default {
       });
     },
     toggleAudio() {
-      this.playing = !this.playing;
-      if (this.$refs.song.paused) {
-        this.$refs.song.play();
-      } else this.$refs.song.pause();
+      this.currentSong.id_audius === this.item.id_audius ?
+        this.$store.commit('togglePlaying') :
+        this.$store.state.commit('currentSong', { ...this.item, playing: true })
     },
   },
 };
@@ -57,21 +56,20 @@ export default {
     </div>
     <div class="card-info">
       <img
-        v-show="!playing"
+        v-show="!currentSong.playing"
         class="play-pause"
-        @click="toggleAudio()"
+        @click="toggleAudio"
         src="../../assets/other/play.svg"
       />
       <img
-        v-show="playing"
+        v-show="currentSong.playing"
         class="play-pause"
-        @click="toggleAudio()"
+        @click="toggleAudio"
         src="../../assets/other/pause.svg"
       />
       <div>
         <p class="card-title">{{ item.title }}</p>
-        <audio ref="song" :src="itemSrc"></audio>
-        <router-link :to="`/${item.artistHandle}`" class="card-artist">
+        <router-link :to="`/${item.artist.handle}`" class="card-artist">
           {{ item.artist.name }}</router-link
         >
         <p>{{ item.desription }}</p>

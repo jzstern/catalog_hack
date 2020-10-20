@@ -1,19 +1,27 @@
 <template>
   <div class="item-sidebar">
-    <img class="item-artwork" :src="item.artwork['480x480']" />
+    <img
+      class="item-artwork"
+      :src="item.artwork['480x480']"
+    >
     <p class="song-title">
       {{ item.title }}
     </p>
     <p class="detail-artist">
       song by
-      <span class="artist-name"
-        ><router-link :to="`/${item.artistHandle}`">
-          {{ item.artist.name }}</router-link
-        ></span
-      >
+      <span
+        class="artist-name"
+      ><router-link :to="`/${item.artist.handle}`">
+        {{ item.artist.name }}</router-link></span>
     </p>
-    <p v-if="ownedByUser">You own this 💪🏼</p>
-    <button v-else class="buttonPrimary" @click="purchaseItem">
+    <p v-if="ownedByUser">
+      You own this 💪🏼
+    </p>
+    <button
+      v-else
+      class="buttonPrimary"
+      @click="purchaseItem"
+    >
       Purchase ({{ item.price ? `$${item.price}` : "$0.00+" }})
     </button>
     <div class="divider divider-anomaly" />

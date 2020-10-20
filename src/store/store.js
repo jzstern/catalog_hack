@@ -18,6 +18,14 @@ export default new Vuex.Store({
     artistList: [],
     client: null,
     clientReady: false,
+    currentSong: {
+      _id: null,
+      id_audius: null,
+      playing: false,
+      artist: null,
+      title: null,
+      artwork: null
+    },
     libs: null,
     sidebar: {
       component: "Catalog",
@@ -58,6 +66,12 @@ export default new Vuex.Store({
     },
     closeSidebar(state) {
       state.sidebar.component = ""
+    },
+    currentSong(state, song) {
+      state.currentSong = song
+    },
+    togglePlaying(state) {
+      if (state.currentSong.source) state.currentSong.playing = !state.currentSong.playing
     },
     libs(state, libs) {
       state.libs = libs
