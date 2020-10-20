@@ -22,7 +22,7 @@ export default {
     this.$store.dispatch("initTextile");
     this.$store.dispatch("initAudius");
     // this.$store.dispatch("ethers/init");
-  }
+  },
 };
 </script>
 
@@ -44,13 +44,15 @@ export default {
 @import "./styles/global.scss";
 
 @font-face {
-  font-family: "Tenor Sans";
-  src: url("./assets/fonts/TenorSans-Regular.ttf") format("ttf");
+  font-family: "TenorSans";
+  src: url(./assets/fonts/TenorSans-Regular.ttf);
 }
+
 @font-face {
-  font-family: "Inconsolata-Light";
-  src: url("./assets/fonts/InconsolataSemiExpanded-Light.ttf");
+  font-family: "Supply";
+  src: url("./assets/fonts/Supply-Regular.otf");
 }
+
 @font-face {
   font-family: "Inconsolata";
   src: url("./assets/fonts/InconsolataSemiExpanded-Regular.ttf");
@@ -62,10 +64,6 @@ export default {
 @font-face {
   font-family: "Inconsolata-ExtraBold";
   src: url("./assets/fonts/InconsolataSemiExpanded-ExtraBold.ttf");
-}
-@font-face {
-  font-family: "Inconsolata-ExtraExpanded-Black";
-  src: url("./assets/fonts/InconsolataExtraExpanded-Black.ttf");
 }
 
 @font-face {
@@ -79,7 +77,7 @@ export default {
 }
 
 #app {
-  font-family: Tenor Sans, Helvetica, sans-serif;
+  font-family: "TenorSans", Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: white;

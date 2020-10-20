@@ -7,15 +7,15 @@
 
     <div class="expanded" v-show="expanded">
       <div class="menu-item">
-        <router-link :to="`/${this.user.handle}`">Catalog </router-link>
+        <router-link :to="`/${this.user.handle}`">my catalog</router-link>
       </div>
       <!-- <div class="menu-item">
         <router-link :to="`/${this.user.handle}/collection`">
           Collection
         </router-link>
       </div> -->
-      <div class="menu-item" @click="openSidebar('Upload')">Upload</div>
-      <div class="menu-item" @click="openSidebar('Account')">Account</div>
+      <div class="menu-item" @click="openSidebar('Upload')">upload</div>
+      <div class="menu-item" @click="openSidebar('Account')">account</div>
     </div>
   </div>
 </template>

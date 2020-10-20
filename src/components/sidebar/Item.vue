@@ -1,41 +1,31 @@
 <template>
   <div class="item-sidebar">
-    <img
-      class="item-artwork"
-      :src="item.artwork['480x480']"
-    >
+    <img class="item-artwork" :src="item.artwork['480x480']" />
     <p class="song-title">
       {{ item.title }}
     </p>
     <p class="detail-artist">
       song by
-      <span
-        class="artist-name"
-      ><router-link :to="`/${item.artistHandle}`">
-        {{ item.artist.name }}</router-link></span>
+      <span class="artist-name"
+        ><router-link :to="`/${item.artistHandle}`">
+          {{ item.artist.name }}</router-link
+        ></span
+      >
     </p>
-    <p v-if="ownedByUser">
-      You own this 💪🏼
-    </p>
-    <button
-      v-else
-      class="buttonPrimary"
-      @click="purchaseItem"
-    >
+    <p v-if="ownedByUser">You own this 💪🏼</p>
+    <button v-else class="buttonPrimary" @click="purchaseItem">
       Purchase ({{ item.price ? `$${item.price}` : "$0.00+" }})
     </button>
     <div class="divider divider-anomaly" />
-    <label>Description</label>
-    <p>{{ item.description }}</p>
-
-    <div
-      v-if="item.description"
-      class="divider-large"
-    />
+    <div v-if="item.description">
+      <label>Description</label>
+      <p>{{ item.description }}</p>
+      <div class="divider-large" />
+    </div>
 
     <p class="disclaimer">
-      Upon purchase, you’ll receive <b>1,450</b> {{ item.artist.name }} tokens, which
-      entitle you to a portion of <b>10%</b> of future revenue from
+      Upon purchase, you’ll receive <b>1,450</b> {{ item.artist.name }} tokens,
+      which entitle you to a portion of <b>10%</b> of future revenue from
       {{ item.artist.name }} on Catalog, as well as other token holder rewards.
       You’ll also get unlimited streaming via Catalog, and a download in mp3 and
       wav.
@@ -73,13 +63,13 @@ export default {
 }
 
 .song-title {
-  font-family: Tenor Sans, serif;
+  font-family: "TenorSans", serif;
   font-size: 24px;
   margin: 12px 0;
 }
 
 .detail-artist {
-  font-family: Tenor Sans, serif;
+  font-family: "TenorSans", serif;
   margin-top: 0;
 }
 
