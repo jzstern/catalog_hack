@@ -5,8 +5,6 @@ export default {
   watch: {
     catalog(newVal) {
       if (newVal) {
-        console.log("NEW THING ADDED TO CATALOG");
-        console.log(newVal);
         var track
         if (this.track) track = newVal.find(item => item.id_audius === this.track.id_audius)
         if (this.track && newVal.length && track) {
@@ -37,12 +35,7 @@ export default {
   }),
   methods: {
     create() {
-      console.log("this.track");
-      console.log(this.track);
-      this.$store.dispatch("addItemToCatalog", this.track);
-
-      // ? do we route to the user's catalog after they upload a song?
-      // if (this.$route.path !== `/${this.user.handle}`) this.$router.push(`/${this.user.handle}`);
+      this.$store.dispatch("addItemToCatalog", {...this.track, price: this.price })
     }
   },
   mounted() {

@@ -34,7 +34,6 @@ export const addItemToCatalog = async (client, track, user) => {
         const _id = await createItem(client, item)
         const textileItem = { ...item, _id }
 
-
         // Format the user to be Textile-friendly
         var formattedUser = formatUser(user)
         formattedUser.catalog.push(textileItem)

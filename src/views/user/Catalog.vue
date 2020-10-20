@@ -8,7 +8,6 @@ export default {
   watch: {
     userCatalog(newVal) {
       if (this.userHandle === this.$route.path.substr(1, this.$route.path)) {
-        console.log(newVal);
         this.$store.commit('artistCatalog', newVal)
       }
     }
