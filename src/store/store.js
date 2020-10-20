@@ -244,6 +244,9 @@ export default new Vuex.Store({
           
           const newUserId = await createUser(state.client, userTextile)
 
+          console.log("newUserId");
+          console.log(newUserId);
+
           userModel = {
             ...userModel,
             _id: newUserId
@@ -252,7 +255,7 @@ export default new Vuex.Store({
 
         userModel = {
           ...userModel,
-          _id: userTextile._id,
+          _id: userModel._id,
           catalog: userTextile.catalog,
           collection: userTextile.collection,
           links: userTextile.links,

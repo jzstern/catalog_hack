@@ -29,7 +29,8 @@ export const formatUser = (user) => {
         catalog = user.catalog.map(item => {
             return {
                 _id: item._id,
-                id_audius: item.id_audius
+                id_audius: item.id_audius,
+                artist: item.artist
             }
         })
     }

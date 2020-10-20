@@ -7,8 +7,7 @@ export default {
   },
   methods: {
     deleteUsers() {
-      this.$store.dispatch("deleteUser", "01en20tt3068ybgya3hztcxc5c");
-      this.$store.dispatch("deleteUser", "01en274dmw5zmaftsamb232c4k");
+      this.$store.dispatch("deleteUser", "01en3mrkfn1jg6pf9cxdtqstq2");
     },
     getAllUsers() {
       this.$store.dispatch("getAllUsers");
@@ -46,9 +45,9 @@ export default {
         <p class="home-heading">CATALOG</p>
       </div>
       <div class="home-text">
-        <p>Sell your music on your terms.</p>
-        <p>Present your work beautifully.</p>
-        <p>Share revenue & rewards with <br />your biggest supporters.</p>
+        <p>Sell your music on your terms</p>
+        <p>Present your work beautifully</p>
+        <p>Share revenue & rewards with <br />your biggest supporters</p>
       </div>
     </div>
     <div class="home-footer">
