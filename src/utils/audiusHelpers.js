@@ -4,6 +4,9 @@ export const getAudiusTracksInCatalog = async (userIdAudius, catalogTextile) => 
   // fetch all Audius uploads from a user
   const uploads = await getAudiusUploads(userIdAudius)
   const formattedUploads = await formatUploads(uploads)
+
+  console.log("formattedUploads")
+  console.log(formattedUploads)
   
   // filter out tracks not in a user's Textile catalog
   var catalog = []
@@ -13,9 +16,13 @@ export const getAudiusTracksInCatalog = async (userIdAudius, catalogTextile) => 
     if (track) catalog.push({
       ...track,
       _id: item._id,
-      price: item.price
+      price: item.price,
+      artist: item.artist
     })
   })
+
+  console.log("catalog")
+  console.log(catalog)
 
   return catalog
 }

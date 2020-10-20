@@ -35,7 +35,7 @@ export default {
   }),
   methods: {
     create() {
-      this.$store.dispatch("addItemToCatalog", {...this.track, price: this.price })
+      this.$store.dispatch("addItemToCatalog", { ...this.track, price: this.price })
     }
   },
   mounted() {

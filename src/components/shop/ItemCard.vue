@@ -17,7 +17,7 @@ export default {
       return this.$route.path.includes("collection");
     },
     itemSrc() {
-      return `https://creatornode2.audius.co/tracks/stream/${this.item.id}`;
+      return `https://creatornode2.audius.co/tracks/stream/${this.item.id_audius}`;
     },
   },
   data: () => ({

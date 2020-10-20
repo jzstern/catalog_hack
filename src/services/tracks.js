@@ -13,6 +13,8 @@ const ITEMS_COLLECTION = "Items"
 // Returns a full Textile/Audius item
 export const addItemToCatalog = async (client, track, user) => {
     // console.log('💽 Adding track to catalog...', track.title )
+    console.log("useruseruseruser")
+    console.log(user)
     try {
         // Format Audius track to be Textile-friendly
         const item = {
@@ -37,6 +39,9 @@ export const addItemToCatalog = async (client, track, user) => {
         // Format the user to be Textile-friendly
         var formattedUser = formatUser(user)
         formattedUser.catalog.push(textileItem)
+
+        console.log("formattedUser")
+        console.log({formattedUser})
 
         // Update the Textile 'User' Document 
         await updateUser(client, formattedUser)
