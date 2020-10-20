@@ -18,7 +18,7 @@ export default {
       clientReady: "clientReady",
       sidebar: "sidebar",
       user: "user",
-    }),
+    })
   },
   data: () => ({
     editing: false,
@@ -43,7 +43,7 @@ export default {
 <template>
   <div class="user">
     <div class="profile-info">
-      <h3 class="profile-title">{{ artist.loading.user_info ? "loading..." : artist.name }}</h3>
+      <h3 class="profile-title">{{ artist.name ? artist.name : "loading..."  }}</h3>
     </div>
     <div class="nav">
       <router-link :to="`/${artist.handle}`" class="nav-item"

@@ -3,10 +3,11 @@
 export default {
   name: "Upload",
   watch: {
-    catalog(newValue) {
+    catalog(newVal) {
+      console.log(newVal);
       var track
-      if (this.track) track = newValue.find(item => item.id_audius === this.track.id_audius)
-      if (this.track && newValue.length && track) {
+      if (this.track) track = newVal.find(item => item.id_audius === this.track.id_audius)
+      if (this.track && newVal.length && track) {
         this.$store.commit('sidebar', {
           component: "Upload Confirmed",
           item: {

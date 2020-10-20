@@ -115,10 +115,18 @@ export default new Vuex.Store({
     },
     async getUsersFullTracks({ }, user) {
       // User must have textile catalog/collection info
-      const catalog = await getAudiusTracksInCatalog(user.id_audius, user.catalog)
-      const collection = await getAudiusTracksInCollection(user.collection)
-      const updatedUser = { ...user, catalog, collection, loading: { user_info: false, catalog: false, collection: false } }
-      return updatedUser
+      
+      const catalog = getAudiusTracksInCatalog(user.id_audius, user.catalog)
+      const collection = getAudiusTracksInCollection(user.collection)
+      
+      return Promise.all([catalog, collection]).then(results => {
+        return {
+          ...user,
+          catalog: results[0],
+          collection: results[1],
+          loading: { user_info: false, catalog: false, collection: false }
+        }
+      })
     },
     async getTrackSrc({ state, commit }, trackIdAudius) {
       const src = await getTrackSrcAudiusId(trackIdAudius)
@@ -150,7 +158,7 @@ export default new Vuex.Store({
         if (state.client) dispatch('refreshUser', userLocalStorage.id_audius)
       }
     },
-    async initTextile({ state, commit, dispatch }) {
+    async initTextile({ commit, dispatch }) {
       const [client] = await loginAndSetupDB({ newIdentity: false })
       commit('client', client)
       commit('clientReady')

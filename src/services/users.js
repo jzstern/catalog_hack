@@ -147,10 +147,10 @@ export const updateUser = async (client, user) => {
 
 export const findTextileUserByAudiusId = async (client, audiusId) => {
     try {   
-        console.log(`💽 Finding user in ${USERS_COLLECTION} by Audius Id ${audiusId} ...`)
+        // console.log(`💽 Finding user in ${USERS_COLLECTION} by Audius Id ${audiusId} ...`)
         const query = queryUserByAudiusId(audiusId)
         const user = (await makeQuery(client, USERS_COLLECTION, query))[0]
-        console.log(`💽✅ Found user by Audius Id!`, { user })
+        // console.log(`💽✅ Found user by Audius Id!`, { user })
         return user
     } catch (err) {
         throw new Error(err)

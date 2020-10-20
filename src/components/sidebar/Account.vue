@@ -4,6 +4,9 @@
 export default {
   name: "Account",
   computed: {
+    formattedWalletAddr() {
+      return (this.user.wallet_addr.substring(0, 4) + "..." + this.user.wallet_addr.substring(this.user.wallet_addr.length - 4))
+    },
     user() {
       return this.$store.state.user;
     },
@@ -29,7 +32,7 @@ export default {
     <div class="form-item">
       <label>Wallet Address</label>
       <p class="field">
-        {{ user.wallet_addr.substr(user.wallet_addr.length - 12) }}
+        {{ formattedWalletAddr }}
       </p>
     </div>
     <div class="form-item">

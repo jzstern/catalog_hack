@@ -20,7 +20,7 @@ export default {
 <template>
   <div class="collection">
     <h1 v-if="loading">loading...</h1>
-    <h1 v-else-if="!catalog.length">no tracks to display</h1>
+    <h1 v-else-if="!collection.length">no tracks to display</h1>
     <ItemCard
       v-else
       v-for="item in collection"

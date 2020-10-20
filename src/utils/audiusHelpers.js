@@ -7,11 +7,10 @@ export const getAudiusTracksInCatalog = async (userIdAudius, catalogTextile) => 
   
   // filter out tracks not in a user's Textile catalog
   var catalog = []
-  
-  // TODO - make the looping more efficient
-  formattedUploads.forEach(track => {
-    const item = catalogTextile.find(item => item.id_audius === track.id_audius)
-    if (item) catalog.push({
+
+  catalogTextile.forEach(item => {
+    const track = formattedUploads.find(track => track.id_audius === item.id_audius)
+    if (track) catalog.push({
       ...track,
       _id: item._id,
       price: item.price
@@ -57,7 +56,7 @@ export const getUserDataAudius = async (handle) => {
     catalog,
     collection,
     loading: {
-      user_info: false,
+      user_info: true,
       catalog: true,
       collection: true
     }
@@ -71,8 +70,7 @@ const formatUploads = (uploads) => {
       id_audius: track.id,
       title: track.title,
       description: track.description,
-      artwork: track.artwork,
-      price: null
+      artwork: track.artwork
     }
   })
 }
