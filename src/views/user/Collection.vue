@@ -10,15 +10,21 @@ export default {
     collection() {
       return this.$store.state.artist.collection;
     },
+    loading() {
+      return this.$store.state.artist.loading.collection
+    }
   },
 };
 </script>
 
 <template>
   <div class="collection">
+    <h1 v-if="loading">loading...</h1>
+    <h1 v-else-if="!collection.length">no tracks to display</h1>
     <ItemCard
+      v-else
       v-for="item in collection"
-      :key="item.title + item.artist"
+      :key="item._id"
       :item="item"
     />
   </div>

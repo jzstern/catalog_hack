@@ -1,41 +1,41 @@
 <script>
 /* eslint-disable */
+import { mapState } from 'vuex'
+
 export default {
   name: "User",
   watch: {
-    $route() {
+    clientReady() {
       this.refreshUserInfo();
+    }
+  },
+  computed: {
+    path() {
+      return this.$route.path;
     },
+    ...mapState({
+      artist: "artist",
+      clientReady: "clientReady",
+      sidebar: "sidebar",
+      user: "user",
+    })
   },
   data: () => ({
     editing: false,
     loading: false,
   }),
-  computed: {
-    artist() {
-      return this.$store.state.artist;
-    },
-    path() {
-      return this.$route.path;
-    },
-    sidebar() {
-      return this.$store.state.sidebar;
-    },
-    user() {
-      return this.$store.state.user;
-    },
-  },
   methods: {
     refreshUserInfo() {
       var handle = this.$route.path.substring(1);
-      if (handle.includes("/"))
-        handle = handle.substring(0, handle.indexOf("/"));
+      if (handle.includes("/")) handle = handle.substring(0, handle.indexOf("/")); // Remove /collection from route to get the handle
+      // if (this.user.handle === handle) this.$store.commit('artist', this.user)
+      // else if (this.artist.handle !== handle) this.$store.dispatch("getArtistData", handle);
       this.$store.dispatch("getArtistData", handle);
     },
   },
   mounted() {
     this.$store.commit("closeSidebar");
-    this.refreshUserInfo();
+    if (this.clientReady) this.refreshUserInfo()
   },
 };
 </script>
@@ -43,9 +43,7 @@ export default {
 <template>
   <div class="user">
     <div class="profile-info">
-      <h3 class="profile-title">
-        {{ artist.loading.user_info ? "loading..." : artist.name }}
-      </h3>
+      <h3 class="profile-title">{{ artist.name ? artist.name : "loading..."  }}</h3>
     </div>
     <div class="nav">
       <router-link :to="`/${artist.handle}`" class="nav-item"

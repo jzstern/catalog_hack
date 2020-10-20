@@ -1,29 +1,36 @@
 <template>
-  <ul class="artist-list no-select">
-    <router-link
-      v-for="artist in artists"
-      :key="artist.name"
-      :to="'/' + artist.handle"
-      class="artist"
+  <div>
+    <ul
+      v-if="artists.length"
+      class="artist-list no-select"
     >
-      <li class="artist">
-        {{ artist.name }}
-        <div class="list-divider" />
-      </li>
-    </router-link>
-  </ul>
+      <router-link
+        v-for="artist in artists"
+        :key="artist.name"
+        :to="'/' + artist.handle"
+        class="artist"
+      >
+        <li class="artist">
+          {{ artist.name }}
+          <div class="list-divider" />
+        </li>
+      </router-link>
+    </ul>
+    <p v-else>
+      loading artists...
+    </p>
+  </div>
 </template>
 
 <script>
 /* eslint-disable */
 import { ARTISTS } from "../../store/constants";
 export default {
-  data: () => ({
-    artists: [],
-  }),
-  mounted() {
-    this.artists = ARTISTS;
-  },
+  computed: {
+    artists() {
+      return this.$store.state.artistList
+    }
+  }
 };
 </script>
 

@@ -1,13 +1,36 @@
 <script>
 /* eslint-disable */
-
 export default {
   name: "Home",
   components: {
     Dropdown: () => import("../components/dropdown/Dropdown"),
   },
+  methods: {
+    deleteUsers() {
+      this.$store.dispatch('deleteUser', "01en1xj3yhcg4ezsjf92t4ps5h")
+    },
+    getAllUsers() {
+      this.$store.dispatch('getAllUsers')
+    },
+    getAllTracks() {
+      this.$store.dispatch('getAllTracks')
+    },
+    deleteTracks() {
+      this.$store.dispatch('deleteItem', "01en26fvv8ef5ddnjcajn6frtm")
+      this.$store.dispatch('deleteItem', "01en26x37y80rk5m2kat2p0f1x")
+    },
+    updateUser() {
+      this.$store.dispatch('updateUser', {
+        ...this.$store.state.user,
+        _id: "01en20tt3068ybgya3hztcxc5c",
+        catalog: [],
+        collection: []
+        // links: [ "https://twitter.com/jzstern", "https://audius.co/jzstern", "https://soundcloud.com/appappa"]
+      })
+    }
+  },
   mounted() {
-    this.$store.commit("sidebarComponent", "Browse Artists");
+    this.$store.commit("sidebarComponent", "Browse Artists")
   },
 };
 </script>
@@ -30,6 +53,11 @@ export default {
       <a href="https://discord.gg/YBzUcah" target="_blank">Message us</a>
     </div>
     <div class="home-background"></div>
+    <!-- <button @click="updateUser">update user</button>
+    <button @click="getAllUsers">get all users</button>
+    <button @click="deleteUsers">delete users</button>
+    <button @click="getAllTracks">get tracks</button>
+    <button @click="deleteTracks">delete tracks</button> -->
   </div>
 </template>
 

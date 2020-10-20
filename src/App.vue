@@ -15,11 +15,11 @@ export default {
       return this.$store.state.user;
     },
   },
-  async mounted() {
+  beforeMount() {
+    this.$store.dispatch("initTextile");
     this.$store.dispatch("initAudius");
     // this.$store.dispatch("ethers/init");
-  },
-  methods: {},
+  }
 };
 </script>
 

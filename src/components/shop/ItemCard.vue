@@ -10,7 +10,7 @@ export default {
   computed: {
     ownedByUser() {
       return this.$store.state.user.collection.find(
-        (item) => item.id === this.item.id
+        (item) => item.id_audius === this.item.id_audius
       );
     },
     pathContainsCollection() {
@@ -50,7 +50,7 @@ export default {
         <p class="card-title" @click="playItem()">{{ item.title }}</p>
         <audio ref="song" :src="itemSrc"></audio>
         <router-link :to="`/${item.artistHandle}`" class="card-artist">
-          {{ item.artist }}</router-link
+          {{ item.artist.name }}</router-link
         >
         <p>{{ item.desription }}</p>
       </div>
