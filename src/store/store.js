@@ -82,7 +82,7 @@ export default new Vuex.Store({
         console.log("result");
         console.log(result);
         commit('addItemToCatalog', result.textileItem)
-        commit('user', result.updatedTextileUser)
+        commit('user', { ...state.user, catalog: result.textileItem.catalog })
       }
     },
     async getArtistData({ state, commit, dispatch }, handle) {
@@ -257,9 +257,8 @@ export default new Vuex.Store({
       commit('user', user)
       setAudiusAccountUser(user)
     },
-    async updateUser({ state }, { id, user }) {
-      const updatedUser = await updateUser(state.client, id, user)
-      console.log(updatedUser)
+    updateUser({ state }, user) {
+      updateUser(state.client, user)
     },
     async getAllTracks({state}) {
       const tracks = await getAllTracks(state.client)

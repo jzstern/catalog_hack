@@ -7,7 +7,7 @@ export default {
   },
   methods: {
     deleteUsers() {
-      this.$store.dispatch('deleteUser', "01emzwe2bfxteyg33wewvb5y7n")
+      this.$store.dispatch('deleteUser', "01en1xj3yhcg4ezsjf92t4ps5h")
     },
     getAllUsers() {
       this.$store.dispatch('getAllUsers')
@@ -16,13 +16,16 @@ export default {
       this.$store.dispatch('getAllTracks')
     },
     deleteTracks() {
-      this.$store.dispatch('deleteItem', "01emzx8rt0vn5je7sfx29qw809")
-      this.$store.dispatch('deleteItem', "01emzxgyybm50dvpcqkdzjqyk3")
-      this.$store.dispatch('deleteItem', "01emzycjrqrhnre9ds9syrs0yn")
-      this.$store.dispatch('deleteItem', "01emzyn5qkprnbzd4p4vxbk8sd")
+      this.$store.dispatch('deleteItem', "01en1xxk6p4axzbvsyekmqmmzk")
+      this.$store.dispatch('deleteItem', "01en1yeg6hkbnbwj26wkyyvxek")
+      this.$store.dispatch('deleteItem', "01en1ymv3hv4gds28e7v8zpqqc")
+      this.$store.dispatch('deleteItem', "01en1z88zq2c60p3dmf42shjfh")
+      this.$store.dispatch('deleteItem', "01en1zbgm4vgh54vxa113cyd3v")
+      this.$store.dispatch('deleteItem', "01en1zs0c2vfe9qd5yehzw4kzf")
     },
     updateUser() {
-      this.$store.dispatch('updateUser', "01empev9nwfpxzcss6y1m4ktaj", {
+      this.$store.dispatch('updateUser', {
+        _id: "01en1xj3yhcg4ezsjf92t4ps5h",
         id_audius: "D90wn",
         handle: "jzstern",
         name: "appa",
@@ -58,8 +61,8 @@ export default {
       <p>Want to talk?</p>
       <a>Message us</a>
     </div>
+    <button @click="updateUser">update user</button>
     <button @click="getAllUsers">get all users</button>
-    <!-- <button @click="updateUser">update user</button> -->
     <button @click="deleteUsers">delete users</button>
     <button @click="getAllTracks">get tracks</button>
     <button @click="deleteTracks">delete tracks</button>
