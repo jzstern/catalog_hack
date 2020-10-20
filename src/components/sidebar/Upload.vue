@@ -37,6 +37,8 @@ export default {
   }),
   methods: {
     create() {
+      console.log("this.track");
+      console.log(this.track);
       this.$store.dispatch("addItemToCatalog", this.track);
 
       // ? do we route to the user's catalog after they upload a song?

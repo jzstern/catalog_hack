@@ -21,7 +21,8 @@ const USERS_COLLECTION = "Users"
 
 // Convert a user object to be Textile-friendly
 export const formatUser = (user) => {
-    var catalog, collection = []
+    var catalog = []
+    var collection = []
 
     // format catalog to be Textile-friendly
     if (user.catalog.length) {

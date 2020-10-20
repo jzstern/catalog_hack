@@ -30,11 +30,13 @@ export default new Vuex.Store({
       state.user.catalog.push(item)
       // If the logged in user is on their own page, also add it to the artist catalog
       if (state.artist._id === state.user._id) state.artist.catalog.push(item)
+      // setAudiusAccountUser(user)
     },
     addItemToUserCollection(state, item) {
       state.user.collection.push(item)
       // If the logged in user is on their own page, also add it to the artist collection
       if (state.artist._id === state.user._id) state.artist.collection.push(item)
+      // setAudiusAccountUser(user)
     },
     artist(state, artist) {
       state.artist = artist
@@ -72,9 +74,11 @@ export default new Vuex.Store({
     },
     user(state, user) {
       state.user = user
+      // setAudiusAccountUser(user)
     },
     wallet_addr(state, address) {
       state.user.wallet_addr = address
+      // setAudiusAccountUser(user)
     }
   },
   actions: {
@@ -86,6 +90,8 @@ export default new Vuex.Store({
       }
       else {
         const item = await addItemToCatalog(state.client, track, state.user)
+        console.log("itemitemitemitem");
+        console.log(item);
         commit('addItemToUserCatalog', item)
       }
     },

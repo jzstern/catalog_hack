@@ -79,7 +79,7 @@ export const getAudiusUploads = async (userIdAudius) => {
 
     const { data } = await response.json()
 
-    console.log('🎵✅  Resolved Tracks by Audius User', { data })
+    console.log('🎵✅  Resolved uploads by Audius User', { data })
     return data
 
   } catch (err) {
