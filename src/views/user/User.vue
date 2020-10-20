@@ -58,6 +58,7 @@ export default {
     <transition name="fade" mode="out-in">
       <router-view />
     </transition>
+    <div class="music-player"></div>
     <div class="user-background"></div>
 
     <router-link :to="'/'">
@@ -90,6 +91,7 @@ export default {
 }
 
 .nav {
+  font-family: SpaceGrotesk, sans-serif;
   position: fixed;
   margin: 24px 0 0 0;
   display: flex;
@@ -119,7 +121,7 @@ export default {
 }
 
 .profile-title {
-  font-family: "Tenor Sans", sans-serif;
+  font-family: SpaceGrotesk, sans-serif;
 
   font-size: 16px;
   opacity: 0.7;

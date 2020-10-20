@@ -89,7 +89,6 @@ export default {
 }
 
 .purchase-artist {
-  /* font-family: "supply", sans-serif; */
   margin-top: 8px;
 }
 

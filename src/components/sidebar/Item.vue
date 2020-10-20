@@ -3,15 +3,22 @@
     <img class="item-artwork" :src="item.artwork['480x480']" />
     <p class="song-title">{{ item.title }}</p>
     <p class="detail-artist">
-      song by<span class="artist-name"> {{ item.artist }}</span>
+      song by
+      <span class="artist-name"
+        ><router-link :to="`/${item.artistHandle}`">
+          {{ item.artist }}</router-link
+        ></span
+      >
     </p>
     <p v-if="ownedByUser">You own this 💪🏼</p>
     <button class="buttonPrimary" v-else @click="purchaseItem">
       Purchase ({{ item.price ? `$${item.price}` : "$0.00+" }})
     </button>
-    <div class="divider" />
+    <div class="divider divider-anomaly" />
+    <label>Description</label>
     <p>{{ item.description }}</p>
-    <div v-if="item.description" class="divider" />
+
+    <div v-if="item.description" class="divider-large" />
 
     <p class="disclaimer">
       Upon purchase, you’ll receive <b>1,450</b> {{ item.artist }} tokens, which
@@ -65,6 +72,8 @@ export default {
 }
 
 .artist-name {
+  cursor: url("../../assets/other/cursor.png"), pointer;
+
   color: #f2ba00;
   &:hover {
     text-decoration: underline;
@@ -76,5 +85,9 @@ export default {
   height: 100%;
   border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 2px;
+}
+
+.divider-anomaly {
+  margin-top: 32px;
 }
 </style>

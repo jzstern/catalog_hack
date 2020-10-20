@@ -10,7 +10,6 @@ export default {
     Purchase: () => import("./Purchase"),
     Receipt: () => import("./Receipt"),
     Register: () => import("./Register"),
-    Settings: () => import("./Settings"),
     Upload: () => import("./Upload"),
   },
   computed: {
@@ -52,7 +51,6 @@ export default {
       <Purchase v-else-if="sidebar.component === 'Purchase'" />
       <Receipt v-else-if="sidebar.component === 'Receipt'" />
       <Register v-else-if="sidebar.component === 'Register'" />
-      <Settings v-else-if="sidebar.component === 'Settings'" />
       <Upload v-else-if="sidebar.component === 'Upload'" />
     </transition>
   </div>
@@ -133,9 +131,9 @@ export default {
   border: 1px solid #666666;
   align-self: center;
   margin-right: 2%;
-  -webkit-box-shadow: 0 10px 6px -6px rgb(63, 63, 63);
-  -moz-box-shadow: 0 10px 6px -6px rgb(63, 63, 63);
-  box-shadow: 0 10px 6px -6px rgb(63, 63, 63);
+  // -webkit-box-shadow: 0 10px 6px -6px rgb(42, 42, 42);
+  // -moz-box-shadow: 0 10px 6px -6px rgb(42, 42, 42);
+  // box-shadow: 0 10px 6px -6px rgb(42, 42, 42);
 }
 
 .sidebarHome {

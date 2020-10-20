@@ -20,6 +20,9 @@ export default {
       return `https://creatornode2.audius.co/tracks/stream/${this.item.id}`;
     },
   },
+  data: () => ({
+    playing: false,
+  }),
   methods: {
     selectItem() {
       // TODO - don't open sidebar if artist name was clicked
@@ -27,9 +30,9 @@ export default {
         component: "Item",
         item: this.item,
       });
-      this.$store.dispatch("getTrackSrc", this.item.id);
     },
-    playItem() {
+    toggleAudio() {
+      this.playing = !this.playing;
       if (this.$refs.song.paused) {
         this.$refs.song.play();
       } else this.$refs.song.pause();
@@ -40,14 +43,33 @@ export default {
 
 <template>
   <div class="item-card">
-    <img
-      class="card-artwork"
-      :src="item.artwork['480x480']"
-      @click="selectItem"
-    />
+    <div class="card-artwork">
+      <img
+        class="artwork-img"
+        :src="item.artwork['480x480']"
+        @click="selectItem"
+      />
+      <!-- <div class="card-actions"> -->
+      <!-- <img class="play-pause" src="../../assets/other/play.svg" /> -->
+      <!-- <img class="play-pause" src="../../assets/other/pause.svg" /> -->
+      <!-- <button class="buttonSecondary"></button> -->
+      <!-- </div> -->
+    </div>
     <div class="card-info">
+      <img
+        v-show="!playing"
+        class="play-pause"
+        @click="toggleAudio()"
+        src="../../assets/other/play.svg"
+      />
+      <img
+        v-show="playing"
+        class="play-pause"
+        @click="toggleAudio()"
+        src="../../assets/other/pause.svg"
+      />
       <div>
-        <p class="card-title" @click="playItem()">{{ item.title }}</p>
+        <p class="card-title">{{ item.title }}</p>
         <audio ref="song" :src="itemSrc"></audio>
         <router-link :to="`/${item.artistHandle}`" class="card-artist">
           {{ item.artist }}</router-link
@@ -57,10 +79,10 @@ export default {
 
       <!-- <p v-if="!ownedByUser" class="artist">{{ item.artist }}</p> -->
       <!-- <p>{{ item.description }}</p> -->
-      <p class="card-price" v-if="!pathContainsCollection || !ownedByUser">
+      <!-- <p class="card-price" v-if="!pathContainsCollection || !ownedByUser">
         {{ item.price ? `$${item.price}` : "$0.00+" }}
-      </p>
-      <p v-else>you own this work</p>
+      </p> -->
+      <!-- <p v-else>you own this work</p> -->
     </div>
   </div>
 </template>
@@ -77,11 +99,13 @@ export default {
 
 .card-info {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
+  margin-top: 4px;
+  line-height: 8px;
 }
 
 .card-price {
-  font-family: "Supply", sans-serif;
+  font-family: "SpaceGrotesk", sans-serif;
   opacity: 0.5;
 }
 .item-card {
@@ -98,18 +122,30 @@ export default {
 
 .card-artist {
   // color: red;
-  // margin-top: 8px;
   opacity: 0.6;
-  font-family: SpaceGrotesk, sans-serif;
 
   &:hover {
     color: #f2ba00;
   }
 }
 
+.card-actions {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  bottom: 5px;
+  background-color: rgba(133, 133, 3, 0.2);
+  height: 55px;
+  border-top: 1px solid #666;
+  width: 100%;
+}
+
 .card-artwork {
+  display: block;
+  position: relative;
   width: 100%;
   border-radius: 1px;
+
   &:hover {
     box-sizing: border-box;
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -119,6 +155,24 @@ export default {
     &:active {
       border: 1px solid rgba(255, 255, 255, 0.2);
     }
+  }
+}
+
+.artwork-img {
+  display: block;
+  position: relative;
+  width: 100%;
+  border-radius: 1px;
+}
+
+.play-pause {
+  width: 18px;
+  margin: 0 24px 0 8px;
+  opacity: 0.8;
+  cursor: url("../../assets/other/cursor.png"), pointer;
+
+  &:hover {
+    opacity: 1;
   }
 }
 </style>
