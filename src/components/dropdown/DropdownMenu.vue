@@ -1,15 +1,13 @@
 <script>
 /* eslint-disable */
+import { mapState } from 'vuex'
 export default {
   name: "DropdownMenu",
-  computed: {
-    sidebar() {
-      return this.$store.state.sidebar;
-    },
-    user() {
-      return this.$store.state.user;
-    },
-  },
+  computed: mapState({
+    connected: state => state.ethers.address,
+    sidebar: 'sidebar',
+    user: 'user'
+  }),
   data: () => ({
     expanded: false,
   }),
@@ -43,6 +41,9 @@ export default {
       <div class="menu-item" @click="openSidebar('Upload')">upload</div>
       <div class="menu-item" @click="openSidebar('Account')">account</div>
       <div class="menu-item" @click="openSidebar('User Dashboard')">dashboard</div>
+      <div class="menu-item" @click="$store.dispatch('ethers/login')" v-if="!connected">
+        connect 🦊
+      </div>
     </div>
   </div>
 </template>

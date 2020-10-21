@@ -1,7 +1,5 @@
 <script>
 /* eslint-disable */
-// when you define this component, use this v-if
-// <MusicPlayer v-if="currentSong._id" />
 export default {
   watch: {
     playing(newVal) {

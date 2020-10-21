@@ -16,6 +16,7 @@ export const NULL_ARTIST = {
   id_audius: null,
   catalog: [],
   collection: [],
+  contractAddress: null,
   email: null,
   name: null,
   handle: null,
@@ -25,4 +26,13 @@ export const NULL_ARTIST = {
     catalog: true,
     collection: true
   }
+}
+
+export const NULL_SONG = {
+  _id: null,
+  id_audius: null,
+  playing: false,
+  artist: null,
+  title: null,
+  artwork: null
 }
