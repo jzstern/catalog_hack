@@ -1,6 +1,6 @@
 <script>
+/* eslint-disable */
 export default {
-  /* eslint-disable */
   name: "Sidebar",
   components: {
     Account: () => import("./Account"),
@@ -12,6 +12,7 @@ export default {
     Register: () => import("./Register"),
     Upload: () => import("./Upload"),
     UploadConfirmed: () => import("./UploadConfirmed"),
+    UserDashboard: () => import('./UserDashboard')
   },
   computed: {
     sidebar() {
@@ -54,6 +55,7 @@ export default {
       <Register v-else-if="sidebar.component === 'Register'" />
       <Upload v-else-if="sidebar.component === 'Upload'" />
       <UploadConfirmed v-else-if="sidebar.component === 'Upload Confirmed'" />
+      <UserDashboard v-else-if="sidebar.component === 'User Dashboard'" />
     </transition>
   </div>
 </template>

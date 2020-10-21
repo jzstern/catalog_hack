@@ -1,28 +1,5 @@
-<template>
-  <div class="dropdown-menu">
-    <div @click="toggleDropdown()" class="menu-item">
-      {{ user.name }}
-      <img class="dropdown-icon" src="@/assets/other/dropDown.svg" />
-    </div>
-
-    <div class="expanded" v-show="expanded">
-      <div class="menu-item">
-        <router-link :to="`/${this.user.handle}`">my catalog</router-link>
-      </div>
-      <!-- <div class="menu-item">
-        <router-link :to="`/${this.user.handle}/collection`">
-          Collection
-        </router-link>
-      </div> -->
-      <div class="menu-item" @click="openSidebar('Upload')">upload</div>
-      <div class="menu-item" @click="openSidebar('Account')">account</div>
-    </div>
-  </div>
-</template>
-
 <script>
 /* eslint-disable */
-
 export default {
   name: "DropdownMenu",
   computed: {
@@ -46,6 +23,29 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="dropdown-menu">
+    <div @click="toggleDropdown()" class="menu-item">
+      {{ user.name }}
+      <img class="dropdown-icon" src="@/assets/other/dropDown.svg" />
+    </div>
+
+    <div class="expanded" v-show="expanded">
+      <div class="menu-item">
+        <router-link :to="`/${this.user.handle}`">my catalog</router-link>
+      </div>
+      <!-- <div class="menu-item">
+        <router-link :to="`/${this.user.handle}/collection`">
+          Collection
+        </router-link>
+      </div> -->
+      <div class="menu-item" @click="openSidebar('Upload')">upload</div>
+      <div class="menu-item" @click="openSidebar('Account')">account</div>
+      <div class="menu-item" @click="openSidebar('User Dashboard')">dashboard</div>
+    </div>
+  </div>
+</template>
 
 <style lang="scss">
 .dropdown-icon {
