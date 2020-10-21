@@ -38,7 +38,6 @@ export const LOG_TRANSACTIONS = [
 ]
 
 // const artistTokenAddress = await catalogContract.artists('0x6fD5aeE28863eFD6C40CB76FFb5fbe6D9d03858C')
-const MAX_UINT = '115792089237316195423570985008687907853269984665640564039457584007913129639935'
 const CATALOG_CONTRACT_ADDRESS = '0x937c882Ed182CEf2A9174aC48e7a221474dcA1c5'
 const DAI_CONTRACT_ADDRESS = '0x13D282Daa4016396bc7294cAD4C855773253eb10'
 const catalogAbi = require('./abi/catalog.json')
@@ -154,13 +153,11 @@ export async function sendDai(to, amount) {
     return
   }
 
-  // const value = (await utils.parseEther(amount.toString())).toString()
-
   const amountBigNum = utils.parseEther(amount.toString()).toString()
-  const approved = await hasUserApprovedDai(amountBigNum)
+  const approved = await hasUserApprovedDai(currentAccount, CATALOG_CONTRACT_ADDRESS, amountBigNum)
 
   if (approved) await catalogContract.split(to, amountBigNum)
-  else await daiContract.approve(CATALOG_CONTRACT_ADDRESS, MAX_UINT)
+  else await daiContract.approve(CATALOG_CONTRACT_ADDRESS, ethers.constants.MaxUint256)
 }
 
 // this should only be run when a ethereum provider is detected and set at the ethereum value above
@@ -171,14 +168,6 @@ export async function startProviderWatcher() {
     // set ethers provider
     provider = new providers.Web3Provider(ethereum)
     initialized = true
-
-    // this is modeled after EIP-1193 example provided by MetaMask for clarity and consistency
-    // but works for all EIP-1193 compatible ethereum providers
-    // https://docs.metamask.io/guide/ethereum-provider.html#using-the-provider
-
-    /** ******************************************************* */
-    /* Handle chain (network) and chainChanged (per EIP-1193) */
-    /** ******************************************************* */
 
     // Normally, we would recommend the 'eth_chainId' RPC method, but it currently
     // returns incorrectly formatted chain ID values.
@@ -253,10 +242,6 @@ export function handleAccountsChanged(accounts) {
   }
 }
 
-/** ****************************************** */
-/* Access the user's accounts (per EIP-1102) */
-/** ****************************************** */
-
 export function connect() {
   if (!ethereum) return event.$emit(EVENT_CHANNEL, MSGS.NOT_CONNECTED)
   ethereum
@@ -282,5 +267,4 @@ export async function stopWatchProvider() {
   providerInterval = null
 }
 
-// start ethereum provider checker
 startProviderWatcher()
