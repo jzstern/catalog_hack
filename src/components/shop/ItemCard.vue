@@ -1,6 +1,6 @@
 <script>
 /* eslint-disable */
-const ARTIST_1_TOKEN_ADDRESS = '0x6fD5aeE28863eFD6C40CB76FFb5fbe6D9d03858C'
+const ARTIST_1_TOKEN_ADDRESS = "0x6fD5aeE28863eFD6C40CB76FFb5fbe6D9d03858C";
 export default {
   props: {
     item: {
@@ -21,8 +21,8 @@ export default {
       return this.$route.path.includes("collection");
     },
     showPauseButton() {
-      return this.currentSong._id === this.item._id && this.currentSong.playing
-    }
+      return this.currentSong._id === this.item._id && this.currentSong.playing;
+    },
   },
   data: () => ({
     playing: false,
@@ -34,18 +34,20 @@ export default {
         component: "Item",
         item: {
           ...this.item,
-          contractAddress: 'ARTIST_1_TOKEN_ADDRESS'
+          contractAddress: "ARTIST_1_TOKEN_ADDRESS",
         },
       });
     },
     toggleAudio() {
-      this.currentSong.id_audius === this.item.id_audius ?
-        this.$store.commit("togglePlaying") :
-        this.$store.commit("currentSong", {
-          ...this.item,
-          playing: true
-        })
-    }
+      if (this.currentSong._id) {
+        this.currentSong.id_audius === this.item.id_audius
+          ? this.$store.commit("togglePlaying")
+          : this.$store.commit("currentSong", {
+              ...this.item,
+              playing: true,
+            });
+      }
+    },
   },
 };
 </script>

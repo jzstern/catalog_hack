@@ -46,16 +46,18 @@ export default {
       />
     </div>
     <transition name="slide" mode="out-in">
-      <Account v-if="sidebar.component === 'Account'" />
-      <ArtistList v-else-if="sidebar.component === 'Browse Artists'" />
-      <Item v-else-if="sidebar.component === 'Item'" />
-      <Login v-else-if="sidebar.component === 'Login'" />
-      <Purchase v-else-if="sidebar.component === 'Purchase'" />
-      <Receipt v-else-if="sidebar.component === 'Receipt'" />
-      <Register v-else-if="sidebar.component === 'Register'" />
-      <Upload v-else-if="sidebar.component === 'Upload'" />
-      <UploadConfirmed v-else-if="sidebar.component === 'Upload Confirmed'" />
-      <UserDashboard v-else-if="sidebar.component === 'User Dashboard'" />
+      <div class="sidebar-content">
+        <Account v-if="sidebar.component === 'Account'" />
+        <ArtistList v-else-if="sidebar.component === 'Browse Artists'" />
+        <Item v-else-if="sidebar.component === 'Item'" />
+        <Login v-else-if="sidebar.component === 'Login'" />
+        <Purchase v-else-if="sidebar.component === 'Purchase'" />
+        <Receipt v-else-if="sidebar.component === 'Receipt'" />
+        <Register v-else-if="sidebar.component === 'Register'" />
+        <Upload v-else-if="sidebar.component === 'Upload'" />
+        <UploadConfirmed v-else-if="sidebar.component === 'Upload Confirmed'" />
+        <UserDashboard v-else-if="sidebar.component === 'User Dashboard'" />
+      </div>
     </transition>
   </div>
 </template>
@@ -111,6 +113,10 @@ export default {
   opacity: 0.8;
 }
 
+.sidebar-content {
+  flex-shrink: 1;
+}
+
 .no-select {
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Safari */
@@ -124,6 +130,7 @@ export default {
 .sidebar {
   position: fixed;
   width: 30%;
+  flex-shrink: 2;
   // min-width: 500px;
   // flex: initial;
   box-sizing: border-box;

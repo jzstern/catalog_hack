@@ -1,12 +1,14 @@
 <script>
 /* eslint-disable */
 import Audius from "@audius/libs";
+import MusicPlayer from "./components/MusicPlayer";
+import { NULL_SONG } from "./store/constants";
 
 export default {
   components: {
     Dropdown: () => import("./components/dropdown/Dropdown"),
-    MusicPlayer: () => import("./components/MusicPlayer"),
     Sidebar: () => import("./components/sidebar/Sidebar"),
+    MusicPlayer,
   },
   computed: {
     showSideBar() {
@@ -27,6 +29,9 @@ export default {
     this.$store.dispatch("initAudius");
     // this.$store.dispatch("ethers/init");
   },
+  // mounted() {
+  //   this.$store.commit("currentSong", NULL_SONG);
+  // },
 };
 </script>
 
@@ -43,9 +48,12 @@ export default {
         <router-view />
       </div>
     </div>
-    <transition name="fade" mode="out-in">
-      <MusicPlayer v-if="currentSong._id" />
-    </transition>
+    <!-- <transition name="fade" mode="out-in"> -->
+    <MusicPlayer />
+    <!-- </transition> -->
+    <!-- <transition name="fade" mode="out-in">
+      <MusicPlayer v-show="currentSong._id || onHome" />
+    </transition> -->
   </div>
 </template>
 
@@ -92,7 +100,7 @@ export default {
   color: white;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: flex-start;
   height: 100vh;
   overflow-x: hidden;
 }

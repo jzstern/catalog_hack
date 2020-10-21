@@ -47,10 +47,7 @@ export default {
         <p>Share revenue & rewards with <br />your biggest supporters</p>
       </div>
     </div>
-    <div class="home-footer">
-      <p>Want to talk?</p>
-      <a href="https://discord.gg/YBzUcah" target="_blank">Message us</a>
-    </div>
+
     <div class="home-background"></div>
     <!-- <button @click="updateUser">update user</button>
     <button @click="getAllUsers">get all users</button>
@@ -61,10 +58,6 @@ export default {
 </template>
 
 <style scoped lang="scss">
-a {
-  color: #42b983;
-}
-
 .home {
   display: flex;
   align-items: flex-start;
@@ -117,38 +110,6 @@ a {
   font-size: 42px;
   margin-bottom: 0px;
   letter-spacing: 0.05em;
-}
-
-.home-footer {
-  display: flex;
-  align-items: center;
-  align-self: flex-start;
-  justify-self: flex-end;
-  font-family: Inconsolata;
-  font-size: 14px;
-  // position: absolute;
-  width: 70%;
-  padding: 0px 32px;
-  box-sizing: border-box;
-  bottom: 0;
-  left: 0;
-  // background-color: black;
-  border-top: 1px solid #666666;
-  z-index: 0;
-
-  p {
-    opacity: 0.6;
-  }
-
-  a {
-    padding-left: 8px;
-    opacity: 0.6;
-    cursor: url("../assets/other/cursor.png"), pointer;
-
-    &:hover {
-      opacity: 1;
-    }
-  }
 }
 
 .home-heading {
