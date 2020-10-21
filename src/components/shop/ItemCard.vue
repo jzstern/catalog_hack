@@ -39,14 +39,12 @@ export default {
       });
     },
     toggleAudio() {
-      if (this.currentSong._id) {
-        this.currentSong.id_audius === this.item.id_audius
-          ? this.$store.commit("togglePlaying")
-          : this.$store.commit("currentSong", {
-              ...this.item,
-              playing: true,
-            });
-      }
+      this.currentSong.id_audius === this.item.id_audius
+        ? this.$store.commit("togglePlaying")
+        : this.$store.commit("currentSong", {
+            ...this.item,
+            playing: true,
+          });
     },
   },
 };

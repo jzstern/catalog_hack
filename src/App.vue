@@ -1,14 +1,12 @@
 <script>
 /* eslint-disable */
 import Audius from "@audius/libs";
-import MusicPlayer from "./components/MusicPlayer";
-import { NULL_SONG } from "./store/constants";
 
 export default {
   components: {
     Dropdown: () => import("./components/dropdown/Dropdown"),
+    MusicPlayer: () => import("./components/MusicPlayer"),
     Sidebar: () => import("./components/sidebar/Sidebar"),
-    MusicPlayer,
   },
   computed: {
     showSideBar() {
@@ -29,9 +27,6 @@ export default {
     this.$store.dispatch("initAudius");
     // this.$store.dispatch("ethers/init");
   },
-  // mounted() {
-  //   this.$store.commit("currentSong", NULL_SONG);
-  // },
 };
 </script>
 

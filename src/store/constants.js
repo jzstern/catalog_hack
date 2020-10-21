@@ -32,7 +32,7 @@ export const NULL_SONG = {
   _id: null,
   id_audius: null,
   playing: false,
-  artist: null,
+  artist: {},
   title: null,
-  artwork: null
+  artwork: {}
 }
