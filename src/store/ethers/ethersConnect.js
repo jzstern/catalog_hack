@@ -172,15 +172,19 @@ export async function sendDai(to, amount) {
   }
   
   await catalogContract.split(to, amountBigNum, params)
+  return
 }
 
 export async function stake(artistAddress) {
-  // TODO - make sure they have tokens to stake
   const { pool, token } = await getArtistInfo(artistAddress)
-
   const artistTokenContract = new ethers.Contract(token, IERC20.abi, userWallet)
   const poolContract = new ethers.Contract(pool, artistPoolAbi.abi, userWallet)
   const artistTokenBalance = await artistTokenContract.balanceOf(currentAccount)
+
+  if (!artistTokenBalance) {
+    alert('no artist tokens to stake (yet... try again in a few)')
+    return
+  }
 
   const approved = await hasUserApprovedPool(artistTokenContract, currentAccount, poolContract.address, artistTokenBalance)
 
@@ -193,6 +197,8 @@ export async function stake(artistAddress) {
   console.log("staking " + fromDai(artistTokenBalance).toString() + " artist tokens");
   await stakeArtistTokens(poolContract, artistTokenBalance)
   console.log("staking successful");
+
+  return
 }
 
 async function stakeArtistTokens(poolContract, artistTokenBalance) {

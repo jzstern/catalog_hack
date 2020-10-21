@@ -15,7 +15,6 @@ import {
   sendDai,
   stake,
   initContracts,
-  // sendTransaction,
   hasEns
 } from './ethersConnect'
 
@@ -75,7 +74,8 @@ export default {
     ctx.commit('balanceDai', await getBalanceDai())
   },
   async sendDai(ctx, {to, amount}) {
-     sendDai(to, amount)
+    await sendDai(to, amount)
+    return "sent"
   },
   async init(ctx) {
     event.$on(EVENT_CHANNEL, async (msg) => {
@@ -114,7 +114,8 @@ export default {
     connect()
   },
   async stake(ctx, artistWalletAddress) {
-    stake(artistWalletAddress)
+    await stake(artistWalletAddress)
+    return "🥩"
   },
   logout(ctx) {
     ctx.commit('address', '')

@@ -21,8 +21,9 @@ export default {
         item: this.item,
       });
     },
-    purchaseItem() {
-      if (this.generateTx) this.$store.dispatch('ethers/sendDai', this.payment)
+    async purchaseItem() {
+      // if (this.generateTx) await this.$store.dispatch('ethers/sendDai', { to: this.item.artist.wallet_addr, amount: this.payment})
+      if (this.generateTx) await this.$store.dispatch('ethers/sendDai', { to: "0x22A71a4b2bEaE4C5d54E407D81A55CDfCFb22B2a", amount: this.payment})
       
       const purchase = {
         ...this.item,

@@ -5,15 +5,19 @@ export default {
   computed: {
     item() {
       return this.$store.state.sidebar.item;
-    },
+    }
   },
+  data: () => ({
+    stakingComplete: false
+  }),
   methods: {
     close() {
       this.$store.commit("closeSidebar");
     },
-    stake() {
+    async stake() {
       // this.$store.dispatch("ethers/stake", this.item.artist.wallet_addr)
-      this.$store.dispatch("ethers/stake", "0x22A71a4b2bEaE4C5d54E407D81A55CDfCFb22B2a")
+      await this.$store.dispatch("ethers/stake", "0x22A71a4b2bEaE4C5d54E407D81A55CDfCFb22B2a")
+      this.stakingComplete = true
     }
   },
 };
@@ -40,7 +44,8 @@ export default {
     </div>
     <div class="divider" />
     <p>Thank you for your support :)</p>
-    <button class="buttonPrimary" @click="stake">Stake</button>
+    <button class="buttonPrimary" @click="stake" v-if="!stakingComplete">Stake</button>
+    <p v-else>Staking successful 💸</p>
     <button class="buttonSecondary" @click="close">Close</button>
   </div>
 </template>
