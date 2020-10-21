@@ -12,7 +12,7 @@ export default {
     Register: () => import("./Register"),
     Upload: () => import("./Upload"),
     UploadConfirmed: () => import("./UploadConfirmed"),
-    UserDashboard: () => import('./UserDashboard')
+    UserDashboard: () => import("./UserDashboard"),
   },
   computed: {
     sidebar() {
@@ -98,6 +98,7 @@ export default {
   box-sizing: border-box;
   border-bottom: 1px solid #666666;
   z-index: 200;
+  flex-shrink: 0;
   padding: 0 32px;
   backdrop-filter: blur(12px);
 }
@@ -132,7 +133,7 @@ export default {
   background-color: black;
   // height: 100%;
   // border-left: 1px solid #666666;
-  height: 96%;
+  height: 95%;
   border: 1px solid #666666;
   align-self: center;
   margin-right: 2%;
@@ -142,6 +143,9 @@ export default {
 }
 
 .sidebarHome {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
   height: 100%;
   background-color: transparent;
   border-left: 1px solid #666666;
