@@ -72,7 +72,7 @@ export default {
         src="../../assets/other/pause.svg"
       />
       <div>
-        <p class="card-title">{{ item.title }}</p>
+        <p class="card-title" @click="selectItem">{{ item.title }}</p>
         <router-link :to="`/${item.artist.handle}`" class="card-artist">
           {{ item.artist.name }}</router-link
         >

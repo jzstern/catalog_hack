@@ -7,7 +7,7 @@ export default {
   },
   methods: {
     deleteUsers() {
-      this.$store.dispatch("deleteUser", "01en3mrkfn1jg6pf9cxdtqstq2");
+      this.$store.dispatch("deleteUser", "01en4qz88ech0gd9qccak6qym4");
     },
     getAllUsers() {
       this.$store.dispatch("getAllUsers");

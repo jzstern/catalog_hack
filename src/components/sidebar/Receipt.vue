@@ -45,7 +45,12 @@ export default {
     <div class="divider" />
     <p>Thank you for your support :)</p>
     <button class="buttonPrimary" @click="stake" v-if="!stakingComplete">Stake</button>
-    <p v-else>Staking successful 💸</p>
+
+    <div v-else>
+      <p >Staking successful 💸</p>
+      <button class="buttonPrimary" @click="$store.commit('sidebarComponent', 'User Dashboard')">Dashboard</button>  
+    </div>
+
     <button class="buttonSecondary" @click="close">Close</button>
   </div>
 </template>

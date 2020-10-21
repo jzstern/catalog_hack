@@ -158,8 +158,10 @@ async function getArtistInfo(artistAddress) {
 export async function sendDai(to, amount) {
   // TODO - check this on the FE
   const balance = fromDai(await daiContract.balanceOf(currentAccount)).toString()
+  const balanceInt = Number(balance)
+  const amountInt = Number(amount)
 
-  if (balance < amount) {
+  if (balanceInt < amountInt) {
     alert('dai balance too low')
     return
   }
