@@ -61,6 +61,7 @@ const getJSONValue = (key) => {
 const setValue = (key, value) => {
   if (window && window.localStorage) {
     window.localStorage.setItem(key, value)
+    console.log('💻 Updated localstorage')
   }
 }
 
