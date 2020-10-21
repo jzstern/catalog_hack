@@ -18,6 +18,10 @@ export default {
     logout() {
       this.$store.dispatch("logout");
     },
+    async mintDai() {
+      await this.$store.dispatch('ethers/mintDai')
+      alert('minted 100 fake DAI')
+    },
   },
 };
 </script>
@@ -42,8 +46,8 @@ export default {
       <label>Handle</label>
       <p class="field">{{ user.handle }}</p>
     </div>
-    <div class="account-item">
-      <label>Dai Balance</label>
+    <div class="account-item mint">
+      <label @click="mintDai">Dai Balance (click to mint)</label>
       <p class="field">{{ balanceDai }}</p>
     </div>
     <div class="account-item">
@@ -75,5 +79,12 @@ export default {
   font-family: Inconsolata;
   padding: 16px 32px;
   // width: 100%;
+}
+
+.mint {
+  &:hover {
+    cursor: pointer;
+    opacity: .5;
+  }
 }
 </style>

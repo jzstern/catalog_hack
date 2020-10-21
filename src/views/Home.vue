@@ -6,13 +6,6 @@ export default {
     Dropdown: () => import("../components/dropdown/Dropdown"),
   },
   methods: {
-    async mintDai() {
-      await this.$store.dispatch('ethers/mintDai')
-      alert('minted 100 fake DAI')
-    },
-    sendDai() {
-      this.$store.dispatch('ethers/sendDai', {to: '0x22A71a4b2bEaE4C5d54E407D81A55CDfCFb22B2a', amount: 10})
-    },
     deleteUsers() {
       this.$store.dispatch("deleteUser", "01en3mrkfn1jg6pf9cxdtqstq2");
     },
@@ -62,8 +55,6 @@ export default {
       <a href="https://discord.gg/YBzUcah" target="_blank">Message us</a>
     </div>
     <div class="home-background"></div>
-    <button @click="mintDai">mint dai</button>
-    <!-- <button @click="sendDai">send dai</button> -->
     <button @click="updateUser">update user</button>
     <button @click="getAllUsers">get all users</button>
     <button @click="deleteUsers">delete users</button>
