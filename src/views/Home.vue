@@ -16,15 +16,12 @@ export default {
       this.$store.dispatch("getAllTracks");
     },
     deleteTracks() {
-      this.$store.dispatch("deleteItem", "01en28jxatr03h6z4gvekf9m3d");
-      this.$store.dispatch("deleteItem", "01en28rxh3vawcm0g34qmd7xmk");
-      this.$store.dispatch("deleteItem", "01en28tysta74b1bgzbr07q0nj");
-      this.$store.dispatch("deleteItem", "01en28vwhr9t6fr9f7a2hrkr9p");
+      this.$store.dispatch("deleteItem", "01en4sfsp59fwsdc2st7dsbe9h");
     },
     updateUser() {
       this.$store.dispatch("updateUser", {
         ...this.$store.state.user,
-        _id: "01en2c8x1pfbtce7vcm9cs8nw8",
+        _id: "01en3mzfex54308bc9pyphs4f1",
         catalog: [],
         collection: [],
         // links: [ "https://twitter.com/jzstern", "https://audius.co/jzstern", "https://soundcloud.com/appappa"]
@@ -55,11 +52,11 @@ export default {
       <a href="https://discord.gg/YBzUcah" target="_blank">Message us</a>
     </div>
     <div class="home-background"></div>
-    <button @click="updateUser">update user</button>
+    <!-- <button @click="updateUser">update user</button>
     <button @click="getAllUsers">get all users</button>
     <button @click="deleteUsers">delete users</button>
     <button @click="getAllTracks">get tracks</button>
-    <button @click="deleteTracks">delete tracks</button>
+    <button @click="deleteTracks">delete tracks</button> -->
   </div>
 </template>
 

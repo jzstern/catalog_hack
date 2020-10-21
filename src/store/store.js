@@ -71,7 +71,7 @@ export default new Vuex.Store({
       state.currentSong = song
     },
     togglePlaying(state) {
-      if (state.currentSong.source) state.currentSong.playing = !state.currentSong.playing
+      state.currentSong.playing = !state.currentSong.playing
     },
     libs(state, libs) {
       state.libs = libs
@@ -141,7 +141,7 @@ export default new Vuex.Store({
       // User must have textile catalog/collection info
       const catalog = getAudiusTracksInCatalog(user.id_audius, user.catalog)
       const collection = getAudiusTracksInCollection(user.collection)
-      
+
       return Promise.all([catalog, collection]).then(results => {
         return {
           ...user,
@@ -176,7 +176,7 @@ export default new Vuex.Store({
 
       if (userLocalStorage) {
         commit('user', userLocalStorage)
-        
+
         // fetch user from textile & update w/ any new data
         if (state.client) dispatch('refreshUser', userLocalStorage.id_audius)
       }
@@ -200,7 +200,7 @@ export default new Vuex.Store({
       var user
       try {
         user = await state.libs.Account.login(credentials.email, credentials.pw)
-        
+
         var userModel = {
           _id: null,
           id_audius: null,
@@ -229,10 +229,10 @@ export default new Vuex.Store({
         commit('user', userModel)
 
         var userTextile = await findTextileUserByAudiusId(state.client, userModel.id_audius)
-        
+
         if (!userTextile) {
           console.warn("User does not exist in our DB (yet) - creating an entry");
-          
+
           userTextile = {
             id_audius: userModel.id_audius,
             name: userModel.name,
@@ -241,7 +241,7 @@ export default new Vuex.Store({
             collection: [],
             links: []
           }
-          
+
           const newUserId = await createUser(state.client, userTextile)
 
           console.log("newUserId");
@@ -261,7 +261,7 @@ export default new Vuex.Store({
           links: userTextile.links,
           loading: { ...userModel.loading, user_info: false }
         }
-        
+
         commit('user', userModel)
 
         userModel = await dispatch('getUsersFullTracks', userModel)
@@ -281,9 +281,9 @@ export default new Vuex.Store({
         collection: user.collection,
         links: user.links
       }
-      
+
       commit('user', user)
-      
+
       // Get full Audius track info for Catalog & collection
       user = await dispatch('getUsersFullTracks', user)
 

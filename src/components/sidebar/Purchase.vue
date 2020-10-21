@@ -59,8 +59,8 @@ export default {
     <button class="buttonSecondary" @click="back">Go back</button>
 
     <p class="disclaimer">
-      Upon purchase, you’ll receive <b>1,450</b> {{ item.artist.name }} tokens, which
-      entitle you to a portion of <b>10%</b> of future revenue from
+      Upon purchase, you’ll receive <b>1,450</b> {{ item.artist.name }} tokens,
+      which entitle you to a portion of <b>10%</b> of future revenue from
       {{ item.artist }} on Catalog, as well as other token holder rewards.
       You’ll also get unlimited streaming via Catalog, and a download in mp3 and
       wav.

@@ -5,6 +5,7 @@ import Audius from "@audius/libs";
 export default {
   components: {
     Dropdown: () => import("./components/dropdown/Dropdown"),
+    MusicPlayer: () => import("./components/MusicPlayer"),
     Sidebar: () => import("./components/sidebar/Sidebar"),
   },
   computed: {
@@ -17,6 +18,9 @@ export default {
     onHome() {
       return this.$route.path === "/";
     },
+    currentSong() {
+      return this.$store.state.currentSong;
+    },
   },
   beforeMount() {
     this.$store.dispatch("initTextile");
@@ -28,15 +32,20 @@ export default {
 
 <template>
   <div id="app">
-    <transition name="slide" mode="out-in">
-      <Sidebar v-if="showSideBar" />
-    </transition>
-    <transition name="fade" mode="out-in">
-      <Dropdown />
-    </transition>
     <div class="content">
-      <router-view />
+      <transition name="fadeScale" mode="out-in">
+        <Sidebar v-if="showSideBar" />
+      </transition>
+      <div class="view">
+        <transition name="fadeScale" mode="out-in">
+          <Dropdown />
+        </transition>
+        <router-view />
+      </div>
     </div>
+    <transition name="fade" mode="out-in">
+      <MusicPlayer v-if="currentSong._id" />
+    </transition>
   </div>
 </template>
 
@@ -82,7 +91,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   color: white;
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: column;
+  justify-content: flex-end;
   height: 100vh;
   overflow-x: hidden;
 }

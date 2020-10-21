@@ -1,13 +1,13 @@
 <script>
 /* eslint-disable */
-import { mapState } from 'vuex'
+import { mapState } from "vuex";
 
 export default {
   name: "User",
   watch: {
     clientReady() {
       this.refreshUserInfo();
-    }
+    },
   },
   computed: {
     path() {
@@ -18,7 +18,10 @@ export default {
       clientReady: "clientReady",
       sidebar: "sidebar",
       user: "user",
-    })
+    }),
+    currentSong() {
+      return this.$store.state.currentSong;
+    },
   },
   data: () => ({
     editing: false,
@@ -27,7 +30,8 @@ export default {
   methods: {
     refreshUserInfo() {
       var handle = this.$route.path.substring(1);
-      if (handle.includes("/")) handle = handle.substring(0, handle.indexOf("/")); // Remove /collection from route to get the handle
+      if (handle.includes("/"))
+        handle = handle.substring(0, handle.indexOf("/")); // Remove /collection from route to get the handle
       // if (this.user.handle === handle) this.$store.commit('artist', this.user)
       // else if (this.artist.handle !== handle) this.$store.dispatch("getArtistData", handle);
       this.$store.dispatch("getArtistData", handle);
@@ -35,7 +39,7 @@ export default {
   },
   mounted() {
     this.$store.commit("closeSidebar");
-    if (this.clientReady) this.refreshUserInfo()
+    if (this.clientReady) this.refreshUserInfo();
   },
 };
 </script>
@@ -43,7 +47,9 @@ export default {
 <template>
   <div class="user">
     <div class="profile-info">
-      <h3 class="profile-title">{{ artist.name ? artist.name : "loading..."  }}</h3>
+      <h3 class="profile-title">
+        {{ artist.name ? artist.name : "loading..." }}
+      </h3>
     </div>
     <div class="nav">
       <router-link :to="`/${artist.handle}`" class="nav-item"
@@ -56,11 +62,13 @@ export default {
     <transition name="fade" mode="out-in">
       <router-view />
     </transition>
-    <div class="music-player"></div>
     <div class="user-background"></div>
 
     <router-link :to="'/'">
-      <img class="home-nav" src="../../assets/other/catalog.svg" />
+      <img
+        :class="['home-nav', { homeNavWithPlayer: currentSong._id }]"
+        src="../../assets/other/catalog.svg"
+      />
     </router-link>
   </div>
 </template>
@@ -86,6 +94,10 @@ export default {
   &:hover {
     opacity: 1;
   }
+}
+
+.homeNavWithPlayer {
+  bottom: 64px;
 }
 
 .nav {

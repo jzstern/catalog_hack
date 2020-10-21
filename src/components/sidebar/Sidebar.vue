@@ -44,7 +44,7 @@ export default {
         src="../../assets/other/close.svg"
       />
     </div>
-    <transition name="fade" mode="out-in">
+    <transition name="slide" mode="out-in">
       <Account v-if="sidebar.component === 'Account'" />
       <ArtistList v-else-if="sidebar.component === 'Browse Artists'" />
       <Item v-else-if="sidebar.component === 'Item'" />
@@ -115,6 +115,7 @@ export default {
   -moz-user-select: none; /* Old versions of Firefox */
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none;
+  -webkit-user-drag: none;
 }
 
 .sidebar {

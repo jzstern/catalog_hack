@@ -9,7 +9,7 @@ export default {
   },
   computed: {
     currentSong() {
-      return this.$store.state.currentSong
+      return this.$store.state.currentSong;
     },
     ownedByUser() {
       return this.$store.state.user.collection.find(
@@ -32,9 +32,13 @@ export default {
       });
     },
     toggleAudio() {
-      this.currentSong.id_audius === this.item.id_audius ?
-        this.$store.commit('togglePlaying') :
-        this.$store.state.commit('currentSong', { ...this.item, playing: true })
+      this.currentSong.id_audius === this.item.id_audius
+        ? (this.$store.commit("togglePlaying"),
+          console.log(this.currentSong.playing))
+        : this.$store.commit("currentSong", {
+            ...this.item,
+            playing: true,
+          });
     },
   },
 };
@@ -44,7 +48,7 @@ export default {
   <div class="item-card">
     <div class="card-artwork">
       <img
-        class="artwork-img"
+        class="artwork-img no-select"
         :src="item.artwork['480x480']"
         @click="selectItem"
       />
@@ -57,21 +61,21 @@ export default {
     <div class="card-info">
       <img
         v-show="!currentSong.playing"
-        class="play-pause"
+        class="item-card-play-pause"
         @click="toggleAudio"
         src="../../assets/other/play.svg"
       />
       <img
         v-show="currentSong.playing"
-        class="play-pause"
+        class="item-card-play-pause"
         @click="toggleAudio"
         src="../../assets/other/pause.svg"
       />
       <div>
         <p class="card-title">{{ item.title }}</p>
-        <router-link :to="`/${item.artist.handle}`" class="card-artist">
+        <!-- <router-link :to="`/${item.artistHandle}`" class="card-artist">
           {{ item.artist.name }}</router-link
-        >
+        > -->
         <p>{{ item.desription }}</p>
       </div>
 
@@ -143,16 +147,19 @@ export default {
   position: relative;
   width: 100%;
   border-radius: 1px;
+  transition: 0.15s ease-out;
 
   &:hover {
     box-sizing: border-box;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    transform: translateY(-3px);
+    filter: brightness(110%);
     cursor: url("../../assets/other/cursor.png"), pointer;
-    // transform: scale(0.999);
+  }
 
-    &:active {
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
+  &:active {
+    transition: 0.05s ease-out;
+    transform: translateY(-3px) scale(0.995);
+    filter: brightness(110%);
   }
 }
 
@@ -163,7 +170,7 @@ export default {
   border-radius: 1px;
 }
 
-.play-pause {
+.item-card-play-pause {
   width: 18px;
   margin: 0 24px 0 8px;
   opacity: 0.8;
