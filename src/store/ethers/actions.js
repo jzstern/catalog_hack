@@ -32,7 +32,6 @@ export default {
       ctx.commit('connected', true)
       ctx.commit('error', null)
       ctx.commit('address', address)
-      ctx.commit("walletAddress", address, { root: true });
       ctx.commit('network', network)
       ctx.commit('txState', 'none')
 
@@ -106,7 +105,6 @@ export default {
 
     ctx.commit('ethereumOk', ethereumOk())
     if (ready()) await ctx.dispatch('connect')
-    else ctx.commit('txState', 'intro')
     event.$emit(EVENT_CHANNEL, MSGS.ETHERS_VUEX_INITIALIZED)
     ctx.commit('initialized', true)
   },
@@ -115,6 +113,7 @@ export default {
   },
   logout(ctx) {
     ctx.commit('address', '')
+    // todo - clear out wallet object
     // console.log('You have been logged out from your Ethereum connection')
   },
   notConnected(ctx) {
@@ -146,17 +145,17 @@ export default {
   //     });
   //   }
   // },
+  resetTxState(ctx) {
+    ctx.commit('txState', null)
+  },
   txConfirmed(ctx) {
     ctx.commit('txState', 'confirmed')
-    setTimeout(() => {
-      ctx.commit('txState', 'none')
-    }, 7000)
   },
   txFailed(ctx) {
     ctx.commit('txState', 'failed')
     // ctx.commit('resetToastMessage', null, { root: true })
-    setTimeout(() => {
-      ctx.commit('txState', 'none')
-    }, 10000)
+    // setTimeout(() => {
+    //   ctx.commit('txState', null)
+    // }, 10000)
   },
 }

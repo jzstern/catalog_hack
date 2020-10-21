@@ -193,12 +193,14 @@ function handleChainChanged(_chainId) {
 
 // For now, 'eth_accounts' will continue to always return an array
 function handleAccountsChanged(accounts) {
+  console.log("handling ETH account changed");
   if (accounts.length === 0) {
     // MetaMask is locked or the user has not connected any accounts
     event.$emit(EVENT_CHANNEL, MSGS.NO_WALLET)
   } else if (accounts[0] !== currentAccount) {
     currentAccount = accounts[0]
     // userWallet = provider && provider.getSigner(currentAccount)
+    // userWallet = provider.getSigner(currentAccount)
     userWallet = provider.getSigner(currentAccount)
     event.$emit(EVENT_CHANNEL, MSGS.ACCOUNT_CHANGED)
   }

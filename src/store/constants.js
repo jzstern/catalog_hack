@@ -26,3 +26,12 @@ export const NULL_ARTIST = {
     collection: true
   }
 }
+
+export const NULL_SONG = {
+  _id: null,
+  id_audius: null,
+  playing: false,
+  artist: null,
+  title: null,
+  artwork: null
+}
