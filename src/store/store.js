@@ -131,13 +131,9 @@ export default new Vuex.Store({
         loading: { user_info: false, catalog: true, collection: true }
       }
 
-      console.log('getArtistData 0', {artist})
-
       commit('artist', artist)
 
       const artistWithTrackInfo = await dispatch('getUsersFullTracks', artist)
-
-      console.log('getArtistData 1', {artistWithTrackInfo})
 
       commit('artist', artistWithTrackInfo)
     },
@@ -183,7 +179,7 @@ export default new Vuex.Store({
       const userLocalStorage = await getAudiusAccountUser()
 
       if (userLocalStorage) {
-        console.log('YUP WE GOT IT FROM LOCALSTORAGE', userLocalStorage)
+        console.log('Getting user from localstorage:', userLocalStorage)
         commit('user', userLocalStorage)
 
         // fetch user from textile & update w/ any new data
