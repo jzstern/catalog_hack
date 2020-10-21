@@ -1,5 +1,6 @@
 <script>
 /* eslint-disable */
+import { mapState } from "vuex"
 
 export default {
   name: "Account",
@@ -7,9 +8,11 @@ export default {
     formattedWalletAddr() {
       return (this.user.wallet_addr.substring(0, 4) + "..." + this.user.wallet_addr.substring(this.user.wallet_addr.length - 4))
     },
-    user() {
-      return this.$store.state.user;
-    },
+    ...mapState({
+      user: "user",
+      balanceDai: state => state.ethers.balanceDai,
+      balanceEth: state => state.ethers.balance,
+    })
   },
   methods: {
     logout() {
@@ -38,6 +41,14 @@ export default {
     <div class="account-item">
       <label>Handle</label>
       <p class="field">{{ user.handle }}</p>
+    </div>
+    <div class="account-item">
+      <label>Dai Balance</label>
+      <p class="field">{{ balanceDai }}</p>
+    </div>
+    <div class="account-item">
+      <label>ETH Balance</label>
+      <p class="field">{{ balanceEth }}</p>
     </div>
 
     <br />

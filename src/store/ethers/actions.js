@@ -40,6 +40,8 @@ export default {
       ctx.commit('network', network)
       ctx.commit('txState', 'none')
 
+      if (address) ctx.dispatch('getBalances', address)
+
       // Other vuex stores can wait for this
       event.$emit(EVENT_CHANNEL, MSGS.ETHERS_VUEX_READY)
 
@@ -68,10 +70,8 @@ export default {
       : 'You are not connected to an Ethereum node and wallet. Please check MetaMask, etc.')
     console.log(msg)
   },
-  async getBalance(ctx) {
+  async getBalances(ctx) {
     ctx.commit('balance', await getBalance())
-  },
-  async getBalanceDai(ctx) {
     ctx.commit('balanceDai', await getBalanceDai())
   },
   async mintDai() {
@@ -98,10 +98,7 @@ export default {
           break
         case MSGS.NETWORK_CHANGED:
           await ctx.dispatch('connect')
-          if (ctx.state.address) {
-            ctx.dispatch('getBalance', ctx.state.address)
-            ctx.dispatch('getBalanceDai', ctx.state.address)
-          }
+          if (ctx.state.address) ctx.dispatch('getBalances', ctx.state.address)
           break
         case MSGS.NOT_CONNECTED:
           await ctx.dispatch('notConnected')

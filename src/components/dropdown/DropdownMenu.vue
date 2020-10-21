@@ -4,7 +4,7 @@ import { mapState } from 'vuex'
 export default {
   name: "DropdownMenu",
   computed: mapState({
-    connected: state => state.ethers.connected,
+    connected: state => state.ethers.address,
     sidebar: 'sidebar',
     user: 'user'
   }),
