@@ -5,24 +5,47 @@
 export default {
   watch: {
     playing(newVal) {
-      newVal ? this.$refs.audio.play() : this.$refs.audio.pause();
-      console.log("from watcher" + this.currentSong.playing);
+      console.log("playing changed");
+      if (newVal) {
+        console.log("playing is a go");
+        if (this.$refs.audio.HAVE_ENOUGH_DATA) this.$refs.audio.play()
+      } else {
+        this.$refs.audio.pause()
+      }
     },
+    trackId(newVal) {
+      console.log("track ID changed");
+      this.loaded = false
+      this.$refs.audio.pause()
+      this.src = `https://creatornode2.audius.co/tracks/stream/${newVal}`
+      console.log("new src");
+      if (this.$refs.audio.HAVE_ENOUGH_DATA) {
+        console.log("we got data: play that ish");
+        this.$refs.audio.play()
+      }
+    },
+    currentSong() {
+      console.log("current song changed");
+    }
   },
   computed: {
     currentSong() {
       return this.$store.state.currentSong;
     },
     playing() {
-      return this.currentSong.playing;
+      return this.$store.state.currentSong.playing;
     },
-    source() {
-      return `https://creatornode2.audius.co/tracks/stream/${this.currentSong.id_audius}`;
+    trackId() {
+      return this.$store.state.currentSong.id_audius
     },
     onHome() {
       return this.$route.path === "/";
     },
   },
+  data: () => ({
+    loaded: false,
+    src: null
+  }),
   methods: {
     navToSong() {
       this.$store.commit("sidebar", {
@@ -35,12 +58,19 @@ export default {
       this.$store.commit("togglePlaying");
     },
   },
+  mounted() {
+    this.$refs.audio.addEventListener("canplay", event => {
+      console.log("we loaded fam");
+      this.loaded = true
+      if (this.playing) this.$refs.audio.play();
+    });
+  }
 };
 </script>
 
 <template>
   <div :class="['music-player', { homePlayer: onHome }]">
-    <audio ref="audio" :src="source" />
+    <audio ref="audio" :src="src" />
     <img
       v-if="currentSong.playing"
       class="play-pause"

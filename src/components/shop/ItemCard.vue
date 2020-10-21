@@ -19,6 +19,9 @@ export default {
     pathContainsCollection() {
       return this.$route.path.includes("collection");
     },
+    showPauseButton() {
+      return this.currentSong._id === this.item._id && this.currentSong.playing
+    }
   },
   data: () => ({
     playing: false,
@@ -32,14 +35,17 @@ export default {
       });
     },
     toggleAudio() {
-      this.currentSong.id_audius === this.item.id_audius
-        ? (this.$store.commit("togglePlaying"),
-          console.log(this.currentSong.playing))
-        : this.$store.commit("currentSong", {
-            ...this.item,
-            playing: true,
-          });
-    },
+      if (this.currentSong.id_audius === this.item.id_audius) {
+        console.log("just a toggle");
+        this.$store.commit("togglePlaying")
+      } else {
+        console.log("committing new song");
+        this.$store.commit("currentSong", {
+          ...this.item,
+          playing: true,
+        })
+      }
+    }
   },
 };
 </script>
@@ -60,16 +66,16 @@ export default {
     </div>
     <div class="card-info">
       <img
-        v-show="!currentSong.playing"
-        class="item-card-play-pause"
+        v-if="showPauseButton"
         @click="toggleAudio"
-        src="../../assets/other/play.svg"
+        class="item-card-play-pause"
+        src="../../assets/other/pause.svg"
       />
       <img
-        v-show="currentSong.playing"
-        class="item-card-play-pause"
+        v-else
         @click="toggleAudio"
-        src="../../assets/other/pause.svg"
+        class="item-card-play-pause"
+        src="../../assets/other/play.svg"
       />
       <div>
         <p class="card-title">{{ item.title }}</p>
