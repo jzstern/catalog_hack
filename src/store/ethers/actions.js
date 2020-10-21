@@ -7,13 +7,17 @@ import {
   ready,
   ethereumOk,
   getBalance,
+  getBalanceDai,
   getProvider,
   getWallet,
   getWalletAddress,
   getNetName,
+  sendDai,
+  initContracts,
   // sendTransaction,
   hasEns
 } from './ethersConnect'
+
 // import { compileToFunctions } from 'vue-template-compiler'
 // import { LogDescription } from 'ethers/lib/utils'
 
@@ -79,6 +83,12 @@ export default {
   async getBalance(ctx) {
     ctx.commit('balance', await getBalance())
   },
+  async getBalanceDai(ctx) {
+    ctx.commit('balanceDai', await getBalanceDai())
+  },
+  async sendDai(ctx, {to, amount}) {
+     sendDai(to, amount)
+  },
   async init(ctx) {
     event.$on(EVENT_CHANNEL, async (msg) => {
       console.log(msg)
@@ -95,7 +105,10 @@ export default {
           break
         case MSGS.NETWORK_CHANGED:
           await ctx.dispatch('connect')
-          if (ctx.state.address) ctx.dispatch('getBalance', ctx.state.address)
+          if (ctx.state.address) {
+            ctx.dispatch('getBalance', ctx.state.address)
+            ctx.dispatch('getBalanceDai', ctx.state.address)
+          }
           break
         case MSGS.NOT_CONNECTED:
           await ctx.dispatch('notConnected')
@@ -105,6 +118,7 @@ export default {
 
     ctx.commit('ethereumOk', ethereumOk())
     if (ready()) await ctx.dispatch('connect')
+    await initContracts()
     event.$emit(EVENT_CHANNEL, MSGS.ETHERS_VUEX_INITIALIZED)
     ctx.commit('initialized', true)
   },
@@ -121,30 +135,6 @@ export default {
     // ctx.commit("logout", null, { root: true });
     console.log('You are not connected to the Ethereum network. Please check MetaMask, etc.')
   },
-  // async tipCurrentSong(ctx, tip) {
-  //   if (!ctx.state.ethereumOk || !ctx.state.connected) {
-  //     ctx.commit('setTip', { ...tip, amountUsd: 0.25 }, { root: true });
-  //     ctx.dispatch('login');
-  //   } else {
-  //     return new Promise((resolve, reject) => {
-  //       sendTransaction(tip.artistWalletAddress, tip.amountEth).then(async (tx) => {
-  //         tip = { ...tip, hash: tx.hash };
-
-  //         ctx.commit('resetToastMessage', null, { root: true });
-  //         ctx.commit('addPendingTip', tip, { root: true });
-  //         ctx.commit('txState', 'pending');
-  //         ctx.commit('setTip', { ...tip, amountUsd: 0.25 }, { root: true });
-
-  //         const receipt = await tx.wait();
-  //         resolve(receipt);
-  //       }).catch((error) => {
-  //         // if (e.code === 4001) // user rejection
-  //         ctx.dispatch('txFailed');
-  //         reject(error);
-  //       });
-  //     });
-  //   }
-  // },
   resetTxState(ctx) {
     ctx.commit('txState', null)
   },

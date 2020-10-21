@@ -6,6 +6,8 @@ import { loginAndSetupDB } from '../utils/setup'
 import { getAllUsers, findTextileUserByAudiusId, updateUser, deleteUser, createUser } from '../services/users'
 import { addItemToCatalog, deleteItem, getAllTracks } from '../services/tracks'
 
+import { NULL_ARTIST } from './constants'
+
 const actions = {
   async addItemToCatalog({ state, commit }, track) {
     // TODO - in Upload component, filter out tracks that are already in a users catalog from the selection
@@ -95,8 +97,8 @@ const actions = {
 
     dispatch('ethers/init')
 
-    const wallet = libs.hedgehog.getWallet()
-    console.log(wallet)
+    // const wallet = libs.hedgehog.getWallet()
+    // console.log(wallet)
   },
   async initTextile({ commit, dispatch }) {
     const [client] = await loginAndSetupDB({ newIdentity: false })
@@ -106,11 +108,12 @@ const actions = {
 
     // if (state.user.id_audius) dispatch('refreshUser', state.user.id_audius)
   },
-  async logout({ state, commit }) {
-    await state.libs.Account.logout()
+  logout({ state, commit, dispatch }) {
     commit('logout')
+    dispatch('ethers/disconnect')
     clearAudiusAccount()
     clearAudiusAccountUser()
+    state.libs.Account.logout()
   },
   async login({ state, commit, dispatch }, credentials) {
     commit('user', { ...state.user, login_status: "LOGGING_IN" })

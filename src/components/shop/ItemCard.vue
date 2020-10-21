@@ -1,5 +1,6 @@
 <script>
 /* eslint-disable */
+const ARTIST_1_TOKEN_ADDRESS = '0x6fD5aeE28863eFD6C40CB76FFb5fbe6D9d03858C'
 export default {
   props: {
     item: {
@@ -28,7 +29,10 @@ export default {
       // TODO - don't open sidebar if artist name was clicked
       this.$store.commit("sidebar", {
         component: "Item",
-        item: this.item,
+        item: {
+          ...this.item,
+          contractAddress: 'ARTIST_1_TOKEN_ADDRESS'
+        },
       });
     },
     toggleAudio() {

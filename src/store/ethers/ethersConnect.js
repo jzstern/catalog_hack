@@ -1,6 +1,7 @@
 /* eslint-disable */
 import Vue from 'vue'
 import {
+  ethers,
   providers,
   Contract as ContractModule,
   utils as utilsModule
@@ -36,6 +37,13 @@ export const LOG_TRANSACTIONS = [
   // [] // list of topics, empty for all topics
 ]
 
+// const artistTokenAddress = await catalogContract.artists('0x6fD5aeE28863eFD6C40CB76FFb5fbe6D9d03858C')
+const MAX_UINT = '115792089237316195423570985008687907853269984665640564039457584007913129639935'
+const CATALOG_CONTRACT_ADDRESS = '0x937c882Ed182CEf2A9174aC48e7a221474dcA1c5'
+const DAI_CONTRACT_ADDRESS = '0x13D282Daa4016396bc7294cAD4C855773253eb10'
+const catalogAbi = require('./abi/catalog.json')
+const daiAbi = require('./abi/dai.json')
+
 // for ethers
 let ethereum
 let provider
@@ -43,7 +51,11 @@ let chainId
 let userWallet
 let currentAccount
 let providerInterval
+let daiContract
+let catalogContract
 let initialized
+
+
 
 function getEthereum() {
   return window.ethereum
@@ -92,6 +104,11 @@ export async function getBalance() {
   return utils.formatUnits(balanceWei)
 }
 
+export async function getBalanceDai() {
+  const balanceDai = fromDai(await daiContract.balanceOf(currentAccount)).toString()
+  return balanceDai
+}
+
 export function getProvider() {
   return provider
 }
@@ -118,6 +135,32 @@ export async function sendTransaction(to, amount) {
       resolve(tx)
     }, (error) => reject(error))
   })
+}
+
+async function hasUserApprovedDai(owner, spender, amount) {
+  return (await daiContract.allowance(owner, spender)).gte(amount)
+}
+
+function fromDai(value) {
+  return value.div('1000000000000000000')
+}
+
+export async function sendDai(to, amount) {
+  // TODO - check this on the FE
+  const balance = fromDai(await daiContract.balanceOf(currentAccount)).toString()
+
+  if (balance < amount) {
+    alert('dai balance too low')
+    return
+  }
+
+  // const value = (await utils.parseEther(amount.toString())).toString()
+
+  const amountBigNum = utils.parseEther(amount.toString()).toString()
+  const approved = await hasUserApprovedDai(amountBigNum)
+
+  if (approved) await catalogContract.split(to, amountBigNum)
+  else await daiContract.approve(CATALOG_CONTRACT_ADDRESS, MAX_UINT)
 }
 
 // this should only be run when a ethereum provider is detected and set at the ethereum value above
@@ -191,9 +234,13 @@ function handleChainChanged(_chainId) {
   // window.location.reload()
 }
 
+export async function initContracts() {
+  catalogContract = new ethers.Contract(CATALOG_CONTRACT_ADDRESS, catalogAbi.abi, userWallet)
+  daiContract = new ethers.Contract(DAI_CONTRACT_ADDRESS, daiAbi.abi, userWallet);
+}
+
 // For now, 'eth_accounts' will continue to always return an array
-function handleAccountsChanged(accounts) {
-  console.log("handling ETH account changed");
+export function handleAccountsChanged(accounts) {
   if (accounts.length === 0) {
     // MetaMask is locked or the user has not connected any accounts
     event.$emit(EVENT_CHANNEL, MSGS.NO_WALLET)
@@ -237,17 +284,3 @@ export async function stopWatchProvider() {
 
 // start ethereum provider checker
 startProviderWatcher()
-
-export default {
-  connect,
-  ethereumOk,
-  getNetName,
-  hasEns,
-  getBalance,
-  getProvider,
-  getWallet,
-  getWalletAddress,
-  getNetworkAddress,
-  sendTransaction,
-  ready
-}

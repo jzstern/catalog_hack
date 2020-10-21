@@ -4,6 +4,7 @@ import mutations from './mutations'
 const state = {
   initialized: false,
   balance: null,
+  balanceDai: null,
   connected: false,
   ethereumOk: null,
   ethPriceUsd: null,

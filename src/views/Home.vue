@@ -6,6 +6,9 @@ export default {
     Dropdown: () => import("../components/dropdown/Dropdown"),
   },
   methods: {
+    sendDai() {
+      this.$store.dispatch('ethers/sendDai', {to: '0x29934D52144EeabEa2f3a3D9f58f935b00ffaE16', amount: 10})
+    },
     deleteUsers() {
       this.$store.dispatch("deleteUser", "01en3mrkfn1jg6pf9cxdtqstq2");
     },
@@ -55,6 +58,7 @@ export default {
       <a href="https://discord.gg/YBzUcah" target="_blank">Message us</a>
     </div>
     <div class="home-background"></div>
+    <button @click="sendDai">send dai</button>
     <button @click="updateUser">update user</button>
     <button @click="getAllUsers">get all users</button>
     <button @click="deleteUsers">delete users</button>

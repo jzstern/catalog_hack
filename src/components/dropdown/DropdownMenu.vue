@@ -1,38 +1,13 @@
-<template>
-  <div class="dropdown-menu">
-    <div @click="toggleDropdown()" class="menu-item">
-      {{ user.name }}
-      <img class="dropdown-icon" src="@/assets/other/dropDown.svg" />
-    </div>
-
-    <div class="expanded" v-show="expanded">
-      <div class="menu-item">
-        <router-link :to="`/${this.user.handle}`">my catalog</router-link>
-      </div>
-      <!-- <div class="menu-item">
-        <router-link :to="`/${this.user.handle}/collection`">
-          Collection
-        </router-link>
-      </div> -->
-      <div class="menu-item" @click="openSidebar('Upload')">upload</div>
-      <div class="menu-item" @click="openSidebar('Account')">account</div>
-    </div>
-  </div>
-</template>
-
 <script>
 /* eslint-disable */
-
+import { mapState } from 'vuex'
 export default {
   name: "DropdownMenu",
-  computed: {
-    sidebar() {
-      return this.$store.state.sidebar;
-    },
-    user() {
-      return this.$store.state.user;
-    },
-  },
+  computed: mapState({
+    connected: state => state.ethers.connected,
+    sidebar: 'sidebar',
+    user: 'user'
+  }),
   data: () => ({
     expanded: false,
   }),
@@ -46,6 +21,56 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="dropdown-menu">
+    <div
+      class="menu-item"
+      @click="toggleDropdown()"
+    >
+      {{ user.name }}
+      <img
+        class="dropdown-icon"
+        src="@/assets/other/dropDown.svg"
+      >
+    </div>
+
+    <div
+      v-show="expanded"
+      class="expanded"
+    >
+      <div class="menu-item">
+        <router-link :to="`/${this.user.handle}`">
+          my catalog
+        </router-link>
+      </div>
+      <!-- <div class="menu-item">
+        <router-link :to="`/${this.user.handle}/collection`">
+          Collection
+        </router-link>
+      </div> -->
+      <div
+        class="menu-item"
+        @click="openSidebar('Upload')"
+      >
+        upload
+      </div>
+      <div
+        class="menu-item"
+        @click="openSidebar('Account')"
+      >
+        account
+      </div>
+      <div
+        class="menu-item"
+        @click="$store.dispatch('ethers/login')"
+        v-if="!connected"
+      >
+        connect 🦊
+      </div>
+    </div>
+  </div>
+</template>
 
 <style lang="scss">
 .dropdown-icon {

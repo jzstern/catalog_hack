@@ -10,6 +10,9 @@ export default {
     item() {
       return this.$store.state.sidebar.item;
     },
+    generateTx() {
+      return (this.item.price && this.payment >= this.item.price) || (!this.item.price && this.payment)
+    }
   },
   methods: {
     back() {
@@ -19,15 +22,19 @@ export default {
       });
     },
     purchaseItem() {
-      const purchase = {
-        ...this.item,
-        price: this.payment,
-      };
-      this.$store.commit("addToCollection", purchase);
-      this.$store.commit("sidebar", {
-        component: "Receipt",
-        item: purchase,
-      });
+      if (this.generateTx) {
+        console.log("waaa");
+        this.$store.dispatch('ethers/sendDai', this.payment)
+      }
+      // const purchase = {
+      //   ...this.item,
+      //   price: this.payment,
+      // };
+      // this.$store.commit("addToCollection", purchase);
+      // this.$store.commit("sidebar", {
+      //   component: "Receipt",
+      //   item: purchase,
+      // });
     },
   },
 };
@@ -66,9 +73,6 @@ export default {
       wav.
     </p>
   </div>
-</template>
-
-
 </template>
 
 <style style="scss">
