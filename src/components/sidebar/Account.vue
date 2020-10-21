@@ -1,6 +1,5 @@
 <script>
 /* eslint-disable */
-
 export default {
   name: "Account",
   computed: {
@@ -8,13 +7,13 @@ export default {
       return (this.user.wallet_addr.substring(0, 4) + "..." + this.user.wallet_addr.substring(this.user.wallet_addr.length - 4))
     },
     user() {
-      return this.$store.state.user;
-    },
+      return this.$store.state.user
+    }
   },
   methods: {
     logout() {
       this.$store.dispatch("logout");
-    },
+    }
   },
 };
 </script>
@@ -64,5 +63,13 @@ export default {
   font-family: Inconsolata;
   padding: 16px 32px;
   // width: 100%;
+}
+
+.mint {
+  cursor: url("../../assets/other/cursor.png"), pointer;
+
+  &:hover {
+    color: #f2ba00;
+  }
 }
 </style>

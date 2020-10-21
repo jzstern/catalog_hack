@@ -7,20 +7,24 @@ import {
   ready,
   ethereumOk,
   getBalance,
+  getBalanceDai,
   getProvider,
   getWallet,
   getWalletAddress,
   getNetName,
-  // sendTransaction,
+  sendDai,
+  mintDai,
+  stake,
+  initContracts,
   hasEns
 } from './ethersConnect'
+
 // import { compileToFunctions } from 'vue-template-compiler'
 // import { LogDescription } from 'ethers/lib/utils'
 
 export default {
   async connect(ctx) {
     try {
-      // const oldAddress = ctx.state.address;
       const provider = getProvider()
       if (!provider) throw new Error(MSGS.NOT_CONNECTED)
 
@@ -32,22 +36,19 @@ export default {
       ctx.commit('connected', true)
       ctx.commit('error', null)
       ctx.commit('address', address)
-      ctx.commit("walletAddress", address, { root: true });
       ctx.commit('network', network)
       ctx.commit('txState', 'none')
 
-      // const msg = oldAddress && oldAddress !== address
-      //   ? `Your Ethereum address has changed.
-      // Address: ${address}
-      // Network: ${network}
-      //    Your balance: ${await provider.getBalance(address)} wei`
-      //   : `You are connected to the Ethereum Network.
-      //    Address: ${address}
-      //    Network: ${network}
-      //    Your balance: ${await provider.getBalance(address)} wei
-      //    If you change your address or network, this app will update automatically.`
-
-      // console.log(msg)
+      if (address) {
+        ctx.dispatch('getBalances', address)
+        // todo - update user object w/ MM wallet address
+        // ctx.dispatch('updateUser', {
+        //     ...ctx.rootState.user,
+        //     wallet_addr_mm: address
+        //   },
+        //   { root: true }
+        // )
+      }
 
       // Other vuex stores can wait for this
       event.$emit(EVENT_CHANNEL, MSGS.ETHERS_VUEX_READY)
@@ -77,8 +78,17 @@ export default {
       : 'You are not connected to an Ethereum node and wallet. Please check MetaMask, etc.')
     console.log(msg)
   },
-  async getBalance(ctx) {
+  async getBalances(ctx) {
     ctx.commit('balance', await getBalance())
+    ctx.commit('balanceDai', await getBalanceDai())
+  },
+  async mintDai() {
+    await mintDai()
+    return "🤑"
+  },
+  async sendDai(ctx, {to, amount}) {
+    await sendDai(to, amount)
+    return "sent"
   },
   async init(ctx) {
     event.$on(EVENT_CHANNEL, async (msg) => {
@@ -96,7 +106,7 @@ export default {
           break
         case MSGS.NETWORK_CHANGED:
           await ctx.dispatch('connect')
-          if (ctx.state.address) ctx.dispatch('getBalance', ctx.state.address)
+          if (ctx.state.address) ctx.dispatch('getBalances', ctx.state.address)
           break
         case MSGS.NOT_CONNECTED:
           await ctx.dispatch('notConnected')
@@ -106,15 +116,20 @@ export default {
 
     ctx.commit('ethereumOk', ethereumOk())
     if (ready()) await ctx.dispatch('connect')
-    else ctx.commit('txState', 'intro')
+    await initContracts()
     event.$emit(EVENT_CHANNEL, MSGS.ETHERS_VUEX_INITIALIZED)
     ctx.commit('initialized', true)
   },
-  async login() {
+  async login(ctx) {
     connect()
+  },
+  async stake(ctx, artistWalletAddress) {
+    await stake(artistWalletAddress)
+    return "🥩"
   },
   logout(ctx) {
     ctx.commit('address', '')
+    // todo - clear out wallet object
     // console.log('You have been logged out from your Ethereum connection')
   },
   notConnected(ctx) {
@@ -122,41 +137,17 @@ export default {
     // ctx.commit("logout", null, { root: true });
     console.log('You are not connected to the Ethereum network. Please check MetaMask, etc.')
   },
-  // async tipCurrentSong(ctx, tip) {
-  //   if (!ctx.state.ethereumOk || !ctx.state.connected) {
-  //     ctx.commit('setTip', { ...tip, amountUsd: 0.25 }, { root: true });
-  //     ctx.dispatch('login');
-  //   } else {
-  //     return new Promise((resolve, reject) => {
-  //       sendTransaction(tip.artistWalletAddress, tip.amountEth).then(async (tx) => {
-  //         tip = { ...tip, hash: tx.hash };
-
-  //         ctx.commit('resetToastMessage', null, { root: true });
-  //         ctx.commit('addPendingTip', tip, { root: true });
-  //         ctx.commit('txState', 'pending');
-  //         ctx.commit('setTip', { ...tip, amountUsd: 0.25 }, { root: true });
-
-  //         const receipt = await tx.wait();
-  //         resolve(receipt);
-  //       }).catch((error) => {
-  //         // if (e.code === 4001) // user rejection
-  //         ctx.dispatch('txFailed');
-  //         reject(error);
-  //       });
-  //     });
-  //   }
-  // },
+  resetTxState(ctx) {
+    ctx.commit('txState', null)
+  },
   txConfirmed(ctx) {
     ctx.commit('txState', 'confirmed')
-    setTimeout(() => {
-      ctx.commit('txState', 'none')
-    }, 7000)
   },
   txFailed(ctx) {
     ctx.commit('txState', 'failed')
     // ctx.commit('resetToastMessage', null, { root: true })
-    setTimeout(() => {
-      ctx.commit('txState', 'none')
-    }, 10000)
+    // setTimeout(() => {
+    //   ctx.commit('txState', null)
+    // }, 10000)
   },
 }

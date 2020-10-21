@@ -5,6 +5,9 @@ export default {
   balance(state, value) {
     state.balance = value
   },
+  balanceDai(state, value) {
+    state.balanceDai = value
+  },
   connected(state, value) {
     state.connected = value
   },

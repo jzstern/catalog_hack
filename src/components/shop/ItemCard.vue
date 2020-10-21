@@ -1,5 +1,6 @@
 <script>
 /* eslint-disable */
+const ARTIST_1_TOKEN_ADDRESS = '0x6fD5aeE28863eFD6C40CB76FFb5fbe6D9d03858C'
 export default {
   props: {
     item: {
@@ -31,20 +32,19 @@ export default {
       // TODO - don't open sidebar if artist name was clicked
       this.$store.commit("sidebar", {
         component: "Item",
-        item: this.item,
+        item: {
+          ...this.item,
+          contractAddress: 'ARTIST_1_TOKEN_ADDRESS'
+        },
       });
     },
     toggleAudio() {
-      if (this.currentSong.id_audius === this.item.id_audius) {
-        console.log("just a toggle");
-        this.$store.commit("togglePlaying")
-      } else {
-        console.log("committing new song");
+      this.currentSong.id_audius === this.item.id_audius ?
+        this.$store.commit("togglePlaying") :
         this.$store.commit("currentSong", {
           ...this.item,
-          playing: true,
+          playing: true
         })
-      }
     }
   },
 };
@@ -78,10 +78,10 @@ export default {
         src="../../assets/other/play.svg"
       />
       <div>
-        <p class="card-title">{{ item.title }}</p>
-        <!-- <router-link :to="`/${item.artistHandle}`" class="card-artist">
+        <p class="card-title" @click="selectItem">{{ item.title }}</p>
+        <router-link :to="`/${item.artist.handle}`" class="card-artist">
           {{ item.artist.name }}</router-link
-        > -->
+        >
         <p>{{ item.desription }}</p>
       </div>
 

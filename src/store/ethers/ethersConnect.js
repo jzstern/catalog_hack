@@ -1,6 +1,7 @@
 /* eslint-disable */
 import Vue from 'vue'
 import {
+  ethers,
   providers,
   Contract as ContractModule,
   utils as utilsModule
@@ -36,6 +37,15 @@ export const LOG_TRANSACTIONS = [
   // [] // list of topics, empty for all topics
 ]
 
+// const artistTokenAddress = await catalogContract.artists('0x6fD5aeE28863eFD6C40CB76FFb5fbe6D9d03858C')
+const CATALOG_CONTRACT_ADDRESS = '0x937c882Ed182CEf2A9174aC48e7a221474dcA1c5'
+const DAI_CONTRACT_ADDRESS = '0x13D282Daa4016396bc7294cAD4C855773253eb10'
+const artistPoolAbi = require('./abi/artistPool.json')
+const catalogAbi = require('./abi/catalog.json')
+const IERC20 = require('./abi/IERC20.json')
+const daiAbi = require('./abi/dai.json')
+const params = {gasLimit: 500000}
+
 // for ethers
 let ethereum
 let provider
@@ -43,6 +53,9 @@ let chainId
 let userWallet
 let currentAccount
 let providerInterval
+let daiContract
+let daiMintContract
+let catalogContract
 let initialized
 
 function getEthereum() {
@@ -92,6 +105,11 @@ export async function getBalance() {
   return utils.formatUnits(balanceWei)
 }
 
+export async function getBalanceDai() {
+  const balanceDai = fromDai(await daiContract.balanceOf(currentAccount)).toString()
+  return balanceDai
+}
+
 export function getProvider() {
   return provider
 }
@@ -120,6 +138,91 @@ export async function sendTransaction(to, amount) {
   })
 }
 
+async function hasUserApprovedDai(owner, spender, amount) {
+  return (await daiContract.allowance(owner, spender)).gte(amount)
+}
+
+async function hasUserApprovedPool(contract, owner, spender, amount) {
+  return (await contract.allowance(owner, spender)).gte(amount)
+}
+
+function fromDai(value) {
+  return value.div('1000000000000000000')
+}
+
+async function getArtistInfo(artistAddress) {
+  const info = await catalogContract.artists(artistAddress)
+  return info
+}
+
+export async function sendDai(to, amount) {
+  // TODO - check this on the FE
+  const balance = fromDai(await daiContract.balanceOf(currentAccount)).toString()
+  const balanceInt = Number(balance)
+  const amountInt = Number(amount)
+
+  if (balanceInt < amountInt) {
+    alert('dai balance too low')
+    return
+  }
+
+  const amountBigNum = utils.parseEther(amount.toString()).toString()
+  const approved = await hasUserApprovedDai(currentAccount, CATALOG_CONTRACT_ADDRESS, amountBigNum)
+
+  if (!approved) {
+    console.log("waiting for approval to spend DAI")
+    await approve()
+    console.log("approved to spend DAI")
+  }
+  
+  await catalogContract.split(to, amountBigNum, params)
+  return
+}
+
+export async function stake(artistAddress) {
+  const { pool, token } = await getArtistInfo(artistAddress)
+  const artistTokenContract = new ethers.Contract(token, IERC20.abi, userWallet)
+  const poolContract = new ethers.Contract(pool, artistPoolAbi.abi, userWallet)
+  const artistTokenBalance = await artistTokenContract.balanceOf(currentAccount)
+
+  if (!artistTokenBalance) {
+    alert('no artist tokens to stake (yet... try again in a few)')
+    return
+  }
+
+  const approved = await hasUserApprovedPool(artistTokenContract, currentAccount, poolContract.address, artistTokenBalance)
+
+  if (!approved) {
+    console.log("waiting for approval to spend artitst token: " + artistTokenContract.address)
+    await approvePool(artistTokenContract, poolContract.address)
+    console.log("approved to spend: " + artistTokenContract.address)
+  }
+
+  console.log("staking " + fromDai(artistTokenBalance).toString() + " artist tokens");
+  await stakeArtistTokens(poolContract, artistTokenBalance)
+  console.log("staking successful");
+
+  return
+}
+
+async function stakeArtistTokens(poolContract, artistTokenBalance) {
+  await poolContract.stake(artistTokenBalance, params)
+}
+
+async function approve() {
+  await daiContract.approve(CATALOG_CONTRACT_ADDRESS, ethers.constants.MaxUint256)
+}
+
+async function approvePool(contract, poolAddress) {
+  await contract.approve(poolAddress, ethers.constants.MaxUint256)
+}
+
+export async function mintDai() {
+  const amount = utils.parseEther('100000000000000000000').toString()
+  await daiMintContract.mint(currentAccount, '100000000000000000000')
+  return
+}
+
 // this should only be run when a ethereum provider is detected and set at the ethereum value above
 export async function startProviderWatcher() {
   async function updateProvider() {
@@ -128,14 +231,6 @@ export async function startProviderWatcher() {
     // set ethers provider
     provider = new providers.Web3Provider(ethereum)
     initialized = true
-
-    // this is modeled after EIP-1193 example provided by MetaMask for clarity and consistency
-    // but works for all EIP-1193 compatible ethereum providers
-    // https://docs.metamask.io/guide/ethereum-provider.html#using-the-provider
-
-    /** ******************************************************* */
-    /* Handle chain (network) and chainChanged (per EIP-1193) */
-    /** ******************************************************* */
 
     // Normally, we would recommend the 'eth_chainId' RPC method, but it currently
     // returns incorrectly formatted chain ID values.
@@ -191,22 +286,25 @@ function handleChainChanged(_chainId) {
   // window.location.reload()
 }
 
+export async function initContracts() {
+  catalogContract = new ethers.Contract(CATALOG_CONTRACT_ADDRESS, catalogAbi.abi, userWallet)
+  daiContract = new ethers.Contract(DAI_CONTRACT_ADDRESS, IERC20.abi, userWallet);
+  daiMintContract = new ethers.Contract(DAI_CONTRACT_ADDRESS, daiAbi.abi, userWallet);
+}
+
 // For now, 'eth_accounts' will continue to always return an array
-function handleAccountsChanged(accounts) {
+export function handleAccountsChanged(accounts) {
   if (accounts.length === 0) {
     // MetaMask is locked or the user has not connected any accounts
     event.$emit(EVENT_CHANNEL, MSGS.NO_WALLET)
   } else if (accounts[0] !== currentAccount) {
     currentAccount = accounts[0]
     // userWallet = provider && provider.getSigner(currentAccount)
+    // userWallet = provider.getSigner(currentAccount)
     userWallet = provider.getSigner(currentAccount)
     event.$emit(EVENT_CHANNEL, MSGS.ACCOUNT_CHANGED)
   }
 }
-
-/** ****************************************** */
-/* Access the user's accounts (per EIP-1102) */
-/** ****************************************** */
 
 export function connect() {
   if (!ethereum) return event.$emit(EVENT_CHANNEL, MSGS.NOT_CONNECTED)
@@ -233,19 +331,4 @@ export async function stopWatchProvider() {
   providerInterval = null
 }
 
-// start ethereum provider checker
 startProviderWatcher()
-
-export default {
-  connect,
-  ethereumOk,
-  getNetName,
-  hasEns,
-  getBalance,
-  getProvider,
-  getWallet,
-  getWalletAddress,
-  getNetworkAddress,
-  sendTransaction,
-  ready
-}

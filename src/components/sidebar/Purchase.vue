@@ -10,6 +10,12 @@ export default {
     item() {
       return this.$store.state.sidebar.item;
     },
+    generateTx() {
+      return (this.item.price && this.payment >= this.item.price) || (!this.item.price && this.payment)
+    },
+    userIsLoggedIn() {
+      return this.$store.state.user.login_status === 'LOGGED_IN'
+    }
   },
   methods: {
     back() {
@@ -18,11 +24,16 @@ export default {
         item: this.item,
       });
     },
-    purchaseItem() {
-      const purchase = {
-        ...this.item,
-        price: this.payment,
-      };
+    async purchaseItem() {
+      if (!this.userIsLoggedIn) {
+        alert("login to purchase music")
+        return
+      }
+
+      // if (this.generateTx) await this.$store.dispatch('ethers/sendDai', { to: this.item.artist.wallet_addr, amount: this.payment})
+      if (this.generateTx) await this.$store.dispatch('ethers/sendDai', { to: "0x22A71a4b2bEaE4C5d54E407D81A55CDfCFb22B2a", amount: this.payment})
+      
+      const purchase = { ...this.item, price: this.payment }
       this.$store.commit("addToCollection", purchase);
       this.$store.commit("sidebar", {
         component: "Receipt",
@@ -66,9 +77,6 @@ export default {
       wav.
     </p>
   </div>
-</template>
-
-
 </template>
 
 <style style="scss">
