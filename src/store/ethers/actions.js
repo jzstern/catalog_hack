@@ -25,7 +25,6 @@ import {
 export default {
   async connect(ctx) {
     try {
-      // const oldAddress = ctx.state.address;
       const provider = getProvider()
       if (!provider) throw new Error(MSGS.NOT_CONNECTED)
 
@@ -40,7 +39,16 @@ export default {
       ctx.commit('network', network)
       ctx.commit('txState', 'none')
 
-      if (address) ctx.dispatch('getBalances', address)
+      if (address) {
+        ctx.dispatch('getBalances', address)
+        // todo - update user object w/ MM wallet address
+        // ctx.dispatch('updateUser', {
+        //     ...ctx.rootState.user,
+        //     wallet_addr_mm: address
+        //   },
+        //   { root: true }
+        // )
+      }
 
       // Other vuex stores can wait for this
       event.$emit(EVENT_CHANNEL, MSGS.ETHERS_VUEX_READY)

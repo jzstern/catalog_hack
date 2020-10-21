@@ -3,7 +3,7 @@ import { init, getAudiusAccountUser, setAudiusAccountUser, clearAudiusAccountUse
 import { audiusResolveProfileURL, getAudiusUploads, getTrackSrcAudiusId } from '../utils/audiusApi'
 import { getAudiusTracksInCatalog, getAudiusTracksInCollection, getUserDataAudius } from '../utils/audiusHelpers'
 import { loginAndSetupDB } from '../utils/setup'
-import { getAllUsers, findTextileUserByAudiusId, updateUser, deleteUser, createUser } from '../services/users'
+import { getAllUsers, findTextileUserByAudiusId, updateUser, deleteUser, createUser, formatUser } from '../services/users'
 import { addItemToCatalog, deleteItem, getAllTracks } from '../services/tracks'
 
 import { NULL_ARTIST } from './constants'
@@ -210,8 +210,11 @@ const actions = {
     commit('user', user)
     setAudiusAccountUser(user)
   },
-  updateUser({ state }, user) {
+  async updateUser({ state, commit }, user) {
     updateUser(state.client, user)
+    // const formattedUser = formatUser(user)
+    // updateUser(state.client, formattedUser)
+    // commit('user', user)
   },
   async getAllTracks({ state }) {
     const tracks = await getAllTracks(state.client)

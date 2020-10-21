@@ -56,7 +56,7 @@ const mutations = {
   },
   user(state, user) {
     state.user = user
-    // setAudiusAccountUser(user)
+    // todo - setAudiusAccountUser(user)
   },
   wallet_addr(state, address) {
     state.user.wallet_addr = address

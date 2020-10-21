@@ -82,9 +82,10 @@ export default {
 }
 
 .mint {
+  cursor: url("../../assets/other/cursor.png"), pointer;
+
   &:hover {
-    cursor: pointer;
-    opacity: .5;
+    color: #f2ba00;
   }
 }
 </style>

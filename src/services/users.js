@@ -50,6 +50,7 @@ export const formatUser = (user) => {
         id_audius: user.id_audius,
         handle: user.handle,
         name: user.name,
+        wallet_addr_mm: user.wallet_addr_mm,
         catalog,
         collection,
         links: []
