@@ -40,8 +40,9 @@ export const LOG_TRANSACTIONS = [
 // const artistTokenAddress = await catalogContract.artists('0x6fD5aeE28863eFD6C40CB76FFb5fbe6D9d03858C')
 const CATALOG_CONTRACT_ADDRESS = '0x937c882Ed182CEf2A9174aC48e7a221474dcA1c5'
 const DAI_CONTRACT_ADDRESS = '0x13D282Daa4016396bc7294cAD4C855773253eb10'
+const artistPoolAbi = require('./abi/artistPool.json')
 const catalogAbi = require('./abi/catalog.json')
-const daiAbi = require('./abi/dai.json')
+const IERC20 = require('./abi/IERC20.json')
 const params = {gasLimit: 500000}
 
 // for ethers
@@ -54,8 +55,6 @@ let providerInterval
 let daiContract
 let catalogContract
 let initialized
-
-
 
 function getEthereum() {
   return window.ethereum
@@ -141,8 +140,17 @@ async function hasUserApprovedDai(owner, spender, amount) {
   return (await daiContract.allowance(owner, spender)).gte(amount)
 }
 
+async function hasUserApprovedPool(contract, owner, spender, amount) {
+  return (await contract.allowance(owner, spender)).gte(amount)
+}
+
 function fromDai(value) {
   return value.div('1000000000000000000')
+}
+
+async function getArtistInfo(artistAddress) {
+  const info = await catalogContract.artists(artistAddress)
+  return info
 }
 
 export async function sendDai(to, amount) {
@@ -166,8 +174,37 @@ export async function sendDai(to, amount) {
   await catalogContract.split(to, amountBigNum, params)
 }
 
+export async function stake(artistAddress) {
+  // TODO - make sure they have tokens to stake
+  const { pool, token } = await getArtistInfo(artistAddress)
+
+  const artistTokenContract = new ethers.Contract(token, IERC20.abi, userWallet)
+  const poolContract = new ethers.Contract(pool, artistPoolAbi.abi, userWallet)
+  const artistTokenBalance = await artistTokenContract.balanceOf(currentAccount)
+
+  const approved = await hasUserApprovedPool(artistTokenContract, currentAccount, poolContract.address, artistTokenBalance)
+
+  if (!approved) {
+    console.log("waiting for approval to spend artitst token: " + artistTokenContract.address)
+    await approvePool(artistTokenContract, poolContract.address)
+    console.log("approved to spend: " + artistTokenContract.address)
+  }
+
+  console.log("staking " + fromDai(artistTokenBalance).toString() + " artist tokens");
+  await stakeArtistTokens(poolContract, artistTokenBalance)
+  console.log("staking successful");
+}
+
+async function stakeArtistTokens(poolContract, artistTokenBalance) {
+  await poolContract.stake(artistTokenBalance, params)
+}
+
 async function approve() {
   await daiContract.approve(CATALOG_CONTRACT_ADDRESS, ethers.constants.MaxUint256)
+}
+
+async function approvePool(contract, poolAddress) {
+  await contract.approve(poolAddress, ethers.constants.MaxUint256)
 }
 
 // this should only be run when a ethereum provider is detected and set at the ethereum value above
@@ -235,7 +272,7 @@ function handleChainChanged(_chainId) {
 
 export async function initContracts() {
   catalogContract = new ethers.Contract(CATALOG_CONTRACT_ADDRESS, catalogAbi.abi, userWallet)
-  daiContract = new ethers.Contract(DAI_CONTRACT_ADDRESS, daiAbi.abi, userWallet);
+  daiContract = new ethers.Contract(DAI_CONTRACT_ADDRESS, IERC20.abi, userWallet);
 }
 
 // For now, 'eth_accounts' will continue to always return an array

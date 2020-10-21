@@ -13,6 +13,7 @@ import {
   getWalletAddress,
   getNetName,
   sendDai,
+  stake,
   initContracts,
   // sendTransaction,
   hasEns
@@ -38,19 +39,6 @@ export default {
       ctx.commit('address', address)
       ctx.commit('network', network)
       ctx.commit('txState', 'none')
-
-      // const msg = oldAddress && oldAddress !== address
-      //   ? `Your Ethereum address has changed.
-      // Address: ${address}
-      // Network: ${network}
-      //    Your balance: ${await provider.getBalance(address)} wei`
-      //   : `You are connected to the Ethereum Network.
-      //    Address: ${address}
-      //    Network: ${network}
-      //    Your balance: ${await provider.getBalance(address)} wei
-      //    If you change your address or network, this app will update automatically.`
-
-      // console.log(msg)
 
       // Other vuex stores can wait for this
       event.$emit(EVENT_CHANNEL, MSGS.ETHERS_VUEX_READY)
@@ -122,8 +110,11 @@ export default {
     event.$emit(EVENT_CHANNEL, MSGS.ETHERS_VUEX_INITIALIZED)
     ctx.commit('initialized', true)
   },
-  async login() {
+  async login(ctx) {
     connect()
+  },
+  async stake(ctx, artistWalletAddress) {
+    stake(artistWalletAddress)
   },
   logout(ctx) {
     ctx.commit('address', '')

@@ -1,3 +1,24 @@
+<script>
+/* eslint-disable */
+export default {
+  name: "Receipt",
+  computed: {
+    item() {
+      return this.$store.state.sidebar.item;
+    },
+  },
+  methods: {
+    close() {
+      this.$store.commit("closeSidebar");
+    },
+    stake() {
+      // this.$store.dispatch("ethers/stake", this.item.artist.wallet_addr)
+      this.$store.dispatch("ethers/stake", "0x22A71a4b2bEaE4C5d54E407D81A55CDfCFb22B2a")
+    }
+  },
+};
+</script>
+
 <template>
   <div class="receipt">
     <h3>Here's what you paid</h3>
@@ -19,27 +40,10 @@
     </div>
     <div class="divider" />
     <p>Thank you for your support :)</p>
+    <button class="buttonPrimary" @click="stake">Stake</button>
     <button class="buttonSecondary" @click="close">Close</button>
   </div>
 </template>
-
-<script>
-/* eslint-disable */
-
-export default {
-  name: "Receipt",
-  computed: {
-    item() {
-      return this.$store.state.sidebar.item;
-    },
-  },
-  methods: {
-    close() {
-      this.$store.commit("closeSidebar");
-    },
-  },
-};
-</script>
 
 <style lang="scss">
 .receipt {

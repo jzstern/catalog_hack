@@ -22,19 +22,17 @@ export default {
       });
     },
     purchaseItem() {
-      if (this.generateTx) {
-        console.log("waaa");
-        this.$store.dispatch('ethers/sendDai', this.payment)
-      }
-      // const purchase = {
-      //   ...this.item,
-      //   price: this.payment,
-      // };
-      // this.$store.commit("addToCollection", purchase);
-      // this.$store.commit("sidebar", {
-      //   component: "Receipt",
-      //   item: purchase,
-      // });
+      if (this.generateTx) this.$store.dispatch('ethers/sendDai', this.payment)
+      
+      const purchase = {
+        ...this.item,
+        price: this.payment,
+      };
+      this.$store.commit("addToCollection", purchase);
+      this.$store.commit("sidebar", {
+        component: "Receipt",
+        item: purchase,
+      });
     },
   },
 };
