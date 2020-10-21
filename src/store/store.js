@@ -96,7 +96,7 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async addItemToCatalog({ state, commit }, track) {
+    async addItemToCatalog({ state, commit, dispatch}, track) {
       // TODO - in Upload component, filter out tracks that are already in a users catalog from the selection
       if (state.user.catalog.find(item => track.id_audius === item.id_audius)) {
         // TODO - handle this on UI
@@ -104,9 +104,12 @@ export default new Vuex.Store({
       }
       else {
         const item = await addItemToCatalog(state.client, track, state.user)
-        console.log("itemitemitemitem");
-        console.log(item);
+        console.log('addItemToCatalog top: item\n', item)
+        
         commit('addItemToUserCatalog', item)
+
+        // finally, update the user in the state/localstorage
+        dispatch('refreshUser', state.user.id_audius)
       }
     },
     async getArtistData({ state, commit, dispatch }, handle) {
@@ -128,9 +131,14 @@ export default new Vuex.Store({
         loading: { user_info: false, catalog: true, collection: true }
       }
 
+      console.log('getArtistData 0', {artist})
+
       commit('artist', artist)
 
       const artistWithTrackInfo = await dispatch('getUsersFullTracks', artist)
+
+      console.log('getArtistData 1', {artistWithTrackInfo})
+
       commit('artist', artistWithTrackInfo)
     },
     async getArtistList({ state, commit }) {
@@ -175,6 +183,7 @@ export default new Vuex.Store({
       const userLocalStorage = await getAudiusAccountUser()
 
       if (userLocalStorage) {
+        console.log('YUP WE GOT IT FROM LOCALSTORAGE', userLocalStorage)
         commit('user', userLocalStorage)
 
         // fetch user from textile & update w/ any new data
@@ -286,9 +295,11 @@ export default new Vuex.Store({
 
       // Get full Audius track info for Catalog & collection
       user = await dispatch('getUsersFullTracks', user)
+      console.log('refreshUser', {user})
 
       commit('user', user)
       setAudiusAccountUser(user)
+
     },
     updateUser({ state }, user) {
       updateUser(state.client, user)
