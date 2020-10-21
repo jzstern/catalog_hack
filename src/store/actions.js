@@ -168,11 +168,8 @@ const actions = {
         console.log("newUserId")
         console.log(newUserId)
 
-        userModel = {
-          ...userModel,
-          _id: newUserId
-        }
-      }
+        userModel = { ...userModel, _id: newUserId }
+      } else userModel = { ...userModel, _id: userTextile._id }
 
       userModel = {
         ...userModel,

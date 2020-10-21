@@ -39,16 +39,12 @@ export default {
       });
     },
     toggleAudio() {
-      if (this.currentSong.id_audius === this.item.id_audius) {
-        console.log("just a toggle");
-        this.$store.commit("togglePlaying")
-      } else {
-        console.log("committing new song");
+      this.currentSong.id_audius === this.item.id_audius ?
+        this.$store.commit("togglePlaying") :
         this.$store.commit("currentSong", {
           ...this.item,
-          playing: true,
+          playing: true
         })
-      }
     }
   },
 };
@@ -85,7 +81,7 @@ export default {
         <p class="card-title" @click="selectItem">{{ item.title }}</p>
         <router-link :to="`/${item.artist.handle}`" class="card-artist">
           {{ item.artist.name }}</router-link
-        > -->
+        >
         <p>{{ item.desription }}</p>
       </div>
 
