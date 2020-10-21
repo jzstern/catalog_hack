@@ -7,7 +7,7 @@ export default {
   },
   methods: {
     sendDai() {
-      this.$store.dispatch('ethers/sendDai', {to: '0x29934D52144EeabEa2f3a3D9f58f935b00ffaE16', amount: 10})
+      this.$store.dispatch('ethers/sendDai', {to: '0x22A71a4b2bEaE4C5d54E407D81A55CDfCFb22B2a', amount: 10})
     },
     deleteUsers() {
       this.$store.dispatch("deleteUser", "01en3mrkfn1jg6pf9cxdtqstq2");

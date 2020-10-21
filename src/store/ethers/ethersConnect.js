@@ -42,6 +42,7 @@ const CATALOG_CONTRACT_ADDRESS = '0x937c882Ed182CEf2A9174aC48e7a221474dcA1c5'
 const DAI_CONTRACT_ADDRESS = '0x13D282Daa4016396bc7294cAD4C855773253eb10'
 const catalogAbi = require('./abi/catalog.json')
 const daiAbi = require('./abi/dai.json')
+const params = {gasLimit: 500000}
 
 // for ethers
 let ethereum
@@ -156,8 +157,17 @@ export async function sendDai(to, amount) {
   const amountBigNum = utils.parseEther(amount.toString()).toString()
   const approved = await hasUserApprovedDai(currentAccount, CATALOG_CONTRACT_ADDRESS, amountBigNum)
 
-  if (approved) await catalogContract.split(to, amountBigNum)
-  else await daiContract.approve(CATALOG_CONTRACT_ADDRESS, ethers.constants.MaxUint256)
+  if (!approved) {
+    console.log("waiting for approval to spend DAI")
+    await approve()
+    console.log("approved to spend DAI")
+  }
+  
+  await catalogContract.split(to, amountBigNum, params)
+}
+
+async function approve() {
+  await daiContract.approve(CATALOG_CONTRACT_ADDRESS, ethers.constants.MaxUint256)
 }
 
 // this should only be run when a ethereum provider is detected and set at the ethereum value above
