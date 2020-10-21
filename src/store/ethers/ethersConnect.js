@@ -43,6 +43,7 @@ const DAI_CONTRACT_ADDRESS = '0x13D282Daa4016396bc7294cAD4C855773253eb10'
 const artistPoolAbi = require('./abi/artistPool.json')
 const catalogAbi = require('./abi/catalog.json')
 const IERC20 = require('./abi/IERC20.json')
+const daiAbi = require('./abi/dai.json')
 const params = {gasLimit: 500000}
 
 // for ethers
@@ -53,6 +54,7 @@ let userWallet
 let currentAccount
 let providerInterval
 let daiContract
+let daiMintContract
 let catalogContract
 let initialized
 
@@ -213,6 +215,12 @@ async function approvePool(contract, poolAddress) {
   await contract.approve(poolAddress, ethers.constants.MaxUint256)
 }
 
+export async function mintDai() {
+  const amount = utils.parseEther('100000000000000000000').toString()
+  await daiMintContract.mint(currentAccount, '100000000000000000000')
+  return
+}
+
 // this should only be run when a ethereum provider is detected and set at the ethereum value above
 export async function startProviderWatcher() {
   async function updateProvider() {
@@ -279,6 +287,7 @@ function handleChainChanged(_chainId) {
 export async function initContracts() {
   catalogContract = new ethers.Contract(CATALOG_CONTRACT_ADDRESS, catalogAbi.abi, userWallet)
   daiContract = new ethers.Contract(DAI_CONTRACT_ADDRESS, IERC20.abi, userWallet);
+  daiMintContract = new ethers.Contract(DAI_CONTRACT_ADDRESS, daiAbi.abi, userWallet);
 }
 
 // For now, 'eth_accounts' will continue to always return an array

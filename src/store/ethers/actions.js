@@ -13,6 +13,7 @@ import {
   getWalletAddress,
   getNetName,
   sendDai,
+  mintDai,
   stake,
   initContracts,
   hasEns
@@ -72,6 +73,10 @@ export default {
   },
   async getBalanceDai(ctx) {
     ctx.commit('balanceDai', await getBalanceDai())
+  },
+  async mintDai() {
+    await mintDai()
+    return "🤑"
   },
   async sendDai(ctx, {to, amount}) {
     await sendDai(to, amount)
