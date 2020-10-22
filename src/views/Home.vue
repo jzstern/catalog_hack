@@ -10,7 +10,7 @@ export default {
   }),
   methods: {
     deleteUsers() {
-      this.$store.dispatch("deleteUser", "01en6zd7f3tdjyn94yg2k0w4c7");
+      this.$store.dispatch("deleteUser", "01en7d73ke3nj1zb7s9ngb9ej5");
     },
     getAllUsers() {
       this.$store.dispatch("getAllUsers");
@@ -19,13 +19,11 @@ export default {
       this.$store.dispatch("getAllTracks");
     },
     deleteTracks() {
-      this.$store.dispatch("deleteItem", "01en6zdzk1b4t32zmrjev7kws4");
-      this.$store.dispatch("deleteItem", "01en6zee7embfxzzv7aaj0dv3v");
-      this.$store.dispatch("deleteItem", "01en6zkaz9qvna99e5z450wemw");
-      this.$store.dispatch("deleteItem", "01en6zkx30we4ghys6evdeg49r");
-      this.$store.dispatch("deleteItem", "01en6zmaym43j66jywq7kg43tj");
-      this.$store.dispatch("deleteItem", "01en6zmpkmj02hnyd9xbe54kyx");
-
+      this.$store.dispatch("deleteItem", "01en7der0z2sd23qq7crjqntb1");
+      this.$store.dispatch("deleteItem", "01en70mkhsvevv4rc147y5vneh");
+      this.$store.dispatch("deleteItem", "01en72ht54k2pfbt3wh1nt6sac");
+      this.$store.dispatch("deleteItem", "01en72j1aes1ccyz8z6s8sf0ns");
+      this.$store.dispatch("deleteItem", "01en76q0fzpd3g9q827mwhvdy1");
     },
     updateUser() {
       this.$store.dispatch("updateUser", {
