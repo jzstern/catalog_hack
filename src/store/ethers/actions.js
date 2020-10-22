@@ -31,7 +31,10 @@ export default {
       const provider = getProvider()
       if (!provider) throw new Error(MSGS.NOT_CONNECTED)
 
+      console.log(provider);
+      
       const wallet = getWallet()
+      console.log(wallet);
       if (!wallet) throw new Error(MSGS.NO_WALLET)
       const address = await getWalletAddress()
       const network = await getNetName()
@@ -65,8 +68,8 @@ export default {
         ctx.commit('ens', ens)
       }
     } catch (err) {
-      // console.warn("Ethers connection error ⍉");
-      // ctx.dispatch('disconnect', err)
+      console.warn("Ethers connection error ⍉");
+      ctx.dispatch('disconnect', err)
     }
   },
   disconnect(ctx, err) {

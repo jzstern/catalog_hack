@@ -88,7 +88,7 @@ export default {
     <div v-else-if="!artistTokenAddress">
       <label>Create Artist Token</label>
       <p>Here's some info about artist tokens</p>
-      <button class="buttonPrimary" @click="registerArtistToken">Register</button>
+      <button class="buttonPrimary" @click="registerArtistToken">Register Token</button>
     </div>
 
     <div

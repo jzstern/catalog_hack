@@ -120,8 +120,6 @@ const actions = {
 
     if (userLocalStorage) commit('user', userLocalStorage)
 
-    dispatch('ethers/init')
-
     // const wallet = libs.hedgehog.getWallet()
     // console.log(wallet)
   },
@@ -131,6 +129,8 @@ const actions = {
     commit('client', client)
     commit('clientReady')
     dispatch('getArtistList')
+
+    dispatch('ethers/init')
 
     // if (state.user.id_audius) dispatch('refreshUser', state.user.id_audius)
   },
@@ -265,7 +265,7 @@ const actions = {
     const formattedUser = formatUser(user)
     console.log({ formattedUser })
     await updateUser(state.client, formattedUser)
-    dispatch('refreshUser', formattedUser.  id_audius)
+    dispatch('refreshUser', formattedUser.id_audius)
   },
   async getAllTracks({ state }) {
     const tracks = await getAllTracks(state.client)

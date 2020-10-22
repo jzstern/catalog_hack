@@ -10,7 +10,9 @@ export default {
   }),
   methods: {
     deleteUsers() {
-      this.$store.dispatch("deleteUser", "01en7d73ke3nj1zb7s9ngb9ej5");
+      this.$store.dispatch("deleteUser", "01en8k12g3h5dw3g4yms99mnw7");
+      this.$store.dispatch("deleteUser", "01en8k328xx6njpsrtpvtxkxh9");
+      this.$store.dispatch("deleteUser", "01en8kgfw4301cn6n9httk9r8g");
     },
     getAllUsers() {
       this.$store.dispatch("getAllUsers");
@@ -19,9 +21,17 @@ export default {
       this.$store.dispatch("getAllTracks");
     },
     deleteTracks() {
-      this.$store.dispatch("deleteItem", "01en7ggmp712wx2mkq2knzp2we");
-      this.$store.dispatch("deleteItem", "01en7ghzwtesx3ay4et16pnhxv");
-      this.$store.dispatch("deleteItem", "01en7grnfg9c6g6j1ncrdnbk44");
+      this.$store.dispatch("deleteItem", "01en8kc4emk6m7jcvc80e8861k");
+      this.$store.dispatch("deleteItem", "01en8kcbgmvq1rhp1bfkg5hgz5");
+      this.$store.dispatch("deleteItem", "01en8kcgyja7zd6gs8hv89387c");
+      this.$store.dispatch("deleteItem", "01en8kcqhjst5h5yhcsaxe510a");
+      this.$store.dispatch("deleteItem", "01en8kcx5ck3xqcckk8vdp8sy8");
+      this.$store.dispatch("deleteItem", "01en8kd2h8g4zj4hks6xpbh14r");
+      this.$store.dispatch("deleteItem", "01en8kd88pjv9vk8a1cyr4nj2h");
+      this.$store.dispatch("deleteItem", "01en8kdcyx4km5yrm1ken58w5c");
+      this.$store.dispatch("deleteItem", "01en8kdjmbme8x3ybc3r7v9ey3");
+      this.$store.dispatch("deleteItem", "01en8kdr1e1ptjh8a326q7dbvc");
+      this.$store.dispatch("deleteItem", "01en8kdxahr3qanabe5mr4y2cm");
     },
     updateUser() {
       this.$store.dispatch("updateUser", {
