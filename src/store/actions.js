@@ -155,7 +155,9 @@ const actions = {
       }
 
       commit('user', userModel)
-      commit('sidebarComponent', "Account")
+      
+      if (credentials.route !== '/') commit('sidebarComponent', "Account")
+      else commit('sidebarComponent', "Artist List")
 
       // fetch audius ID & update user
       const id_audius = (await audiusResolveProfileURL(userModel.handle)).id

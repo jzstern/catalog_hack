@@ -25,7 +25,7 @@ export default {
   methods: {
     closeSidebar() {
       if (this.$route.path === "/") {
-        this.$store.commit("sidebarComponent", "Browse Artists");
+        this.$store.commit("sidebarComponent", "Artist List");
       } else this.$store.commit("closeSidebar");
     },
   },
@@ -39,7 +39,7 @@ export default {
         {{ sidebar.component }}
       </h1>
       <img
-        v-if="this.sidebar.component !== 'Browse Artists'"
+        v-if="this.sidebar.component !== 'Artist List'"
         @click="closeSidebar"
         class="close"
         src="../../assets/other/close.svg"
@@ -48,7 +48,7 @@ export default {
     <div class="sidebar-content">
       <transition name="slide" mode="out-in">
         <Account v-if="sidebar.component === 'Account'" />
-        <ArtistList v-else-if="sidebar.component === 'Browse Artists'" />
+        <ArtistList v-else-if="sidebar.component === 'Artist List'" />
         <Item v-else-if="sidebar.component === 'Item'" />
         <Login v-else-if="sidebar.component === 'Login'" />
         <Purchase v-else-if="sidebar.component === 'Purchase'" />

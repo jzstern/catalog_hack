@@ -2,27 +2,49 @@
   <div class="register">
     <div class="form-item">
       <label>Email</label>
-      <input v-model="email" type="email" />
+      <input
+        v-model="email"
+        type="email"
+      >
     </div>
 
     <div class="form-item">
       <label>Password</label>
-      <input v-model="password" type="password" />
+      <input
+        v-model="password"
+        type="password"
+      >
     </div>
 
     <div class="form-item">
       <label>Display Name</label>
-      <input v-model="name" type="text" />
+      <input
+        v-model="name"
+        type="text"
+      >
     </div>
 
     <div class="form-item">
       <label>Handle</label>
-      <input v-model="handle" type="text" />
+      <input
+        v-model="handle"
+        type="text"
+      >
     </div>
 
-    <button class="buttonPrimary" @click="register">Register</button>
+    <button
+      class="buttonPrimary"
+      @click="register"
+    >
+      Register
+    </button>
 
-    <button class="buttonSecondary" @click="login">Log in</button>
+    <button
+      class="buttonSecondary"
+      @click="login"
+    >
+      Log in
+    </button>
   </div>
 </template>
 
@@ -38,7 +60,7 @@ export default {
   }),
   methods: {
     artists() {
-      this.$store.commit("sidebarComponent", "Browse Artists");
+      this.$store.commit("sidebarComponent", "Artist List");
     },
     login() {
       this.$store.commit("sidebarComponent", "Login");

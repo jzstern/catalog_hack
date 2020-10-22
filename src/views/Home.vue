@@ -38,7 +38,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.commit("sidebarComponent", "Browse Artists");
+    this.$store.commit("sidebarComponent", "Artist List");
   },
 };
 </script>

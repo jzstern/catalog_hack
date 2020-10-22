@@ -18,6 +18,9 @@ export default {
     missingPassword() {
       return !this.password && this.invalidForm;
     },
+    path() {
+      return this.$route.path;
+    },
   },
   data: () => ({
     email: null,
@@ -26,11 +29,11 @@ export default {
   }),
   methods: {
     artists() {
-      this.$store.commit("sidebarComponent", "Browse Artists");
+      this.$store.commit("sidebarComponent", "Artist List");
     },
     login() {
       if (this.email && this.password)
-        this.$store.dispatch("login", { email: this.email, pw: this.password });
+        this.$store.dispatch("login", { email: this.email, pw: this.password, route: this.path });
       else {
         this.$store.commit("user", {
           ...this.$store.state.user,
