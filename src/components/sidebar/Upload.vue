@@ -12,7 +12,7 @@ export default {
           );
         if (this.track && newVal.length && track) {
           this.$store.commit("sidebar", {
-            component: "Upload Confirmed",
+            component: "Upload Complete",
             item: {
               ...this.track,
               _id: track._id,
@@ -110,8 +110,8 @@ export default {
 }
 
 .upload-artwork {
-  width: 60px;
-  height: 60px;
+  width: 100px;
+  height: 100px;
 }
 
 .upload-select {

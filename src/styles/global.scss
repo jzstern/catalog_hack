@@ -130,6 +130,29 @@ input[type="number"] {
   transform: translateX(1em);
 }
 
+.slideDown-leave-active {
+  transition-duration: 0.2s;
+  transition-property: opacity transform;
+  transition-timing-function: linear;
+  // transition: opacity 0.1s linear-in;
+  // transition: transform 0.1s linear-in;
+}
+.slideDown-enter-active {
+  transition-duration: 0.2s;
+  transition-property: opacity transform;
+  transition-timing-function: linear;
+
+  // transition: opacity 0.4s ease-in;
+  // transition: transform 0.4s ease-in;
+  // overflow: hidden;
+}
+
+.slideDown-enter,
+.slideDown-leave {
+  opacity: 0;
+  transform: translateY(-25%);
+}
+
 .fadeScale-leave-active {
   transition-duration: 0.15s;
   transition-property: transform opacity;

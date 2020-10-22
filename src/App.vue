@@ -10,12 +10,13 @@ export default {
   },
   watch: {
     clientReady() {
-      if (this.user.id_audius) this.$store.dispatch('refreshUser', this.user.id_audius)
-    }
+      if (this.user.id_audius)
+        this.$store.dispatch("refreshUser", this.user.id_audius);
+    },
   },
   computed: {
     clientReady() {
-      return this.$store.state.clientReady
+      return this.$store.state.clientReady;
     },
     showSideBar() {
       return !!this.$store.state.sidebar.component;
@@ -53,9 +54,6 @@ export default {
         </transition>
       </div>
     </div>
-    <!-- <transition name="fade" mode="out-in"> -->
-    <!-- <MusicPlayer /> -->
-    <!-- </transition> -->
     <transition name="fade" mode="out-in">
       <MusicPlayer v-show="currentSong._id || onHome" />
     </transition>

@@ -11,7 +11,7 @@ export default {
     Receipt: () => import("./Receipt"),
     Register: () => import("./Register"),
     Upload: () => import("./Upload"),
-    UploadConfirmed: () => import("./UploadConfirmed"),
+    UploadComplete: () => import("./UploadComplete"),
     UserDashboard: () => import("./UserDashboard"),
   },
   computed: {
@@ -55,7 +55,7 @@ export default {
         <Receipt v-else-if="sidebar.component === 'Receipt'" />
         <Register v-else-if="sidebar.component === 'Register'" />
         <Upload v-else-if="sidebar.component === 'Upload'" />
-        <UploadConfirmed v-else-if="sidebar.component === 'Upload Confirmed'" />
+        <UploadComplete v-else-if="sidebar.component === 'Upload Complete'" />
         <UserDashboard v-else-if="sidebar.component === 'User Dashboard'" />
       </transition>
     </div>
@@ -102,7 +102,7 @@ export default {
   z-index: 200;
   flex-shrink: 0;
   padding: 0 32px;
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px) brightness(25%);
 }
 
 .title {

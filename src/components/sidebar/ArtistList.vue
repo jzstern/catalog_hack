@@ -1,9 +1,6 @@
 <template>
   <div>
-    <ul
-      v-if="artists.length"
-      class="artist-list no-select"
-    >
+    <ul v-if="artists.length" class="artist-list no-select">
       <router-link
         v-for="artist in artists"
         :key="artist.name"
@@ -16,9 +13,7 @@
         </li>
       </router-link>
     </ul>
-    <p v-else>
-      loading artists...
-    </p>
+    <p v-else class="no-tracks">loading artists...</p>
   </div>
 </template>
 
@@ -28,9 +23,9 @@ import { ARTISTS } from "../../store/constants";
 export default {
   computed: {
     artists() {
-      return this.$store.state.artistList
-    }
-  }
+      return this.$store.state.artistList;
+    },
+  },
 };
 </script>
 

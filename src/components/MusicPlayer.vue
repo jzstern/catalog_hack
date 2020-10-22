@@ -135,6 +135,10 @@ export default {
 .player-artist {
   padding-left: 16px;
   opacity: 0.5;
+
+  &:hover {
+    color: #f2ba00;
+  }
 }
 
 .play-pause {
