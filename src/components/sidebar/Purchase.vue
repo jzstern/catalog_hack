@@ -7,6 +7,9 @@ export default {
     message: null,
   }),
   computed: {
+    balanceDai() {
+      return this.$store.state.ethers.balanceDai
+    },
     item() {
       return this.$store.state.sidebar.item;
     },
@@ -14,7 +17,7 @@ export default {
       return (
         (this.item.price && this.payment >= this.item.price) ||
         (!this.item.price && this.payment)
-      );
+      ) && Number(this.balanceDai) >= Number(this.payment);
     },
     userIsLoggedIn() {
       return this.$store.state.user.login_status === "LOGGED_IN";
@@ -36,18 +39,20 @@ export default {
         return;
       }
 
-      console.log("this.artistTokenAddress");
-      console.log(this.artistTokenAddress);
+      await this.$store.dispatch('ethers/getBalances')
 
-      if (this.generateTx) await this.$store.dispatch('ethers/sendDai', { to: this.artistTokenAddress, amount: this.payment})
-
-      const purchase = { ...this.item, price: this.payment };
-      this.$store.dispatch("addItemToCollection", purchase);
-      this.$store.commit("sidebar", {
-        component: "Receipt",
-        item: purchase,
-      });
-    },
+      if (this.generateTx) {
+        await this.$store.dispatch('ethers/sendDai', { to: this.artistTokenAddress, amount: this.payment})
+        const purchase = { ...this.item, price: this.payment };
+        this.$store.dispatch("addItemToCollection", purchase);
+        this.$store.commit("sidebar", {
+          component: "Receipt",
+          item: purchase,
+        });
+      } else {
+        alert("payment amount is bunk")
+      }
+    }
   },
   async mounted() {
     this.artistTokenAddress = await this.$store.dispatch('ethers/getArtistTokenAddress', this.item.artist.wallet_addr_mm)
