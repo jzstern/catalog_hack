@@ -42,6 +42,7 @@ export default {
       await this.$store.dispatch('ethers/getBalances')
 
       if (this.generateTx) {
+        // is contract approved to spend dai?
         await this.$store.dispatch('ethers/sendDai', { to: this.item.artist.wallet_addr_mm, amount: this.payment})
         const purchase = { ...this.item, price: this.payment };
         this.$store.dispatch("addItemToCollection", purchase);

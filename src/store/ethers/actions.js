@@ -145,8 +145,11 @@ export default {
   },
   async getArtistTokenBalanceOfUser(ctx, artistTokenContractAddress) {
     console.log('getArtistTokenBalanceOfUser top')
-    await getArtistTokenBalanceOfUser(artistTokenContractAddress)
+    const tokenBalance = await getArtistTokenBalanceOfUser(artistTokenContractAddress)
     console.log('getArtistTokenBalanceOfUser top finísh')
+    console.log("tokenBalance");
+    console.log(tokenBalance);
+    return tokenBalance
   },
   logout(ctx) {
     ctx.commit('address', '')
