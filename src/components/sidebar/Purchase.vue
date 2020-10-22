@@ -19,16 +19,13 @@ export default {
       });
     },
     purchaseItem() {
-      const purchase = {
-        ...this.item,
-        price: this.payment,
-      };
-      this.$store.dispatch("addItemToCollection", { ...purchase })
+      const purchase = { ...this.item, price: this.payment }
+      this.$store.dispatch("addItemToCollection", purchase)
       this.$store.commit("sidebar", {
         component: "Receipt",
         item: purchase,
       });
-    },
+    }
   },
 };
 </script>

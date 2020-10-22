@@ -33,6 +33,7 @@ export const getAudiusTracksInCollection = async (collectionTextile) => {
     const item = await audiusGetTrackByAudiusId(track.id_audius)
     return {
       _id: track._id,
+      artist: track.artist,
       price: track.price,
       id_audius: item.id,
       title: item.title,
