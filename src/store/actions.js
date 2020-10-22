@@ -247,8 +247,9 @@ const actions = {
     setAudiusAccountUser(user) // TODO(metamask): MAKE SURE `wallet_addr_mm` exists on `user` going to localstorage HERE 
   },
   async updateUser({ state, commit }, user) {
-    updateUser(state.client, user)
-    // const formattedUser = formatUser(user)
+    // updateUser(state.client, user)
+    const formattedUser = formatUser(user)
+    console.log({formattedUser})
     // updateUser(state.client, formattedUser)
     // commit('user', user)
   },
