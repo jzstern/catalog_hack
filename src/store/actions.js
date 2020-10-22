@@ -92,8 +92,17 @@ const actions = {
     return source
   },
   async getAudiusUploads({ state, commit }, userIdAudius) {
-    const uploads = await getAudiusUploads(userIdAudius)
-    const formattedUploads = uploads.map(item => {
+    var uploads = await getAudiusUploads(userIdAudius)
+
+    var filteredUploads = uploads
+    
+    if (state.user.catalog.length) {
+      filteredUploads = uploads.filter(track => {
+        return !!state.user.catalog.find(item => item.id_audius !== track.id)
+      })
+    }
+
+    const formattedUploads = filteredUploads.map(item => {
       return {
         id_audius: item.id,
         title: item.title,

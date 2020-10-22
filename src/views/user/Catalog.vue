@@ -1,5 +1,7 @@
 <script>
 /* eslint-disable */
+import { mapState } from 'vuex'
+
 export default {
   name: "Catalog",
   components: {
@@ -12,20 +14,12 @@ export default {
       }
     },
   },
-  computed: {
-    catalog() {
-      return this.$store.state.artist.catalog;
-    },
-    loading() {
-      return this.$store.state.artist.loading.catalog;
-    },
-    userCatalog() {
-      return this.$store.state.user.catalog;
-    },
-    userHandle() {
-      return this.$store.state.user.handle;
-    },
-  },
+  computed: mapState({
+    catalog: state => state.artist.catalog,
+    handle: state => state.user.handle,
+    loading: state => state.artist.loading.catalog,
+    userCatalog: state => state.user.catalog,
+  })
 };
 </script>
 
