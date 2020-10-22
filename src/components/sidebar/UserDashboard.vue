@@ -22,6 +22,9 @@ export default {
       await this.$store.dispatch('ethers/mintDai')
       alert('minted 100 totally not fake DAI')
     },
+    async stake(artistWalletAddr) {
+      this.$store.dispatch('ethers/stake', artistWalletAddr)
+    },
     async constructTokenBalances() {
       console.log('constructing token balances...')
 
@@ -51,13 +54,10 @@ export default {
       console.log({artist_token_balances})
 
       this.artistTokenBalances = artist_token_balances
-
-
     }
   },
-  async mounted() {
-    console.log('MOUNTED!')
-    await this.constructTokenBalances()
+  beforeMount() {
+    this.constructTokenBalances()
   }
 }
 </script>
@@ -75,7 +75,14 @@ export default {
     </div>
 
     <label>Artist Tokens</label>
-    <p class="field">{{JSON.stringify(this.artistTokenBalances)}}</p>
+    
+    <div class="artist-tokens" v-for="token in artistTokenBalances" :key="token.artistTokenAddress">
+      <label>{{ token.artistName }}</label>
+      <p class="field">{{ token.balanceOfToken }}</p>
+      <p class="field">{{ token.tokenAddr }}</p>
+
+      <button class="buttonPrimary" @click="stake(token.wallet_addr_mm)">Stake</button>
+    </div>
   </div>
 </template>
 
