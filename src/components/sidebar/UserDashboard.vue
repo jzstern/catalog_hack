@@ -35,7 +35,7 @@ export default {
       <p class="field">{{ balanceEth }}</p>
     </div>
 
-    <label>Claimable tokens</label>
+    <label>Artist Tokens</label>
   </div>
 </template>
 

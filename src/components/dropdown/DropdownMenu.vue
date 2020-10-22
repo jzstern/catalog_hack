@@ -46,14 +46,14 @@ export default {
     <transition name="fade" mode="in-out">
       <div class="expanded" v-show="expanded">
         <div class="menu-item">
-          <router-link :to="`/${this.user.handle}`">my catalog</router-link>
+          <router-link :to="`/${this.user.handle}`">catalog</router-link>
         </div>
         <div
           class="menu-item"
           @click="openSidebar('User Dashboard')"
           v-if="connected"
         >
-          my dashboard
+          dashboard
         </div>
         <div class="menu-item" @click="openSidebar('Upload')">upload</div>
         <div class="menu-item" @click="openSidebar('Account')">account</div>
