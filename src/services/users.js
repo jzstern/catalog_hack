@@ -30,18 +30,20 @@ export const formatUser = (user) => {
             return {
                 _id: item._id,
                 id_audius: item.id_audius,
-                artist: item.artist
+                artist: item.artist,
+                price: item.price
             }
         })
     }
-
+    
     // format collection to be Textile-friendly
     if (user.collection.length) {
         collection = user.collection.map(item => {
             return {
                 _id: item._id,
                 id_audius: item.id_audius,
-                artist: item.artist
+                artist: item.artist,
+                price: item.price
             }
         })
     }
