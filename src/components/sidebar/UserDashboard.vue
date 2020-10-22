@@ -1,65 +1,97 @@
 <script>
 /* eslint-disable */
-import { mapState } from "vuex"
+import { mapState } from "vuex";
 
 export default {
   name: "UserDashboard",
   computed: {
     formattedWalletAddr() {
-      return (this.user.wallet_addr.substring(0, 4) + "..." + this.user.wallet_addr.substring(this.user.wallet_addr.length - 4))
+      return (
+        this.user.wallet_addr.substring(0, 4) +
+        "..." +
+        this.user.wallet_addr.substring(this.user.wallet_addr.length - 4)
+      );
     },
     ...mapState({
-      balanceDai: state => state.ethers.balanceDai,
-      balanceEth: state => state.ethers.balance,
-      user: "user"
-    })
+      balanceDai: (state) => state.ethers.balanceDai,
+      balanceEth: (state) => state.ethers.balance,
+      user: "user",
+    }),
   },
   data: () => ({
-    artistTokenBalances: []
+    artistTokenBalances: [],
   }),
   methods: {
     async mintDai() {
-      await this.$store.dispatch('ethers/mintDai')
-      alert('minted 100 totally not fake DAI')
+      await this.$store.dispatch("ethers/mintDai");
+      alert("minted 100 totally not fake DAI");
     },
     async stake(artistWalletAddr) {
       this.$store.dispatch('ethers/stake', artistWalletAddr)
     },
     async constructTokenBalances() {
-      console.log('constructing token balances...')
+      console.log("constructing token balances...");
 
-      // GET THE UNIQUE METAMASK ADDRs OF ARTISTS IN YOUR COLLECTION
-      let mm_address_set = new Set()
-      this.$store.state.user.collection.forEach(item => mm_address_set.add(item.artist.wallet_addr_mm))
-      const artist_mm_addresses = Array.from(mm_address_set)
+      // Get all artists from your collection
+      const artists = this.$store.state.user.collection.map(
+        (item) => item.artist
+      );
 
-      // console.log({artist_mm_addresses})
+      // Remove duplicate artists 
+      const uniqueArtists = artists.reduce((acc, current) => {
+        const x = acc.find((item) => item.id_audius === current.id_audius);
+        if (!x) {
+          return acc.concat([current]);
+        } else {
+          return acc;
+        }
+      }, []);
+
+      console.log({uniqueArtists})
 
       // GET THE TOKEN ADDRESSES FOR EACH METAMASK ADDR
-      let artist_token_addresses = await Promise.all(artist_mm_addresses.map(async mm_addr => {
-        const artistTokenAddress =  await this.$store.dispatch('ethers/getArtistTokenAddress', mm_addr)
-        return artistTokenAddress
-      }))
+      let artist_token_addresses0 = await Promise.all(
+        uniqueArtists.map(async (artist) => {
+          const artistTokenAddress = await this.$store.dispatch(
+            "ethers/getArtistTokenAddress",
+            artist.wallet_addr_mm
+          );
+          return {
+            ...artist,
+            artistTokenAddress
+          };
+        })
+      );
 
-      // Filter out null vals - null vals are mm_addresses that have not deployed an artist token
-      artist_token_addresses = artist_token_addresses.filter(el => el !== null)
-      // console.log({artist_token_addresses})
+      console.log({artist_token_addresses0})
+
+      // Filter out null vals for artistTokenaddress - null vals are mm_addresses that have not deployed an artist token
+      artist_token_addresses0 = artist_token_addresses0.filter(
+        ({artistTokenAddress}) => artistTokenAddress !== null
+      );
+
+      console.log({artist_token_addresses0})
 
       // USE THE ARTIST TOKEN ADDRESSES TO QUERY THE BALANCE
-      const artist_token_balances = await Promise.all(artist_token_addresses.map(async tokenAddr => {
-        const balanceOfToken = await this.$store.dispatch('ethers/getArtistTokenBalanceOfUser', tokenAddr)
-        return({tokenAddr, balanceOfToken})
-      }))
+      const artist_token_balances0 = await Promise.all(
+        artist_token_addresses0.map(async (artist) => {
+          const balanceOfToken = await this.$store.dispatch(
+            "ethers/getArtistTokenBalanceOfUser",
+            artist.artistTokenAddress
+          );
+          return { ...artist, balanceOfToken };
+        })
+      );
 
-      console.log({artist_token_balances})
+      console.log({artist_token_balances0})
 
-      this.artistTokenBalances = artist_token_balances
-    }
+      this.artistTokenBalances = artist_token_balances0
+    },
   },
   beforeMount() {
     this.constructTokenBalances()
   }
-}
+};
 </script>
 
 <template>
@@ -75,11 +107,13 @@ export default {
     </div>
 
     <label>Artist Tokens</label>
+    <br />
+    <br />
     
     <div class="artist-tokens" v-for="token in artistTokenBalances" :key="token.artistTokenAddress">
-      <label>{{ token.artistName }}</label>
+      <label>{{ token.name }}</label>
       <p class="field">{{ token.balanceOfToken }}</p>
-      <p class="field">{{ token.tokenAddr }}</p>
+      <p class="field">{{ token.artistTokenAddress }}</p>
 
       <button class="buttonPrimary" @click="stake(token.wallet_addr_mm)">Stake</button>
     </div>
