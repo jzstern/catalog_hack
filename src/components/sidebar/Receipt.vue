@@ -15,16 +15,16 @@ export default {
       this.$store.commit("closeSidebar");
     },
     async stake() {
-      // const balanceArtistTokens = await this.$store.dispatch('ethers/getArtistTokenBalanceOfUser', this.item.artist.tokenAddress)
+      const balanceArtistTokens = await this.$store.dispatch('ethers/getArtistTokenBalanceOfUser', this.item.artist.tokenAddress)
 
-      // console.log("balanceArtistTokens");
-      // console.log("balanceArtistTokens");
-      // console.log("balanceArtistTokens");
-      // console.log("balanceArtistTokens");
-      // console.log(balanceArtistTokens);
+      console.log("balanceArtistTokens");
+      console.log("balanceArtistTokens");
+      console.log("balanceArtistTokens");
+      console.log("balanceArtistTokens");
+      console.log(balanceArtistTokens);
 
       if (balanceArtistTokens) {
-        await this.$store.dispatch("ethers/stake", this.item.artist.tokenAddress)
+        await this.$store.dispatch("ethers/stake", this.item.artist.wallet_addr_mm)
         this.stakingComplete = true
       } else {
         alert(`You haven't received any of ${this.item.artist.name}'s tokens yet - wait a min & try again`)
