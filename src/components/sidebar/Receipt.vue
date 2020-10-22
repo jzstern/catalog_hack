@@ -15,9 +15,13 @@ export default {
       this.$store.commit("closeSidebar");
     },
     async stake() {
-      // this.$store.dispatch("ethers/stake", this.item.artist.wallet_addr)
-      await this.$store.dispatch("ethers/stake", "0x22A71a4b2bEaE4C5d54E407D81A55CDfCFb22B2a")
-      this.stakingComplete = true
+      const balanceArtistTokens = await this.$store.dispatch('getArtistTokenBalanceOfUser', this.item.artist.tokenAddress)
+      if (balanceArtistTokens) {
+        await this.$store.dispatch("ethers/stake", this.item.artist.tokenAddress)
+        this.stakingComplete = true
+      } else {
+        alert(`You haven't received any of ${this.item.artist.name}'s tokens yet - wait a min & try again`)
+      }
     }
   },
 };
