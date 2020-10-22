@@ -50,7 +50,7 @@ export default {
           component: "Receipt",
           item: { ...purchase, artist: {
             ...purchase.artist,
-            tokenAddress: artistTokenAddress
+            tokenAddress: this.artistTokenAddress
           } },
         });
       } else {
