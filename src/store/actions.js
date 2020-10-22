@@ -40,6 +40,7 @@ const actions = {
     // finally, update the user in the state/localstorage
     dispatch('refreshUser', state.user.id_audius)
   },
+  // THIS IS CALLED WHENEVER WE OPEN AN ARTIST PAGE TO STITCH DATA AND POPULATE AN ARTISTS CATALOG/COLLECTION/MM_ADDRESS
   async getArtistData({ state, commit, dispatch }, handle) {
     commit('artist', {
       ...NULL_ARTIST,
@@ -57,7 +58,7 @@ const actions = {
       _id: userTextile._id,
       catalog: userTextile.catalog,
       collection: userTextile.collection,
-      wallet_addr_mm: userTextile.wallet_addr_mm || 'WALLET_ADDR_MM', //TODO (metamask) UPDATE `wallet_addr_mm` from textile HERE 
+      wallet_addr_mm: userTextile.wallet_addr_mm,
       loading: { user_info: false, catalog: true, collection: true }
     }
 
@@ -247,10 +248,14 @@ const actions = {
       wallet_addr_mm: user.wallet_addr_mm // TODO(metamask): MAKE SURE `wallet_addr_mm` exists in textile returned `user`
     }
 
+    console.log('refreshUser 1', {user})
+
     commit('user', user)
 
     // Get full Audius track info for Catalog & collection
     user = await dispatch('getUsersFullTracks', user)
+    
+    console.log('refreshUser 2', {user})
 
     commit('user', user)
     setAudiusAccountUser(user) // TODO(metamask): MAKE SURE `wallet_addr_mm` exists on `user` going to localstorage HERE 
