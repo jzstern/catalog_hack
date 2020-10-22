@@ -33,10 +33,16 @@ export const addItemToCatalog = async (client, track, user) => {
         const _id = await createItem(client, item)
         const textileItem = { ...item, _id }
 
+        console.log('addItemToCatalog 1: user')
+        console.log(user)
+
         // Format the current user to be Textile-friendly before we update this user
         var formattedUser = formatUser(user) // TODO(metamask): MAKE SURE `formattedUser` contains the logged-in user's `wallet_addr_mm` HERE 
         formattedUser.catalog.push(textileItem) // TODO(metamask): MAKE SURE `textileItem` contains the user's `artist.wallet_addr_mm` HERE 
 
+        console.log('addItemToCatalog 2: formattedUser')
+        console.log(formattedUser)
+        
         // Update the Textile 'User' Document 
         await updateUser(client, formattedUser)
 

@@ -18,6 +18,8 @@ export const getAudiusTracksInCatalog = async (userIdAudius, catalogTextile) => 
     })
   })
 
+  console.log('getAudiusTracksInCatalog', {catalog})
+
   return catalog
 }
 
