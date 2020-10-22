@@ -19,8 +19,8 @@ const actions = {
       const item = await addItemToCatalog(state.client, track, state.user)
       commit('addItemToUserCatalog', item)
 
-        // finally, update the user in the state/localstorage
-        dispatch('refreshUser', state.user.id_audius)
+      // finally, update the user in the state/localstorage
+      dispatch('refreshUser', state.user.id_audius)
     }
   },
   async addItemToCollection({ state, commit, dispatch }, item) {
@@ -76,7 +76,7 @@ const actions = {
     const collection = getAudiusTracksInCollection(user.collection)
 
     console.log('fulltrax', user)
-    
+
     return Promise.all([catalog, collection]).then(results => {
       return {
         ...user,
@@ -168,7 +168,7 @@ const actions = {
       userModel.id_audius = id_audius
       commit('user', userModel)
 
-        // TODO(metamask): MAKE SURE `wallet_addr_mm` exists in returned textile user
+      // TODO(metamask): MAKE SURE `wallet_addr_mm` exists in returned textile user
       var userTextile = await findTextileUserByAudiusId(state.client, userModel.id_audius)
 
 
@@ -181,7 +181,7 @@ const actions = {
           wallet_addr_mm: null, // TODO(metamask): CREATE `wallet_addr_mm` from textile HERE (if new user is created)
           name: userModel.name,
           handle: userModel.handle,
-          catalog: [],  
+          catalog: [],
           collection: [],
           links: []
         }
@@ -191,17 +191,17 @@ const actions = {
         console.log("newUserId")
         console.log(newUserId)
 
-        userModel = { 
-          ...userModel, 
-          _id: newUserId, 
+        userModel = {
+          ...userModel,
+          _id: newUserId,
           wallet_addr_mm: userTextile.wallet_addr_mm // TODO(metamask): UPDATE `wallet_addr_mm` from textile HERE (if new user is created)
         }
         dispatch('getArtistList')
-      } else userModel = { 
-        ...userModel, 
+      } else userModel = {
+        ...userModel,
         _id: userTextile._id,
         wallet_addr_mm: userTextile.wallet_addr_mm // TODO(metamask): UPDATE `wallet_addr_mm` from textile HERE (if user exists)
-       }
+      }
 
       //  Create the final userModel we will use, after we either created or loaded a user
       userModel = {
@@ -228,7 +228,7 @@ const actions = {
   async refreshUser({ state, commit, dispatch }, userIdAudius) {
     // Get user metadata
     var user = await findTextileUserByAudiusId(state.client, userIdAudius)
-    
+
     // TODO(metamask): ADD `wallet_addr_mm` HERE
     user = {
       ...state.user,
@@ -246,12 +246,12 @@ const actions = {
     commit('user', user)
     setAudiusAccountUser(user) // TODO(metamask): MAKE SURE `wallet_addr_mm` exists on `user` going to localstorage HERE 
   },
-  async updateUser({ state, commit }, user) {
+  async updateUser({ state, dispatch }, user) {
     // updateUser(state.client, user)
     const formattedUser = formatUser(user)
-    console.log({formattedUser})
-    // updateUser(state.client, formattedUser)
-    // commit('user', user)
+    console.log({ formattedUser })
+    await updateUser(state.client, formattedUser)
+    dispatch('refreshUser', formattedUser.  id_audius)
   },
   async getAllTracks({ state }) {
     const tracks = await getAllTracks(state.client)
@@ -265,7 +265,7 @@ const actions = {
   },
   async getAllUsers({ state }) {
     const users = await getAllUsers(state.client)
-    console.log(users)
+    console.log('getAllUsers', users)
   }
 }
 
