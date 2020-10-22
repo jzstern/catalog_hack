@@ -15,7 +15,14 @@ export default {
       this.$store.commit("closeSidebar");
     },
     async stake() {
-      const balanceArtistTokens = await this.$store.dispatch('getArtistTokenBalanceOfUser', this.item.artist.tokenAddress)
+      // const balanceArtistTokens = await this.$store.dispatch('ethers/getArtistTokenBalanceOfUser', this.item.artist.tokenAddress)
+
+      // console.log("balanceArtistTokens");
+      // console.log("balanceArtistTokens");
+      // console.log("balanceArtistTokens");
+      // console.log("balanceArtistTokens");
+      // console.log(balanceArtistTokens);
+
       if (balanceArtistTokens) {
         await this.$store.dispatch("ethers/stake", this.item.artist.tokenAddress)
         this.stakingComplete = true
@@ -43,8 +50,8 @@ export default {
       </p>
       <p class="receive-item-1">{{ item.title }} added to your collection</p>
       <p class="receive-item-2">Unlimited streaming via Catalog</p>
-      <p class="receive-item-3">{{ item.title }} wav download</p>
-      <p class="receive-item-4">{{ item.title }} mp3 download</p>
+      <!-- <a href="#" class="receive-item-3">{{ item.title }} wav download</a> -->
+      <a :href="`https://creatornode2.audius.co/tracks/stream/${item.id_audius}`" class="receive-item-4">{{ item.title }} download</a>
     </div>
     <div class="divider" />
     <p>Thank you for your support :)</p>

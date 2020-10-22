@@ -73,7 +73,10 @@ export default {
         ></span
       >
     </p>
-    <p v-if="ownedByUser">You own this 💪🏼</p>
+    <div v-if="ownedByUser">
+      <p >You own this 💪🏼</p>
+      <a :href="`https://creatornode2.audius.co/tracks/stream/${item.id_audius}`" target="_blank" class="receive-item-4" download>mp3 download</a>
+    </div>
     <button v-else-if="!createdByUser" class="buttonPrimary" @click="purchaseItem">
       Purchase ({{ item.price ? `$${item.price}` : "$0.00+" }})
     </button>

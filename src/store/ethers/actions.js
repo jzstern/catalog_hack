@@ -94,6 +94,24 @@ export default {
   async sendDai(ctx, { to, amount }) {
     await sendDai(to, amount)
     return "sent"
+    
+    // if (!ctx.state.ethereumOk || !ctx.state.connected) ctx.dispatch("login")
+    // else {
+    //   return new Promise((resolve, reject) => {
+    //     sendDai(to, amount).then(async tx => {
+    //       console.log(tx.hash)
+    //       ctx.commit('txState', "PENDING")
+    //       ctx.commit('txState', "CONFIRMED")
+
+    //       const receipt = await tx.wait()
+    //       resolve(receipt)
+    //     }).catch(error => {
+    //       // if (e.code === 4001) // user rejection
+    //       ctx.dispatch("txFailed")
+    //       reject(error)
+    //     })
+    //   })
+    // }
   },
   async init(ctx) {
     event.$on(EVENT_CHANNEL, async (msg) => {
@@ -144,11 +162,7 @@ export default {
     return artistTokenAddress
   },
   async getArtistTokenBalanceOfUser(ctx, artistTokenContractAddress) {
-    console.log('getArtistTokenBalanceOfUser top')
     const tokenBalance = await getArtistTokenBalanceOfUser(artistTokenContractAddress)
-    console.log('getArtistTokenBalanceOfUser top finísh')
-    console.log("tokenBalance");
-    console.log(tokenBalance);
     return tokenBalance
   },
   logout(ctx) {
@@ -160,18 +174,5 @@ export default {
     ctx.commit('address', '')
     // ctx.commit("logout", null, { root: true });
     console.log('You are not connected to the Ethereum network. Please check MetaMask, etc.')
-  },
-  resetTxState(ctx) {
-    ctx.commit('txState', null)
-  },
-  txConfirmed(ctx) {
-    ctx.commit('txState', 'confirmed')
-  },
-  txFailed(ctx) {
-    ctx.commit('txState', 'failed')
-    // ctx.commit('resetToastMessage', null, { root: true })
-    // setTimeout(() => {
-    //   ctx.commit('txState', null)
-    // }, 10000)
-  },
+  }
 }

@@ -37,7 +37,7 @@ export const LOG_TRANSACTIONS = [
   // [] // list of topics, empty for all topics
 ]
 
-// const artistTokenAddress = await catalogContract.artists('0x6fD5aeE28863eFD6C40CB76FFb5fbe6D9d03858C')
+// * max uint256 * 115792089237316195423570985008687907853269984665640564039457584007913129639935
 const CATALOG_CONTRACT_ADDRESS = '0x937c882Ed182CEf2A9174aC48e7a221474dcA1c5'
 const DAI_CONTRACT_ADDRESS = '0x13D282Daa4016396bc7294cAD4C855773253eb10'
 const artistPoolAbi = require('./abi/artistPool.json')

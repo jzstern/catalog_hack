@@ -103,14 +103,17 @@ export default {
       <label>ETH Balance</label>
       <p class="field">{{ balanceEth }}</p>
     </div>
+    <br />
 
-    <label>Artist Tokens</label>
+    <label style="font-size: 26px">Artist Tokens</label>
     <br />
     <br />
     
     <div class="artist-tokens" v-for="token in artistTokenBalances" :key="token.artistTokenAddress">
-      <label>{{ token.name }}</label>
-      <p class="field">{{ token.balanceOfToken }}</p>
+      <span><label>{{ token.name }}:</label> {{ token.balanceOfToken }}</span>
+      <br />
+      <br />
+      <label>Token Address</label>
       <p class="field">{{ token.artistTokenAddress }}</p>
 
       <button :class="[{ disabled: !Number(token.balanceOfToken) }, 'buttonPrimary']" @click="stake(token.wallet_addr_mm)" :disabled="!Number(token.balanceOfToken)">Stake</button>
@@ -134,5 +137,12 @@ export default {
 .field {
   margin-top: 8px;
   overflow-wrap: anywhere;
+}
+
+.mint {
+  &:hover {
+    color: #f2ba00;
+    cursor: url("../../assets/other/cursor.png"), pointer;
+  }
 }
 </style>
