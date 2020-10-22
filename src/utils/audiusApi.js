@@ -28,6 +28,7 @@ export const audiusResolveProfileURL = async (handle) => {
   }
 }
 
+// Returns an audius User
 export const getUserByAudiusHandle = async (audiusHandle) => {
   const path = `${BASE_URL}/users?handle=${audiusHandle}`
 

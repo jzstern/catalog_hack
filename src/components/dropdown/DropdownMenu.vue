@@ -13,6 +13,11 @@ export default {
   }),
   methods: {
     openSidebar(component) {
+      if (component === "Upload" && !this.user.wallet_addr_mm) {
+        alert("Connect MetaMask before uploading tracks");
+        return;
+      }
+
       this.$store.commit("sidebarComponent", component);
     },
     toggleDropdown() {
@@ -43,11 +48,6 @@ export default {
         <div class="menu-item">
           <router-link :to="`/${this.user.handle}`">my catalog</router-link>
         </div>
-        <!-- <div class="menu-item">
-        <router-link :to="`/${this.user.handle}/collection`">
-          Collection
-        </router-link>
-      </div> -->
         <div
           class="menu-item"
           @click="openSidebar('User Dashboard')"

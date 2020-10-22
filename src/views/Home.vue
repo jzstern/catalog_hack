@@ -10,7 +10,7 @@ export default {
   }),
   methods: {
     deleteUsers() {
-      this.$store.dispatch("deleteUser", "01en6zd7f3tdjyn94yg2k0w4c7");
+      this.$store.dispatch("deleteUser", "01en7d73ke3nj1zb7s9ngb9ej5");
     },
     getAllUsers() {
       this.$store.dispatch("getAllUsers");
@@ -19,18 +19,14 @@ export default {
       this.$store.dispatch("getAllTracks");
     },
     deleteTracks() {
-      this.$store.dispatch("deleteItem", "01en6zdzk1b4t32zmrjev7kws4");
-      this.$store.dispatch("deleteItem", "01en6zee7embfxzzv7aaj0dv3v");
-      this.$store.dispatch("deleteItem", "01en6zkaz9qvna99e5z450wemw");
-      this.$store.dispatch("deleteItem", "01en6zkx30we4ghys6evdeg49r");
-      this.$store.dispatch("deleteItem", "01en6zmaym43j66jywq7kg43tj");
-      this.$store.dispatch("deleteItem", "01en6zmpkmj02hnyd9xbe54kyx");
-
+      this.$store.dispatch("deleteItem", "01en7ggmp712wx2mkq2knzp2we");
+      this.$store.dispatch("deleteItem", "01en7ghzwtesx3ay4et16pnhxv");
+      this.$store.dispatch("deleteItem", "01en7grnfg9c6g6j1ncrdnbk44");
     },
     updateUser() {
       this.$store.dispatch("updateUser", {
         ...this.$store.state.user,
-        _id: "01en6z9h38j1gn63fjvzfr53rr",
+        _id: "01en7dz2amd21rv5xx5s9h5ksm",
         catalog: [],
         collection: [],
         // links: [ "https://twitter.com/jzstern", "https://audius.co/jzstern", "https://soundcloud.com/appappa"]

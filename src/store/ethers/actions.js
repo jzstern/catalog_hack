@@ -25,13 +25,20 @@ import {
 export default {
   async connect(ctx) {
     try {
+      console.log('ethers/ connect 0')
+
       const provider = getProvider()
       if (!provider) throw new Error(MSGS.NOT_CONNECTED)
+
+      console.log('ethers/ connect 1')
+
 
       const wallet = getWallet()
       if (!wallet) throw new Error(MSGS.NO_WALLET)
       const address = await getWalletAddress()
       const network = await getNetName()
+
+      console.log('ethers/ connect 2')
 
       ctx.commit('connected', true)
       ctx.commit('error', null)
@@ -40,14 +47,16 @@ export default {
       ctx.commit('txState', 'none')
 
       if (address) {
+        console.log('mm connect', {address})
         ctx.dispatch('getBalances', address)
         // todo - update user object w/ MM wallet address
-        // ctx.dispatch('updateUser', {
-        //     ...ctx.rootState.user,
-        //     wallet_addr_mm: address
-        //   },
-        //   { root: true }
-        // )
+
+        const newUser = {
+          ...ctx.rootState.user,
+          wallet_addr_mm: address
+        }
+
+        ctx.dispatch('updateUser', newUser, { root: true })
       }
 
       // Other vuex stores can wait for this
@@ -121,6 +130,7 @@ export default {
     ctx.commit('initialized', true)
   },
   async login(ctx) {
+    console.log('ethers/ logging in')
     connect()
   },
   async stake(ctx, artistWalletAddress) {
