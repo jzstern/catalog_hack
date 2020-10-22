@@ -304,6 +304,26 @@ export async function initContracts() {
   daiMintContract = new ethers.Contract(DAI_CONTRACT_ADDRESS, daiAbi.abi, userWallet);
 }
 
+/*
+ * Artist Token interactions
+ */ 
+
+// function initArtistTokenContract(artistTokenContractAddress) {
+//   artistTokenContract = 
+//   return artistTokenContract
+// }
+
+export async function getArtistTokenBalanceOfUser(artistTokenContractAddress) {
+  console.log('inner 0', artistTokenContractAddress)
+  const artistTokenContract = new ethers.Contract(artistTokenContractAddress, IERC20.abi, userWallet)
+  console.log('inner 1', artistTokenContract)
+  console.log({artistTokenContract, artistTokenContractAddress, currentAccount})
+  const balance = fromDai(await artistTokenContract.balanceOf(currentAccount)).toString()
+  console.log({balance})
+}
+
+
+
 // For now, 'eth_accounts' will continue to always return an array
 export function handleAccountsChanged(accounts) {
   if (accounts.length === 0) {

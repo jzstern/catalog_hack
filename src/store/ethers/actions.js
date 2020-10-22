@@ -18,7 +18,8 @@ import {
   initContracts,
   hasEns,
   getArtistTokenAddress,
-  registerArtistToken
+  registerArtistToken,
+  getArtistTokenBalanceOfUser
 } from './ethersConnect'
 
 // import { compileToFunctions } from 'vue-template-compiler'
@@ -141,6 +142,11 @@ export default {
     const artistTokenAddress = await registerArtistToken()
     ctx.commit('artistTokenAddress', artistTokenAddress)
     return artistTokenAddress
+  },
+  async getArtistTokenBalanceOfUser(ctx, artistTokenContractAddress) {
+    console.log('getArtistTokenBalanceOfUser top')
+    await getArtistTokenBalanceOfUser(artistTokenContractAddress)
+    console.log('getArtistTokenBalanceOfUser top finísh')
   },
   logout(ctx) {
     ctx.commit('address', '')
