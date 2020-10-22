@@ -27,20 +27,13 @@ import {
 export default {
   async connect(ctx) {
     try {
-      console.log('ethers/ connect 0')
-
       const provider = getProvider()
       if (!provider) throw new Error(MSGS.NOT_CONNECTED)
-
-      console.log('ethers/ connect 1')
-
 
       const wallet = getWallet()
       if (!wallet) throw new Error(MSGS.NO_WALLET)
       const address = await getWalletAddress()
       const network = await getNetName()
-
-      console.log('ethers/ connect 2')
 
       ctx.commit('connected', true)
       ctx.commit('error', null)

@@ -96,13 +96,11 @@ const actions = {
     var uploads = await getAudiusUploads(userIdAudius)
 
     var filteredUploads = uploads
-    
-    if (state.user.catalog.length) {
-      filteredUploads = uploads.filter(track => {
-        return !!state.user.catalog.find(item => item.id_audius !== track.id)
-      })
-    }
 
+    // List of id_audius tracks in the user's catalog
+    const catalogIdsArr = state.user.catalog.map(i => !!i && i.id_audius)
+    if (state.user.catalog.length) filteredUploads = uploads.filter(track => !catalogIdsArr.includes(track.id))
+    
     const formattedUploads = filteredUploads.map(item => {
       return {
         id_audius: item.id,

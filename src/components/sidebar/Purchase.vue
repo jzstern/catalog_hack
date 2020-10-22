@@ -20,6 +20,9 @@ export default {
       return this.$store.state.user.login_status === "LOGGED_IN";
     },
   },
+  data: () => ({
+    artistTokenAddress: null
+  }),
   methods: {
     back() {
       this.$store.commit("sidebar", {
@@ -29,16 +32,14 @@ export default {
     },
     async purchaseItem() {
       if (!this.userIsLoggedIn) {
-        alert("login to purchase music");
+        alert("Login to purchase music");
         return;
       }
 
-      // if (this.generateTx) await this.$store.dispatch('ethers/sendDai', { to: this.item.artist.wallet_addr, amount: this.payment})
-      if (this.generateTx)
-        await this.$store.dispatch("ethers/sendDai", {
-          to: "0x22A71a4b2bEaE4C5d54E407D81A55CDfCFb22B2a",
-          amount: this.payment,
-        });
+      console.log("this.artistTokenAddress");
+      console.log(this.artistTokenAddress);
+
+      if (this.generateTx) await this.$store.dispatch('ethers/sendDai', { to: this.artistTokenAddress, amount: this.payment})
 
       const purchase = { ...this.item, price: this.payment };
       this.$store.dispatch("addItemToCollection", purchase);
@@ -48,6 +49,9 @@ export default {
       });
     },
   },
+  async mounted() {
+    this.artistTokenAddress = await this.$store.dispatch('ethers/getArtistTokenAddress', this.item.artist.wallet_addr_mm)
+  }
 };
 </script>
 

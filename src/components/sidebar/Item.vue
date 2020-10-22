@@ -35,10 +35,7 @@ export default {
             playing: true,
           });
     },
-  },
-  mounted() {
-    console.log(showIcon);
-  },
+  }
 };
 </script>
 
