@@ -2,10 +2,6 @@
 /* eslint-disable */
 export default {
   name: "Purchase",
-  data: () => ({
-    payment: null,
-    message: null,
-  }),
   computed: {
     balanceDai() {
       return this.$store.state.ethers.balanceDai
@@ -24,7 +20,9 @@ export default {
     },
   },
   data: () => ({
-    artistTokenAddress: null
+    artistTokenAddress: null,
+    payment: null,
+    message: null,
   }),
   methods: {
     back() {

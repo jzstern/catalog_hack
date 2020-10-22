@@ -92,10 +92,6 @@ export default {
     return "🤑"
   },
   async sendDai(ctx, { to, amount }) {
-    console.log("to");
-    console.log("to");
-    console.log("to");
-    console.log(to);
     await sendDai(to, amount)
     return "sent"
   },

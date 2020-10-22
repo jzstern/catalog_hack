@@ -99,6 +99,10 @@ export default {
   margin-bottom: 8px;
   line-height: 100%;
   cursor: url("../../assets/other/cursor.png"), pointer;
+
+  &:hover {
+    color: #f2ba00;
+  }
 }
 
 .card-info {

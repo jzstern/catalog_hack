@@ -48,6 +48,7 @@ export default {
         <div class="menu-item">
           <router-link :to="`/${this.user.handle}`">catalog</router-link>
         </div>
+        <div class="menu-item" @click="openSidebar('Upload')">upload</div>
         <div
           class="menu-item"
           @click="openSidebar('User Dashboard')"
@@ -55,7 +56,6 @@ export default {
         >
           dashboard
         </div>
-        <div class="menu-item" @click="openSidebar('Upload')">upload</div>
         <div class="menu-item" @click="openSidebar('Account')">account</div>
         <div
           class="menu-item"

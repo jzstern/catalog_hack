@@ -83,8 +83,6 @@ export default {
         })
       );
 
-      console.log({artist_token_balances0})
-
       this.artistTokenBalances = artist_token_balances0
     },
   },
@@ -116,6 +114,9 @@ export default {
       <p class="field">{{ token.artistTokenAddress }}</p>
 
       <button :class="[{ disabled: !Number(token.balanceOfToken) }, 'buttonPrimary']" @click="stake(token.wallet_addr_mm)" :disabled="!Number(token.balanceOfToken)">Stake</button>
+        <br />
+        <br />
+        <br />
     </div>
   </div>
 </template>
