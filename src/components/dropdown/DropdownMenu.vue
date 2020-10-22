@@ -39,7 +39,7 @@ export default {
           Collection
         </router-link>
       </div> -->
-      <div class="menu-item" @click="openSidebar('User Dashboard')">
+      <div class="menu-item" @click="openSidebar('User Dashboard')" v-if="connected">
         my dashboard
       </div>
       <div class="menu-item" @click="openSidebar('Account')">account</div>

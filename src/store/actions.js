@@ -4,7 +4,7 @@ import { audiusResolveProfileURL, getAudiusUploads, getTrackSrcAudiusId } from '
 import { getAudiusTracksInCatalog, getAudiusTracksInCollection, getUserDataAudius } from '../utils/audiusHelpers'
 import { loginAndSetupDB } from '../utils/setup'
 import { getAllUsers, findTextileUserByAudiusId, updateUser, deleteUser, createUser, formatUser } from '../services/users'
-import { addItemToCatalog, deleteItem, getAllTracks } from '../services/tracks'
+import { addItemToCatalog, addItemToCollection, deleteItem, getAllTracks } from '../services/tracks'
 
 import { NULL_ARTIST } from './constants'
 
@@ -22,6 +22,23 @@ const actions = {
         // finally, update the user in the state/localstorage
         dispatch('refreshUser', state.user.id_audius)
     }
+  },
+  async addItemToCollection({ state, commit, dispatch }, item) {
+    // Check if track already exists in your collection
+    if (state.user.collection.find(i => item.id_audius === i.id_audius)) {
+      // TODO - handle this on UI
+      console.warn("Item already exists in your collection")
+      return
+    }
+    // item = Textile Item
+    // Add the current item to the purchasing (logged in) user's collection
+    const result = await addItemToCollection(state.client, item, state.user)
+    console.log('addItemToCollection top: item\n', result)
+
+    commit('addItemToUserCollection', result)
+
+    // finally, update the user in the state/localstorage
+    dispatch('refreshUser', state.user.id_audius)
   },
   async getArtistData({ state, commit, dispatch }, handle) {
     commit('artist', {
@@ -89,12 +106,7 @@ const actions = {
 
     const userLocalStorage = await getAudiusAccountUser()
 
-    if (userLocalStorage) {
-      commit('user', userLocalStorage)
-
-      // fetch user from textile & update w/ any new data
-      if (state.client) dispatch('refreshUser', userLocalStorage.id_audius)
-    }
+    if (userLocalStorage) commit('user', userLocalStorage)
 
     dispatch('ethers/init')
 
@@ -102,7 +114,8 @@ const actions = {
     // console.log(wallet)
   },
   async initTextile({ commit, dispatch }) {
-    const [client] = await loginAndSetupDB({ newIdentity: false })
+    // const [client] = await loginAndSetupDB({ newIdentity: false })
+    const [client] = await loginAndSetupDB({ newIdentity: true })
     commit('client', client)
     commit('clientReady')
     dispatch('getArtistList')
@@ -111,7 +124,7 @@ const actions = {
   },
   logout({ state, commit, dispatch }) {
     commit('logout')
-    dispatch('ethers/disconnect')
+    dispatch('ethers/disconnect') // todo - properly clear ethers
     clearAudiusAccount()
     clearAudiusAccountUser()
     state.libs.Account.logout()
@@ -169,6 +182,7 @@ const actions = {
         console.log(newUserId)
 
         userModel = { ...userModel, _id: newUserId }
+        dispatch('getArtistList')
       } else userModel = { ...userModel, _id: userTextile._id }
 
       userModel = {

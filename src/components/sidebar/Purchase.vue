@@ -32,14 +32,14 @@ export default {
 
       // if (this.generateTx) await this.$store.dispatch('ethers/sendDai', { to: this.item.artist.wallet_addr, amount: this.payment})
       if (this.generateTx) await this.$store.dispatch('ethers/sendDai', { to: "0x22A71a4b2bEaE4C5d54E407D81A55CDfCFb22B2a", amount: this.payment})
-      
+
       const purchase = { ...this.item, price: this.payment }
-      this.$store.commit("addToCollection", purchase);
+      this.$store.dispatch("addItemToCollection", purchase)
       this.$store.commit("sidebar", {
         component: "Receipt",
         item: purchase,
       });
-    },
+    }
   },
 };
 </script>

@@ -5,9 +5,12 @@ export default {
   components: {
     Dropdown: () => import("../components/dropdown/Dropdown"),
   },
+  data: () => ({
+    showHelpers: true
+  }),
   methods: {
     deleteUsers() {
-      this.$store.dispatch("deleteUser", "01en4qz88ech0gd9qccak6qym4");
+      this.$store.dispatch("deleteUser", "01en6zd7f3tdjyn94yg2k0w4c7");
     },
     getAllUsers() {
       this.$store.dispatch("getAllUsers");
@@ -16,12 +19,18 @@ export default {
       this.$store.dispatch("getAllTracks");
     },
     deleteTracks() {
-      this.$store.dispatch("deleteItem", "01en4sfsp59fwsdc2st7dsbe9h");
+      this.$store.dispatch("deleteItem", "01en6zdzk1b4t32zmrjev7kws4");
+      this.$store.dispatch("deleteItem", "01en6zee7embfxzzv7aaj0dv3v");
+      this.$store.dispatch("deleteItem", "01en6zkaz9qvna99e5z450wemw");
+      this.$store.dispatch("deleteItem", "01en6zkx30we4ghys6evdeg49r");
+      this.$store.dispatch("deleteItem", "01en6zmaym43j66jywq7kg43tj");
+      this.$store.dispatch("deleteItem", "01en6zmpkmj02hnyd9xbe54kyx");
+
     },
     updateUser() {
       this.$store.dispatch("updateUser", {
         ...this.$store.state.user,
-        _id: "01en3mzfex54308bc9pyphs4f1",
+        _id: "01en6z9h38j1gn63fjvzfr53rr",
         catalog: [],
         collection: [],
         // links: [ "https://twitter.com/jzstern", "https://audius.co/jzstern", "https://soundcloud.com/appappa"]
@@ -46,14 +55,16 @@ export default {
         <p>Present your work beautifully</p>
         <p>Share revenue & rewards with <br />your biggest supporters</p>
       </div>
+    <div v-if="showHelpers">
+      <button @click="updateUser">update user</button>
+      <button @click="getAllUsers">get all users</button>
+      <button @click="deleteUsers">delete users</button>
+      <button @click="getAllTracks">get tracks</button>
+      <button @click="deleteTracks">delete tracks</button>
+    </div>
     </div>
 
     <div class="home-background"></div>
-    <!-- <button @click="updateUser">update user</button>
-    <button @click="getAllUsers">get all users</button>
-    <button @click="deleteUsers">delete users</button>
-    <button @click="getAllTracks">get tracks</button>
-    <button @click="deleteTracks">delete tracks</button> -->
   </div>
 </template>
 

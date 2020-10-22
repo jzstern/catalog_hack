@@ -8,7 +8,15 @@ export default {
     MusicPlayer: () => import("./components/MusicPlayer"),
     Sidebar: () => import("./components/sidebar/Sidebar"),
   },
+  watch: {
+    clientReady() {
+      if (this.user.id_audius) this.$store.dispatch('refreshUser', this.user.id_audius)
+    }
+  },
   computed: {
+    clientReady() {
+      return this.$store.state.clientReady
+    },
     showSideBar() {
       return !!this.$store.state.sidebar.component;
     },

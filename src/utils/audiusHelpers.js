@@ -4,9 +4,6 @@ export const getAudiusTracksInCatalog = async (userIdAudius, catalogTextile) => 
   // fetch all Audius uploads from a user
   const uploads = await getAudiusUploads(userIdAudius)
   const formattedUploads = await formatUploads(uploads)
-
-  console.log("formattedUploads")
-  console.log(formattedUploads)
   
   // filter out tracks not in a user's Textile catalog
   var catalog = []
@@ -21,9 +18,6 @@ export const getAudiusTracksInCatalog = async (userIdAudius, catalogTextile) => 
     })
   })
 
-  console.log("catalog")
-  console.log(catalog)
-
   return catalog
 }
 
@@ -34,6 +28,7 @@ export const getAudiusTracksInCollection = async (collectionTextile) => {
     const item = await audiusGetTrackByAudiusId(track.id_audius)
     return {
       _id: track._id,
+      artist: track.artist,
       price: track.price,
       id_audius: item.id,
       title: item.title,
@@ -42,7 +37,7 @@ export const getAudiusTracksInCollection = async (collectionTextile) => {
     }
   })
 
-  return collection
+  return await Promise.all(collection)
 }
 
 // Returns a formatted Audius user
