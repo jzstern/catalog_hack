@@ -6,6 +6,9 @@ export default {
     item() {
       return this.$store.state.sidebar.item;
     },
+    username() {
+      return this.$store.state.user.name
+    }
   },
   methods: {
     back(component) {
@@ -27,7 +30,7 @@ export default {
       <p class="upload-complete-title">{{ item.title }}</p>
       <p class="upload-complete-artist">
         song by
-        <span class="artist-name"> {{ this.user.name }}</span>
+        <span class="artist-name"> {{ username }}</span>
         {{ item.description }}
       </p>
       <!-- <p>Duration: {{ item.duration }}s</p> -->
