@@ -2,6 +2,13 @@
 /* eslint-disable */
 export default {
   watch: {
+    percentElapsed(newVal, oldVal) {
+      const newPercent = Math.floor(newVal);
+      const oldPercent = Math.floor(oldVal);
+      if (oldPercent !== newPercent) {
+        console.log(`percentElapsed: ${newPercent}%`);
+      }
+    },
     currentSong: {
       deep: true,
       // immediate: true,
@@ -37,6 +44,7 @@ export default {
   data: () => ({
     loaded: false,
     src: null,
+    percentElapsed: 0,
   }),
   methods: {
     navToSong() {
@@ -51,6 +59,13 @@ export default {
       this.loaded = true;
       if (this.currentSong.playing) this.$refs.audio.play();
     });
+    this.$refs.audio.addEventListener(
+      "timeupdate",
+      ({ target: { currentTime, duration } }) => {
+        const percentElapsed = (currentTime / duration) * 100;
+        this.percentElapsed = percentElapsed;
+      }
+    );
   },
 };
 </script>
@@ -75,6 +90,7 @@ export default {
       <p class="player-title" @click="navToSong">
         {{ currentSong.title ? currentSong.title : "No song playing" }}
       </p>
+
       <router-link :to="`/${currentSong.artist.handle}`" class="player-artist">
         {{ currentSong.artist.name ? currentSong.artist.name : "" }}
       </router-link>
