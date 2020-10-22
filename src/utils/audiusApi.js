@@ -9,6 +9,8 @@ export const audiusResolveProfileURL = async (handle) => {
   let path = `${CORS_PROXY}/${BASE_URL}/v1/resolve?url=https://audius.co/${handle}`
   // path = `${BASE_URL}/v1/resolve?url=https://audius.co/${handle}`
 
+  // curl https://discoveryprovider.mumbaudius.com/v1/resolve?url=https://audius.co/jzstern
+
   try {
     // console.log('🎵 Resolving Audius URL...', { path })
     const response = await fetch(path, {
@@ -29,6 +31,8 @@ export const audiusResolveProfileURL = async (handle) => {
 export const getUserByAudiusHandle = async (audiusHandle) => {
   const path = `${BASE_URL}/users?handle=${audiusHandle}`
 
+  // curl https://discoveryprovider.mumbaudius.com/users?handle=D9Own
+
   try {
     // console.log('🎵 Resolving Audius handle...', { audiusHandle })
     const response = await fetch(path, {
@@ -47,6 +51,8 @@ export const getUserByAudiusHandle = async (audiusHandle) => {
 
 export const audiusGetUserByAudiusId = async (userIdAudius) => {
   const path = `${BASE_URL}/v1/users/${userIdAudius}`
+
+  // curl https://discoveryprovider.mumbaudius.com/v1/users/D9Own
 
   try {
     // console.log(`🎵 Getting Profile with audiusId ${userIdAudius}... `)
