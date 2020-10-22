@@ -40,15 +40,17 @@ export default {
         <transition name="fadeScale" mode="out-in">
           <Dropdown />
         </transition>
-        <router-view />
+        <transition name="fade" mode="out-in">
+          <router-view />
+        </transition>
       </div>
     </div>
     <!-- <transition name="fade" mode="out-in"> -->
-    <MusicPlayer />
+    <!-- <MusicPlayer /> -->
     <!-- </transition> -->
-    <!-- <transition name="fade" mode="out-in">
+    <transition name="fade" mode="out-in">
       <MusicPlayer v-show="currentSong._id || onHome" />
-    </transition> -->
+    </transition>
   </div>
 </template>
 

@@ -98,7 +98,8 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 12px 11px 12px;
+  padding: 0 12px;
+
   margin: 0;
   // bottom: 0px;
   // height: 30px;
@@ -113,7 +114,12 @@ export default {
   box-sizing: border-box;
 
   p {
+    padding: 12px 0px 11px 0px;
     margin: 0;
+  }
+
+  a {
+    padding: 12px 12px 11px 12px;
   }
 }
 
@@ -149,17 +155,20 @@ export default {
   //   font-size: 14px;
   //   // position: absolute;
   // width: 70%;
-  padding: 0px 32px;
+  padding: 0 4px 0 16px;
+  transform: translateY(1px);
   box-sizing: border-box;
+  border-left: 1px solid #666;
 
   p {
     opacity: 0.6;
+    padding: 12px 12px 11px 12px;
   }
 
   a {
     color: #42b983;
 
-    padding-left: 8px;
+    padding-left: 0px;
     opacity: 0.6;
     cursor: url("../assets/other/cursor.png"), pointer;
 
