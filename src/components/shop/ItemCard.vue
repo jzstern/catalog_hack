@@ -30,7 +30,7 @@ export default {
     selectItem() {
       // TODO - don't open sidebar if artist name was clicked
       this.$store.commit("sidebar", {
-        component: "Item",
+        component: "Track Info",
         item: this.item
       });
     },

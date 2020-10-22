@@ -41,7 +41,7 @@ export default {
   methods: {
     navToSong() {
       this.$store.commit("sidebar", {
-        component: "Item",
+        component: "Track Info",
         item: this.currentSong,
       });
     },

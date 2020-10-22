@@ -27,7 +27,7 @@ export default {
   methods: {
     back() {
       this.$store.commit("sidebar", {
-        component: "Item",
+        component: "Track Info",
         item: this.item,
       });
     },
