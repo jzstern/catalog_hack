@@ -38,13 +38,13 @@ export const LOG_TRANSACTIONS = [
 ]
 
 // const artistTokenAddress = await catalogContract.artists('0x6fD5aeE28863eFD6C40CB76FFb5fbe6D9d03858C')
-const CATALOG_CONTRACT_ADDRESS = '0xFcD68D7a9eE2F382ed965f64DdFe6d8C61888Bd5'
-const DAI_CONTRACT_ADDRESS = '0xDcb22a2aB14Ab9C4e9418B1fD5D3E79aF4D2aBD9'
+const CATALOG_CONTRACT_ADDRESS = '0x937c882Ed182CEf2A9174aC48e7a221474dcA1c5'
+const DAI_CONTRACT_ADDRESS = '0x13D282Daa4016396bc7294cAD4C855773253eb10'
 const artistPoolAbi = require('./abi/artistPool.json')
 const catalogAbi = require('./abi/catalog.json')
 const IERC20 = require('./abi/IERC20.json')
 const daiAbi = require('./abi/dai.json')
-const params = {gasLimit: 500000}
+const params = { gasLimit: 500000 }
 
 // for ethers
 let ethereum
