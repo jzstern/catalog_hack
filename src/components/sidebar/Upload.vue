@@ -33,6 +33,7 @@ export default {
   },
   data: () => ({
     creating: false,
+    artistTokenAddress: null,
     price: null,
     track: null, // full audius track
   }),
@@ -44,9 +45,13 @@ export default {
         price: this.price,
       });
     },
+    async registerArtistToken() {
+      this.artistTokenAddress = await this.$store.dispatch('ethers/registerArtistToken')
+    }
   },
-  mounted() {
+  async mounted() {
     this.$store.dispatch("getAudiusUploads", this.user.id_audius);
+    this.artistTokenAddress = await this.$store.dispatch('ethers/getArtistTokenAddress', this.user.wallet_addr_mm)
   },
 };
 </script>
@@ -78,6 +83,12 @@ export default {
       >
         Back
       </button>
+    </div>
+
+    <div v-else-if="!artistTokenAddress">
+      <label>Create Artist Token</label>
+      <p>Here's some info about artist tokens</p>
+      <button class="buttonPrimary" @click="registerArtistToken">Register</button>
     </div>
 
     <div

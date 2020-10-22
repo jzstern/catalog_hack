@@ -38,8 +38,8 @@ export const LOG_TRANSACTIONS = [
 ]
 
 // const artistTokenAddress = await catalogContract.artists('0x6fD5aeE28863eFD6C40CB76FFb5fbe6D9d03858C')
-const CATALOG_CONTRACT_ADDRESS = '0x937c882Ed182CEf2A9174aC48e7a221474dcA1c5'
-const DAI_CONTRACT_ADDRESS = '0x13D282Daa4016396bc7294cAD4C855773253eb10'
+const CATALOG_CONTRACT_ADDRESS = '0xFcD68D7a9eE2F382ed965f64DdFe6d8C61888Bd5'
+const DAI_CONTRACT_ADDRESS = '0xDcb22a2aB14Ab9C4e9418B1fD5D3E79aF4D2aBD9'
 const artistPoolAbi = require('./abi/artistPool.json')
 const catalogAbi = require('./abi/catalog.json')
 const IERC20 = require('./abi/IERC20.json')
@@ -221,6 +221,18 @@ export async function mintDai() {
   const amount = utils.parseEther('100000000000000000000').toString()
   await daiMintContract.mint(currentAccount, '100000000000000000000')
   return
+}
+
+export async function getArtistTokenAddress(artistWalletAddress) {
+  const res = await catalogContract.artists(artistWalletAddress)
+  if (res.registered) return res.token
+  else return null
+}
+
+export async function registerArtistToken() {
+  await catalogContract.register()
+  const artistTokenAddress = (await catalogContract.artists(currentAccount)).token
+  return artistTokenAddress
 }
 
 // this should only be run when a ethereum provider is detected and set at the ethereum value above

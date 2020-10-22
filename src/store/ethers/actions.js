@@ -16,7 +16,9 @@ import {
   mintDai,
   stake,
   initContracts,
-  hasEns
+  hasEns,
+  getArtistTokenAddress,
+  registerArtistToken
 } from './ethersConnect'
 
 // import { compileToFunctions } from 'vue-template-compiler'
@@ -136,6 +138,16 @@ export default {
   async stake(ctx, artistWalletAddress) {
     await stake(artistWalletAddress)
     return "🥩"
+  },
+  async getArtistTokenAddress(ctx, artistWalletAddress) {
+    const artistTokenAddress = await getArtistTokenAddress(artistWalletAddress)
+    ctx.commit('artistTokenAddress', artistTokenAddress)
+    return artistTokenAddress
+  },
+  async registerArtistToken(ctx) {
+    const artistTokenAddress = await registerArtistToken()
+    ctx.commit('artistTokenAddress', artistTokenAddress)
+    return artistTokenAddress
   },
   logout(ctx) {
     ctx.commit('address', '')
