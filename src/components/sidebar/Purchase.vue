@@ -23,7 +23,7 @@ export default {
         ...this.item,
         price: this.payment,
       };
-      this.$store.commit("addToCollection", purchase);
+      this.$store.dispatch("addItemToCollection", { ...purchase })
       this.$store.commit("sidebar", {
         component: "Receipt",
         item: purchase,

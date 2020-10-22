@@ -28,4 +28,18 @@ export default {
 </template>
 
 <style lang="scss">
+.collection {
+  // position: relative;
+  margin: 10% auto 128px auto;
+  width: 84%;
+  // border: 5vw solid transparent;
+  box-sizing: border-box;
+
+  display: grid;
+  grid-auto-flow: row;
+  grid-gap: 35px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(auto, auto);
+  z-index: 200;
+}
 </style>

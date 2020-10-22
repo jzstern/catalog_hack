@@ -8,6 +8,27 @@ export default {
     clientReady() {
       this.refreshUserInfo();
     },
+    path(newVal, oldVal) {
+
+      /* 
+        If we are on an artist page IE '/feewet' and navigate to a new artist page IE '/appa'
+        Then `this.handle` will have already changed to 'appa' at this point
+        However, the newVal and oldVal that is given here would still be 'feewet'
+        Therefore, we have to check whether both `newVal` and `oldVal` match `this.handle` to decide whether to refresh artist data
+      */
+
+      const newHandle = newVal.split("/");
+      const oldHandle = oldVal.split("/");
+      const newHandleMatch = newHandle.indexOf(this.handle) > -1;
+      const oldHandleMatch = oldHandle.indexOf(this.handle) > -1;
+
+      const isSameArtistPage = newHandleMatch && oldHandleMatch
+      console.log('POOP', { isSameArtistPage })
+
+      if (!isSameArtistPage) {
+        this.refreshUserInfo();
+      }
+    },
   },
   computed: {
     path() {
@@ -21,6 +42,9 @@ export default {
     }),
     currentSong() {
       return this.$store.state.currentSong;
+    },
+    handle() {
+      return this.$store.state.artist.handle;
     },
   },
   data: () => ({

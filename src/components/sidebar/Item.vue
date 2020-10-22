@@ -50,7 +50,7 @@ export default {
     },
     ownedByUser() {
       return this.$store.state.user.collection.find(
-        (item) => item.id === this.item.id
+        (item) => item._id === this.item._id
       );
     },
   },

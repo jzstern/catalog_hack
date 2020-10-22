@@ -12,9 +12,9 @@ const ITEMS_COLLECTION = "Items"
 
 // Returns a full Textile/Audius item
 export const addItemToCatalog = async (client, track, user) => {
-    // console.log('💽 Adding track to catalog...', track.title )
-    console.log("useruseruseruser")
-    console.log(user)
+    console.log('💽 Adding track to catalog...', track.title)
+    // console.log("useruseruseruser")
+    // console.log(user)
     try {
         // Format Audius track to be Textile-friendly
         const item = {
@@ -40,8 +40,8 @@ export const addItemToCatalog = async (client, track, user) => {
         var formattedUser = formatUser(user)
         formattedUser.catalog.push(textileItem)
 
-        console.log("formattedUser")
-        console.log({formattedUser})
+        // console.log("formattedUser")
+        // console.log({ formattedUser })
 
         // Update the Textile 'User' Document 
         await updateUser(client, formattedUser)
@@ -119,4 +119,44 @@ export const getAllTracks = async (client) => {
     const tracksTextile = await fetchCollection(client, ITEMS_COLLECTION)
     console.log(`💽✅ Got all tracks!👌`)
     return tracksTextile
+}
+
+
+// Returns a full Textile/Audius item
+export const addItemToCollection = async (client, track, user) => {
+    console.log('💽 Adding track to collection...', track.title)
+
+    // console.log("useruseruseruser")
+    // console.log(user)
+
+    // console.log("tracktracktrack")
+    // console.log(track)
+
+    try {
+        // Format Item to be Textile-friendly for adding to collection
+        const item = {
+            _id: track._id,
+            id_audius: track.id_audius,
+            artist: track.artist,
+            artwork: track.artwork,
+            description: track.description,
+            title: track.title, 
+            price: track.price
+        }
+
+        // Format the user object who purchased the track to be Textile-friendly
+        var formattedUser = formatUser(user)
+        formattedUser.collection.push(item)
+
+        // console.log("formattedUser, item")
+        // console.log({ formattedUser, item})
+
+        // Update the Textile 'User' Document with the updated collection
+        await updateUser(client, formattedUser)
+
+        return item
+    } catch (err) {
+        console.error('addItemToCatalog error', err)
+    }
+
 }

@@ -21,8 +21,8 @@ export default {
     updateUser() {
       this.$store.dispatch("updateUser", {
         ...this.$store.state.user,
-        _id: "01en3mzfex54308bc9pyphs4f1",
-        catalog: [],
+        _id: "01en5nk2ff8yf3f6w351gvkr0p",
+        // catalog: [],
         collection: [],
         // links: [ "https://twitter.com/jzstern", "https://audius.co/jzstern", "https://soundcloud.com/appappa"]
       });

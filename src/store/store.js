@@ -8,7 +8,7 @@ import { audiusResolveProfileURL, getAudiusUploads, getTrackSrcAudiusId } from '
 import { getAudiusTracksInCatalog, getAudiusTracksInCollection, getUserDataAudius } from '../utils/audiusHelpers'
 import { loginAndSetupDB } from '../utils/setup'
 import { getAllUsers, findTextileUserByAudiusId, updateUser, deleteUser, createUser } from '../services/users'
-import { addItemToCatalog, deleteItem, getAllTracks } from '../services/tracks'
+import { addItemToCatalog, addItemToCollection, deleteItem, getAllTracks } from '../services/tracks'
 
 Vue.use(Vuex)
 
@@ -96,21 +96,40 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async addItemToCatalog({ state, commit, dispatch}, track) {
+    async addItemToCatalog({ state, commit, dispatch }, track) {
       // TODO - in Upload component, filter out tracks that are already in a users catalog from the selection
       if (state.user.catalog.find(item => track.id_audius === item.id_audius)) {
         // TODO - handle this on UI
         console.warn("Track already exists in your catalog")
       }
       else {
+        // track = Audius Track 
         const item = await addItemToCatalog(state.client, track, state.user)
         console.log('addItemToCatalog top: item\n', item)
-        
         commit('addItemToUserCatalog', item)
 
         // finally, update the user in the state/localstorage
         dispatch('refreshUser', state.user.id_audius)
       }
+    },
+    async addItemToCollection({ state, commit, dispatch }, item) {
+
+      // Check if track already exists in your collection
+      if (state.user.collection.find(i => item.id_audius === i.id_audius)) {
+        // TODO - handle this on UI
+        console.warn("Item already exists in your collection")
+      } else {
+        // item = Textile Item
+        // Add the current item to the purchasing (logged in) user's collection
+        const result = await addItemToCollection(state.client, item, state.user)
+        console.log('addItemToCollection top: item\n', result)
+
+        commit('addItemToUserCollection', result)
+
+        // finally, update the user in the state/localstorage
+        dispatch('refreshUser', state.user.id_audius)
+      }
+
     },
     async getArtistData({ state, commit, dispatch }, handle) {
       commit('artist', {
@@ -256,15 +275,15 @@ export default new Vuex.Store({
             ...userModel,
             _id: newUserId
           }
-        }
-
-        userModel = {
-          ...userModel,
-          _id: userModel._id,
-          catalog: userTextile.catalog,
-          collection: userTextile.collection,
-          links: userTextile.links,
-          loading: { ...userModel.loading, user_info: false }
+        } else {
+          userModel = {
+            ...userModel,
+            _id: userTextile._id,
+            catalog: userTextile.catalog,
+            collection: userTextile.collection,
+            links: userTextile.links,
+            loading: { ...userModel.loading, user_info: false }
+          }
         }
 
         commit('user', userModel)
@@ -287,11 +306,11 @@ export default new Vuex.Store({
         links: user.links
       }
 
-      commit('user', user)
+     commit('user', user)
 
       // Get full Audius track info for Catalog & collection
       user = await dispatch('getUsersFullTracks', user)
-      console.log('refreshUser', {user})
+      console.log('refreshUser', { user })
 
       commit('user', user)
       setAudiusAccountUser(user)
@@ -300,7 +319,7 @@ export default new Vuex.Store({
     updateUser({ state }, user) {
       updateUser(state.client, user)
     },
-    async getAllTracks({state}) {
+    async getAllTracks({ state }) {
       const tracks = await getAllTracks(state.client)
       console.log(tracks)
     },

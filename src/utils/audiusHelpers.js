@@ -5,7 +5,6 @@ export const getAudiusTracksInCatalog = async (userIdAudius, catalogTextile) => 
   const uploads = await getAudiusUploads(userIdAudius)
   const formattedUploads = await formatUploads(uploads)
 
-  console.log("formattedUploads")
   console.log(formattedUploads)
   
   // filter out tracks not in a user's Textile catalog
@@ -42,7 +41,7 @@ export const getAudiusTracksInCollection = async (collectionTextile) => {
     }
   })
 
-  return collection
+  return await Promise.all(collection)
 }
 
 // Returns a formatted Audius user
