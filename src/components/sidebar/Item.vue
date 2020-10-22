@@ -8,6 +8,11 @@ export default {
     item() {
       return this.$store.state.sidebar.item;
     },
+    createdByUser() {
+      return this.$store.state.user.catalog.find(
+        (item) => item._id === this.item._id
+      );
+    },
     ownedByUser() {
       return this.$store.state.user.collection.find(
         (item) => item._id === this.item._id
@@ -69,7 +74,7 @@ export default {
       >
     </p>
     <p v-if="ownedByUser">You own this 💪🏼</p>
-    <button v-else class="buttonPrimary" @click="purchaseItem">
+    <button v-else-if="!createdByUser" class="buttonPrimary" @click="purchaseItem">
       Purchase ({{ item.price ? `$${item.price}` : "$0.00+" }})
     </button>
     <div class="divider divider-anomaly" />

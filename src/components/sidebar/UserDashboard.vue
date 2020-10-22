@@ -115,7 +115,7 @@ export default {
       <p class="field">{{ token.balanceOfToken }}</p>
       <p class="field">{{ token.artistTokenAddress }}</p>
 
-      <button class="buttonPrimary" @click="stake(token.wallet_addr_mm)">Stake</button>
+      <button :class="[{ disabled: !Number(token.balanceOfToken) }, 'buttonPrimary']" @click="stake(token.wallet_addr_mm)" :disabled="!Number(token.balanceOfToken)">Stake</button>
     </div>
   </div>
 </template>
