@@ -5,24 +5,27 @@ export default {
   watch: {
     catalog(newVal) {
       if (newVal) {
-        var track
-        if (this.track) track = newVal.find(item => item.id_audius === this.track.id_audius)
+        var track;
+        if (this.track)
+          track = newVal.find(
+            (item) => item.id_audius === this.track.id_audius
+          );
         if (this.track && newVal.length && track) {
-          this.$store.commit('sidebar', {
+          this.$store.commit("sidebar", {
             component: "Upload Confirmed",
             item: {
               ...this.track,
               _id: track._id,
               price: track.price,
-            }
-          })
+            },
+          });
         }
       }
-    }
+    },
   },
   computed: {
     catalog() {
-      return this.$store.state.user.catalog
+      return this.$store.state.user.catalog;
     },
     user() {
       return this.$store.state.user;
@@ -36,36 +39,62 @@ export default {
   methods: {
     create() {
       // this.track is all of the audius track data, we haven't created a textile item for it yet
-      this.$store.dispatch("addItemToCatalog", { ...this.track, price: this.price })
-    }
+      this.$store.dispatch("addItemToCatalog", {
+        ...this.track,
+        price: this.price,
+      });
+    },
   },
   mounted() {
-    this.$store.dispatch('getAudiusUploads', this.user.id_audius)
-  }
+    this.$store.dispatch("getAudiusUploads", this.user.id_audius);
+  },
 };
 </script>
 
 <template>
   <div class="upload">
-    <div v-if="track" class="form-item">
-      <div class="selected-track">
-        <img :src="track.artwork['480x480']" class="upload-artwork"/>
-        <p>{{ track.title }}</p>
-        <p>{{ track.description }}</p>
-        <p>{{ track.duration }}</p>
+    <div v-if="track">
+      <div class="upload-confirm">
+        <img :src="track.artwork['480x480']" class="upload-confirm-artwork" />
+        <div class="track-info">
+          <p class="upload-confirm-title">{{ track.title }}</p>
+          <p class="upload-confirm-artist">
+            song by
+            <span class="artist-name"> {{ this.user.name }}</span>
+          </p>
+          <p>{{ track.description }}</p>
+        </div>
       </div>
 
       <label>Price (USD)</label>
-      <input v-model="price" placeholder="$0+" type="number" />
-      <button :disabled="creating" class="buttonPrimary" @click="create">Create</button>
-      <button :disabled="creating" class="buttonSecondary" @click="track = null">Back</button>
+      <input v-model="price" placeholder="$0.00+" type="number" />
+      <button :disabled="creating" class="buttonPrimary" @click="create">
+        Create
+      </button>
+      <button
+        :disabled="creating"
+        class="buttonSecondary"
+        @click="track = null"
+      >
+        Back
+      </button>
     </div>
 
-    <div v-else v-for="item in user.uploads" :key="item.id_audius" @click="track = item" class="unselected-track">
-      <img :src="item.artwork['480x480']" class="upload-artwork"/>
-      <p>{{ item.title }}</p>
-      <p>{{ item.description }}</p>
-      <p>Duration: {{ item.duration }}s</p>
+    <div
+      v-else
+      v-for="item in user.uploads"
+      :key="item.id_audius"
+      @click="track = item"
+    >
+      <div class="upload-select">
+        <img :src="item.artwork['480x480']" class="upload-artwork" />
+        <div class="upload-track-info">
+          <p>{{ item.title }}</p>
+          <p>{{ item.description }}</p>
+          <p>Duration: {{ item.duration }}s</p>
+        </div>
+      </div>
+      <div class="divider"></div>
     </div>
   </div>
 </template>
@@ -74,19 +103,49 @@ export default {
 .upload {
   display: flex;
   flex-direction: column;
-  padding: 16px 32px;
-  font-family: Inconsolata;
+  padding: 32px;
+  box-sizing: border-box;
+  font-family: SpaceGrotesk;
+  font-size: 18px;
 }
 
 .upload-artwork {
-  width: 300px;
-  height: 300px;
+  width: 60px;
+  height: 60px;
 }
 
-.unselected-track {
-  border: 1px solid gray;
+.upload-select {
+  display: flex;
+  margin: 8px;
+  cursor: url("../../assets/other/cursor.png"), pointer;
   &:hover {
-    opacity: .5;
+    color: #f2ba00;
   }
+}
+
+.upload-track-info {
+  padding-left: 16px;
+
+  p {
+    margin: 4px;
+  }
+}
+
+.upload-confirm-artwork {
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 2px;
+}
+
+.upload-confirm-title {
+  font-family: "TenorSans", serif;
+  font-size: 24px;
+  margin: 12px 0;
+}
+
+.upload-confirm-artist {
+  font-family: "TenorSans", serif;
+  margin-top: 0;
 }
 </style>

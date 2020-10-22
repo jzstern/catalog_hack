@@ -45,8 +45,8 @@ export default {
         src="../../assets/other/close.svg"
       />
     </div>
-    <transition name="slide" mode="out-in">
-      <div class="sidebar-content">
+    <div class="sidebar-content">
+      <transition name="slide" mode="out-in">
         <Account v-if="sidebar.component === 'Account'" />
         <ArtistList v-else-if="sidebar.component === 'Browse Artists'" />
         <Item v-else-if="sidebar.component === 'Item'" />
@@ -57,8 +57,8 @@ export default {
         <Upload v-else-if="sidebar.component === 'Upload'" />
         <UploadConfirmed v-else-if="sidebar.component === 'Upload Confirmed'" />
         <UserDashboard v-else-if="sidebar.component === 'User Dashboard'" />
-      </div>
-    </transition>
+      </transition>
+    </div>
   </div>
 </template>
 

@@ -103,7 +103,8 @@ export default {
   margin: 0;
   // bottom: 0px;
   // height: 30px;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(12px);
   width: 100%;
   border-top: 1px solid #666;
   // border: 1px solid #666;

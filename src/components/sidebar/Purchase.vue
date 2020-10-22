@@ -11,11 +11,14 @@ export default {
       return this.$store.state.sidebar.item;
     },
     generateTx() {
-      return (this.item.price && this.payment >= this.item.price) || (!this.item.price && this.payment)
+      return (
+        (this.item.price && this.payment >= this.item.price) ||
+        (!this.item.price && this.payment)
+      );
     },
     userIsLoggedIn() {
-      return this.$store.state.user.login_status === 'LOGGED_IN'
-    }
+      return this.$store.state.user.login_status === "LOGGED_IN";
+    },
   },
   methods: {
     back() {
@@ -26,20 +29,24 @@ export default {
     },
     async purchaseItem() {
       if (!this.userIsLoggedIn) {
-        alert("login to purchase music")
-        return
+        alert("login to purchase music");
+        return;
       }
 
       // if (this.generateTx) await this.$store.dispatch('ethers/sendDai', { to: this.item.artist.wallet_addr, amount: this.payment})
-      if (this.generateTx) await this.$store.dispatch('ethers/sendDai', { to: "0x22A71a4b2bEaE4C5d54E407D81A55CDfCFb22B2a", amount: this.payment})
+      if (this.generateTx)
+        await this.$store.dispatch("ethers/sendDai", {
+          to: "0x22A71a4b2bEaE4C5d54E407D81A55CDfCFb22B2a",
+          amount: this.payment,
+        });
 
-      const purchase = { ...this.item, price: this.payment }
-      this.$store.dispatch("addItemToCollection", purchase)
+      const purchase = { ...this.item, price: this.payment };
+      this.$store.dispatch("addItemToCollection", purchase);
       this.$store.commit("sidebar", {
         component: "Receipt",
         item: purchase,
       });
-    }
+    },
   },
 };
 </script>
@@ -72,7 +79,7 @@ export default {
     <p class="disclaimer">
       Upon purchase, you’ll receive <b>1,450</b> {{ item.artist.name }} tokens,
       which entitle you to a portion of <b>10%</b> of future revenue from
-      {{ item.artist }} on Catalog, as well as other token holder rewards.
+      {{ item.artist.name }} on Catalog, as well as other token holder rewards.
       You’ll also get unlimited streaming via Catalog, and a download in mp3 and
       wav.
     </p>

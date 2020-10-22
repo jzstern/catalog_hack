@@ -30,7 +30,6 @@ export default {
     </div>
 
     <div class="expanded" v-show="expanded">
-      <div class="menu-item" @click="openSidebar('Upload')">upload</div>
       <div class="menu-item">
         <router-link :to="`/${this.user.handle}`">my catalog</router-link>
       </div>
@@ -39,9 +38,14 @@ export default {
           Collection
         </router-link>
       </div> -->
-      <div class="menu-item" @click="openSidebar('User Dashboard')" v-if="connected">
+      <div
+        class="menu-item"
+        @click="openSidebar('User Dashboard')"
+        v-if="connected"
+      >
         my dashboard
       </div>
+      <div class="menu-item" @click="openSidebar('Upload')">upload</div>
       <div class="menu-item" @click="openSidebar('Account')">account</div>
       <div
         class="menu-item"
