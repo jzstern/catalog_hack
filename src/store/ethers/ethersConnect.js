@@ -225,8 +225,9 @@ export async function mintDai() {
 
 export async function getArtistTokenAddress(artistWalletAddress) {
   const res = await catalogContract.artists(artistWalletAddress)
+  // console.log({res}, Object.keys(res), res.registered)
   if (res.registered) return res.token
-  else return null
+  return null
 }
 
 export async function registerArtistToken() {
@@ -314,12 +315,13 @@ export async function initContracts() {
 // }
 
 export async function getArtistTokenBalanceOfUser(artistTokenContractAddress) {
-  console.log('inner 0', artistTokenContractAddress)
+  // console.log('inner 0', artistTokenContractAddress)
   const artistTokenContract = new ethers.Contract(artistTokenContractAddress, IERC20.abi, userWallet)
-  console.log('inner 1', artistTokenContract)
-  console.log({artistTokenContract, artistTokenContractAddress, currentAccount})
+  // console.log('inner 1', artistTokenContract)
+  // console.log({artistTokenContract, artistTokenContractAddress, currentAccount})
   const balance = fromDai(await artistTokenContract.balanceOf(currentAccount)).toString()
-  console.log({balance})
+  // console.log({balance})
+  return balance
 }
 
 

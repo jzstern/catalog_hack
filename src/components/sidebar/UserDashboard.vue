@@ -14,6 +14,9 @@ export default {
       user: "user"
     })
   },
+  data: () => ({
+    artistTokenBalances: []
+  }),
   methods: {
     async mintDai() {
       await this.$store.dispatch('ethers/mintDai')
@@ -27,7 +30,7 @@ export default {
       this.$store.state.user.collection.forEach(item => mm_address_set.add(item.artist.wallet_addr_mm))
       const artist_mm_addresses = Array.from(mm_address_set)
 
-      console.log({artist_mm_addresses})
+      // console.log({artist_mm_addresses})
 
       // GET THE TOKEN ADDRESSES FOR EACH METAMASK ADDR
       let artist_token_addresses = await Promise.all(artist_mm_addresses.map(async mm_addr => {
@@ -37,13 +40,18 @@ export default {
 
       // Filter out null vals - null vals are mm_addresses that have not deployed an artist token
       artist_token_addresses = artist_token_addresses.filter(el => el !== null)
-
-      console.log({artist_token_addresses})
+      // console.log({artist_token_addresses})
 
       // USE THE ARTIST TOKEN ADDRESSES TO QUERY THE BALANCE
-      artist_token_addresses.map(async tokenAddr => {
-        await this.$store.dispatch('ethers/getArtistTokenBalanceOfUser', tokenAddr)
-      })
+      const artist_token_balances = await Promise.all(artist_token_addresses.map(async tokenAddr => {
+        const balanceOfToken = await this.$store.dispatch('ethers/getArtistTokenBalanceOfUser', tokenAddr)
+        return({tokenAddr, balanceOfToken})
+      }))
+
+      console.log({artist_token_balances})
+
+      this.artistTokenBalances = artist_token_balances
+
 
     }
   },
@@ -67,6 +75,7 @@ export default {
     </div>
 
     <label>Artist Tokens</label>
+    <p class="field">{{JSON.stringify(this.artistTokenBalances)}}</p>
   </div>
 </template>
 
@@ -82,5 +91,6 @@ export default {
 
 .field {
   margin-top: 8px;
+  overflow-wrap: anywhere;
 }
 </style>
