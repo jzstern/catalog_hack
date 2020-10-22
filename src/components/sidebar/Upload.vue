@@ -108,6 +108,8 @@ export default {
       </div>
       <div class="divider"></div>
     </div>
+
+    <label v-if="!user.uploads.length">No uploads to display</label>
   </div>
 </template>
 
