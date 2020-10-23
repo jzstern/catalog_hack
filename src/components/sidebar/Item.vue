@@ -36,9 +36,6 @@ export default {
           });
     },
   },
-  mounted() {
-    console.log(showIcon);
-  },
 };
 </script>
 

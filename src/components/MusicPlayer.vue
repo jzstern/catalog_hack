@@ -61,25 +61,30 @@ export default {
     <div class="player-info">
       <img
         v-if="currentSong.playing"
-        class="play-pause"
+        class="play-pause no-select"
         src="../assets/other/pause.svg"
         @click="$store.commit('togglePlaying')"
       />
       <img
         v-else
-        class="play-pause"
+        :class="['play-pause no-select', { noPlay: !currentSong.title }]"
         src="../assets/other/play.svg"
         @click="$store.commit('togglePlaying')"
       />
 
-      <p class="player-title" @click="navToSong">
-        {{ currentSong.title ? currentSong.title : "No song playing" }}
+      <p class="player-title" @click="navToSong" v-if="currentSong.title">
+        {{ currentSong.title }}
       </p>
-      <router-link :to="`/${currentSong.artist.handle}`" class="player-artist">
+      <p v-else class="no-song no-select">No song playing</p>
+      <router-link
+        v-if="currentSong.title"
+        :to="`/${currentSong.artist.handle}`"
+        class="player-artist"
+      >
         {{ currentSong.artist.name ? currentSong.artist.name : "" }}
       </router-link>
     </div>
-    <div class="home-footer" v-show="onHome">
+    <div class="home-footer no-select" v-show="onHome">
       <p>Want to talk?</p>
       <a href="https://discord.gg/YBzUcah" target="_blank">Message us</a>
     </div>
@@ -149,6 +154,20 @@ export default {
 
   &:hover {
     opacity: 1;
+  }
+}
+
+.no-song {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.noPlay {
+  opacity: 0.5;
+  cursor: default;
+
+  &:hover {
+    opacity: 0.5;
   }
 }
 

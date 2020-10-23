@@ -27,21 +27,14 @@ export default {
     <div @click="toggleDropdown()" class="menu-item">
       {{ user.name }}
       <img
-        v-show="!expanded"
-        class="dropdown-icon"
+        :class="['dropdown-icon', { dropUpIcon: expanded }]"
         src="@/assets/other/dropDown.svg"
       />
-      <img
-        v-show="expanded"
-        class="dropdown-icon"
-        src="@/assets/other/dropUp.svg"
-      />
     </div>
-
     <transition name="fade" mode="in-out">
       <div class="expanded" v-show="expanded">
         <div class="menu-item">
-          <router-link :to="`/${this.user.handle}`">my catalog</router-link>
+          <router-link :to="`/${this.user.handle}`">catalog</router-link>
         </div>
         <!-- <div class="menu-item">
         <router-link :to="`/${this.user.handle}/collection`">
@@ -53,7 +46,7 @@ export default {
           @click="openSidebar('User Dashboard')"
           v-if="connected"
         >
-          my dashboard
+          dashboard
         </div>
         <div class="menu-item" @click="openSidebar('Upload')">upload</div>
         <div class="menu-item" @click="openSidebar('Account')">account</div>
@@ -71,7 +64,13 @@ export default {
 
 <style lang="scss">
 .dropdown-icon {
-  padding-left: 4px;
+  margin-left: 4px;
+  transition: 0.35s;
+}
+
+.dropUpIcon {
+  transform: rotate(180deg);
+  transform-origin: center center;
 }
 
 .dropdown-menu {
@@ -90,7 +89,7 @@ export default {
   box-sizing: border-box;
   &:hover {
     box-sizing: border-box;
-
+    // backdrop-filter: brightness(250%);
     // border: 1px solid rgba(255, 255, 255, 0.1);
     // border-radius: 4px;
     background-color: rgba(87, 87, 87, 0.1);
