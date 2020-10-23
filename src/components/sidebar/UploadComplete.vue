@@ -8,7 +8,10 @@ export default {
     },
     username() {
       return this.$store.state.user.name
-    }
+    },
+    path() {
+      return this.$route.path;
+    },
   },
   methods: {
     back(component) {
@@ -17,7 +20,11 @@ export default {
       this.$store.commit("sidebar", { component, item: null });
     },
     closeSidebar() {
-      this.$store.commit("closeSidebar");
+      if (this.path === '/') this.$store.commit("sidebar", {
+        component: "Artist List",
+        item: null
+      });
+      else this.$store.commit("closeSidebar");
     },
   },
 };
