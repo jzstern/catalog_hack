@@ -38,9 +38,9 @@ export const LOG_TRANSACTIONS = [
 ]
 
 // * max uint256 * 115792089237316195423570985008687907853269984665640564039457584007913129639935
-const CATALOG_CONTRACT_ADDRESS = '0x937c882Ed182CEf2A9174aC48e7a221474dcA1c5'
-const DAI_CONTRACT_ADDRESS = '0x13D282Daa4016396bc7294cAD4C855773253eb10'
-const artistPoolAbi = require('./abi/artistPool.json')
+const CATALOG_CONTRACT_ADDRESS = '0x1e0FcC8644b40A53f5272C8A0B5E5Bd9ca697553'
+const DAI_CONTRACT_ADDRESS = '0x65a0D7D0e47ccF0501985246542E5d88740B5E45'
+const artistPoolAbi = require('./abi/ArtistPool.json')
 const catalogAbi = require('./abi/catalog.json')
 const distributorAbi = require('./abi/IDistributor.json')
 const IERC20 = require('./abi/IERC20.json')
