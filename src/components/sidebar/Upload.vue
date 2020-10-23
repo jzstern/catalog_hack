@@ -99,8 +99,10 @@ export default {
     <div v-else-if="!artistTokenAddress">
       <label>Create Artist Token</label>
       <p>
-        Catalog enables artists to capture the value their communities create by
-        distributing tokens to your supporters. These tokens
+        Catalog empowers artists with greater control in monetizing their work
+        and community through the use of artist tokens, which can be used to
+        unlock rewards, exclusive content, and revenue share for your
+        supporters.
       </p>
       <button
         :disabled="registering"
