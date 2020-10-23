@@ -3,11 +3,10 @@
 export default {
   watch: {
     percentElapsed(newVal, oldVal) {
-      const newPercent = Math.floor(newVal);
-      const oldPercent = Math.floor(oldVal);
-      if (oldPercent !== newPercent) {
-        console.log(`percentElapsed: ${newPercent}%`);
-      }
+      const newPercent = newVal.toFixed(4);
+      const oldPercent = oldVal.toFixed(4);
+
+      if (oldPercent !== newPercent) this.$refs.progress.style.transform = `translate3d(${ newPercent }%, 0, 0)`;
     },
     currentSong: {
       deep: true,
@@ -73,6 +72,11 @@ export default {
 <template>
   <div :class="['music-player', { homePlayer: onHome }]">
     <audio ref="audio" :src="src" />
+
+    <div class="progress-bar" v-if="currentSong.title">
+      <div ref="progress" class="progress-bar fill" />
+    </div>
+
     <div class="player-info">
       <img
         v-if="currentSong.playing"
@@ -104,6 +108,31 @@ export default {
 
 
 <style lang="scss">
+.progress-bar {
+  position: absolute;
+  z-index: 5000;
+  top: -1px;
+  left: 0;
+  height: 1px;
+  width: 100%;
+  background-color: purple;
+}
+
+.progress-bar .fill {
+  position: absolute;
+  z-index: 5001;
+  top: 0;
+  left: 0;
+  height: .25px;
+  width: 100%;
+  background-color: #666;
+  // background-color: rgba(0, 0, 0, 0.75);
+
+  transform: translate3d(100%, 0, 0);
+  transition: transform 300ms;
+  overflow: hidden;
+}
+
 .music-player {
   position: fixed;
   bottom: 0;
