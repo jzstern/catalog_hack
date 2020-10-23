@@ -5,9 +5,7 @@ export default {
     percentElapsed(newVal, oldVal) {
       const newPercent = newVal.toFixed(4);
       const oldPercent = oldVal.toFixed(4);
-
-      if (oldPercent !== newPercent)
-        this.$refs.progress.style.transform = `translate3d(${newPercent}%, 0, 0)`;
+      if (oldPercent !== newPercent) this.$refs.progress.style.transform = `translate3d(${ newPercent }%, 0, 0)`;
     },
     currentSong: {
       deep: true,
@@ -75,7 +73,7 @@ export default {
     <audio ref="audio" :src="src" />
 
     <div class="progress-bar" v-if="currentSong.title">
-      <div ref="progress" class="progress-bar fill" />
+      <div ref="progress" class="fill" />
     </div>
 
     <div class="player-info">
@@ -120,25 +118,25 @@ export default {
   left: 0;
   height: 1px;
   width: 100%;
-  background-color: purple;
+  background-color: red;
+  overflow: hidden;
 }
 
-.progress-bar .fill {
+.fill {
   position: absolute;
   z-index: 5001;
   top: 0;
   left: 0;
   height: 0.25px;
   width: 100%;
-  background-color: #666;
-  // background-color: rgba(0, 0, 0, 0.75);
-
+  background-color: rgba(50, 50, 50, 1);
   transform: translate3d(100%, 0, 0);
   transition: transform 300ms;
   overflow: hidden;
 }
 
 .music-player {
+  // overflow: hidden;
   position: fixed;
   bottom: 0;
   z-index: 100;
