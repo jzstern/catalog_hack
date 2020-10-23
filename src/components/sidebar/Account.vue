@@ -4,16 +4,37 @@ export default {
   name: "Account",
   computed: {
     formattedWalletAddr() {
-      return (this.user.wallet_addr.substring(0, 4) + "..." + this.user.wallet_addr.substring(this.user.wallet_addr.length - 4))
+      return (
+        this.user.wallet_addr.substring(0, 4) +
+        "..." +
+        this.user.wallet_addr.substring(this.user.wallet_addr.length - 4)
+      );
     },
     user() {
-      return this.$store.state.user
-    }
+      return this.$store.state.user;
+    },
   },
+  data: () => ({
+    registering: false,
+    artistTokenAddress: null,
+  }),
   methods: {
     logout() {
       this.$store.dispatch("logout");
-    }
+    },
+    async debugRegisterArtistToken() {
+      this.registering = true;
+      this.artistTokenAddress = await this.$store.dispatch(
+        "ethers/registerArtistToken"
+      );
+    },
+  },
+  async mounted() {
+    this.$store.dispatch("getAudiusUploads", this.user.id_audius);
+    this.artistTokenAddress = await this.$store.dispatch(
+      "ethers/getArtistTokenAddress",
+      this.user.wallet_addr_mm
+    );
   },
 };
 </script>
@@ -38,6 +59,15 @@ export default {
       <label>Handle</label>
       <p class="field">{{ user.handle }}</p>
     </div>
+
+  <br />
+    <div class="account-item">
+      <label>Artist Token Address</label>
+      <p class="field">{{ artistTokenAddress }}</p>
+    </div>
+    <button v-if="!artistTokenAddress" class="buttonSecondary" @click="debugRegisterArtistToken">
+      (Debug) Register Artist Token
+    </button>
 
     <br />
     <button class="buttonSecondary" @click="logout">Log out</button>
