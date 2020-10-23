@@ -21,6 +21,7 @@ import {
   registerArtistToken,
   getStakedArtistTokens,
   getArtistTokenBalanceOfUser,
+  getNumTokensReceived
 } from './ethersConnect'
 
 // import { compileToFunctions } from 'vue-template-compiler'
@@ -83,6 +84,10 @@ export default {
       ? 'You have been disconnected from your Ethereum connection. Please check MetaMask, etc.'
       : 'You are not connected to an Ethereum node and wallet. Please check MetaMask, etc.')
     console.log(msg)
+  },
+  async getNumTokensReceived(ctx, { artistAddress, daiAmount }) {
+    const numTokensReceived = await getNumTokensReceived(artistAddress, daiAmount)
+    return numTokensReceived
   },
   async getStakedArtistTokens(ctx, artistAddress) {
     const numStakedArtistTokens = await getStakedArtistTokens(artistAddress)

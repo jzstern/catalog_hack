@@ -180,11 +180,20 @@ export async function sendDai(to, amount) {
   return
 }
 
+export async function getNumTokensReceived(artistAddress, daiAmount) {
+  const { distributor } = await getArtistInfo(artistAddress)
+  const distributorContract = new ethers.Contract(distributor, distributorAbi.abi, userWallet)
+
+  const uintDaiAmount = utils.parseEther(daiAmount)
+
+  const numTokensReceived = await distributorContract.getReward(uintDaiAmount)
+
+  return fromDai(numTokensReceived).toString()
+}
+
 export async function  getStakedArtistTokens(artistAddress) {
   const { pool, token, distributor } = await getArtistInfo(artistAddress)
-  const artistTokenContract = new ethers.Contract(token, IERC20.abi, userWallet)
   const poolContract = new ethers.Contract(pool, artistPoolAbi.abi, userWallet)
-  const distributorContract = new ethers.Contract(distributor, distributorAbi.abi, userWallet)
   
   const stakedTokenAmt = await poolContract.stakes(currentAccount)
 

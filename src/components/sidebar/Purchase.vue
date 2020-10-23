@@ -2,6 +2,13 @@
 /* eslint-disable */
 export default {
   name: "Purchase",
+  watch: {
+    async payment(newVal) {
+      // maybe use handler method if asnyc doesn't work
+      this.numTokensReceived = await this.$store.dispatch('ethers/getNumTokensReceived', 
+        { artistAddress: this.item.artist.wallet_addr_mm, daiAmount: newVal })
+    }
+  },
   computed: {
     balanceDai() {
       return this.$store.state.ethers.balanceDai
@@ -21,6 +28,7 @@ export default {
   },
   data: () => ({
     artistTokenAddress: null,
+    numTokensReceived: null,
     payment: null,
     message: null,
   }),
@@ -90,7 +98,7 @@ export default {
     <button class="buttonSecondary" @click="back">Go back</button>
 
     <p class="disclaimer">
-      Upon purchase, you’ll receive <b>1,450</b> {{ item.artist.name }} tokens,
+      Upon purchase, you’ll receive <b>{{ numTokensReceived ? numTokensReceived : 0 }}</b> {{ item.artist.name }} tokens,
       which entitle you to a portion of <b>10%</b> of future revenue from
       {{ item.artist.name }} on Catalog, as well as other token holder rewards.
       You’ll also get unlimited streaming via Catalog, and a download in mp3 and
