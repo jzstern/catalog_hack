@@ -22,6 +22,14 @@ export default {
     artistTokenBalances: [],
   }),
   methods: {
+    async getStakedArtistTokens(artistWalletAddr) {
+      const num = await this.$store.dispatch('ethers/getStakedArtistTokens', artistWalletAddr)
+
+      console.log("num");
+      console.log("num");
+      console.log("num");
+      console.log(num);
+    },
     async mintDai() {
       await this.$store.dispatch("ethers/mintDai");
       alert("minted 100 totally not fake DAI");
@@ -83,10 +91,21 @@ export default {
         })
       );
 
-      this.artistTokenBalances = artist_token_balances0
+      // USE THE ARTIST TOKEN ADDRESSES TO GET THE NUMBER OF STAKED TOKENS
+      const num_artist_staked_tokens = await Promise.all(
+        artist_token_balances0.map(async (artist) => {
+          const numTokensStaked = await this.$store.dispatch(
+            "ethers/getStakedArtistTokens",
+            artist.wallet_addr_mm
+          );
+          return { ...artist, numTokensStaked };
+        })
+      );
+
+      this.artistTokenBalances = num_artist_staked_tokens
     },
   },
-  beforeMount() {
+  async beforeMount() {
     this.constructTokenBalances()
   }
 };
@@ -110,7 +129,9 @@ export default {
     <br />
     
     <div class="artist-tokens" v-for="token in artistTokenBalances" :key="token.artistTokenAddress">
-      <span><label>{{ token.name }}:</label> {{ token.balanceOfToken }}</span>
+      <label>{{ token.name }}</label>
+      <p>Balance: {{ token.balanceOfToken }}</p>
+      <p>Staked: {{ token.numTokensStaked }}</p>
       <br />
       <br />
       <label>Token Address</label>

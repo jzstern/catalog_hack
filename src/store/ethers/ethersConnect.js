@@ -42,6 +42,7 @@ const CATALOG_CONTRACT_ADDRESS = '0x937c882Ed182CEf2A9174aC48e7a221474dcA1c5'
 const DAI_CONTRACT_ADDRESS = '0x13D282Daa4016396bc7294cAD4C855773253eb10'
 const artistPoolAbi = require('./abi/artistPool.json')
 const catalogAbi = require('./abi/catalog.json')
+const distributorAbi = require('./abi/IDistributor.json')
 const IERC20 = require('./abi/IERC20.json')
 const daiAbi = require('./abi/dai.json')
 const params = { gasLimit: 500000 }
@@ -177,6 +178,17 @@ export async function sendDai(to, amount) {
   
   await catalogContract.split(to, amountBigNum, params)
   return
+}
+
+export async function  getStakedArtistTokens(artistAddress) {
+  const { pool, token, distributor } = await getArtistInfo(artistAddress)
+  const artistTokenContract = new ethers.Contract(token, IERC20.abi, userWallet)
+  const poolContract = new ethers.Contract(pool, artistPoolAbi.abi, userWallet)
+  const distributorContract = new ethers.Contract(distributor, distributorAbi.abi, userWallet)
+  
+  const stakedTokenAmt = await poolContract.stakes(currentAccount)
+
+  return utils.formatEther(stakedTokenAmt.toString())
 }
 
 export async function stake(artistAddress) {
