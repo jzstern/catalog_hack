@@ -17,12 +17,6 @@ export default {
     async stake() {
       const balanceArtistTokens = await this.$store.dispatch('ethers/getArtistTokenBalanceOfUser', this.item.artist.tokenAddress)
 
-      console.log("balanceArtistTokens");
-      console.log("balanceArtistTokens");
-      console.log("balanceArtistTokens");
-      console.log("balanceArtistTokens");
-      console.log(balanceArtistTokens);
-
       if (balanceArtistTokens) {
         await this.$store.dispatch("ethers/stake", this.item.artist.wallet_addr_mm)
         this.stakingComplete = true
@@ -45,7 +39,7 @@ export default {
     <p>(we sent all this to your email as well)</p>
     <div>
       <p class="receive-item-0">
-        <b>1,450</b> {{ item.artist.name }} tokens, entitling you to future
+        <b>{{ item.numTokensReceived }}</b> {{ item.artist.name }} tokens, entitling you to future
         {{ item.artist.name }} revenue on Catalog.
       </p>
       <p class="receive-item-1">{{ item.title }} added to your collection</p>

@@ -57,9 +57,11 @@ export default {
         this.$store.commit("sidebar", {
           component: "Receipt",
           item: { ...purchase, artist: {
-            ...purchase.artist,
-            tokenAddress: this.artistTokenAddress
-          } },
+              ...purchase.artist,
+              tokenAddress: this.artistTokenAddress
+            },
+            numTokensReceived: this.numTokensReceived
+          },
         });
       } else {
         alert("payment amount is bunk")
