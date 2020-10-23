@@ -7,7 +7,7 @@ const CORS_PROXY = 'https://cors-anywhere.herokuapp.com'
 // Doesn't work rn
 export const audiusResolveProfileURL = async (handle) => {
   let path = `${CORS_PROXY}/${BASE_URL}/v1/resolve?url=https://audius.co/${handle}`
-  // path = `${BASE_URL}/v1/resolve?url=https://audius.co/${handle}`
+  path = `${BASE_URL}/v1/resolve?url=https://audius.co/${handle}`
 
   // curl https://discoveryprovider.mumbaudius.com/v1/resolve?url=https://audius.co/jzstern
 
@@ -28,6 +28,7 @@ export const audiusResolveProfileURL = async (handle) => {
   }
 }
 
+// Returns an audius User
 export const getUserByAudiusHandle = async (audiusHandle) => {
   const path = `${BASE_URL}/users?handle=${audiusHandle}`
 

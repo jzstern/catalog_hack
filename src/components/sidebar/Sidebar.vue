@@ -5,11 +5,11 @@ export default {
   components: {
     Account: () => import("./Account"),
     ArtistList: () => import("./ArtistList"),
-    Item: () => import("./Item"),
     Login: () => import("./Login"),
     Purchase: () => import("./Purchase"),
     Receipt: () => import("./Receipt"),
     Register: () => import("./Register"),
+    Track: () => import("./Track"),
     Upload: () => import("./Upload"),
     UploadComplete: () => import("./UploadComplete"),
     UserDashboard: () => import("./UserDashboard"),
@@ -49,7 +49,7 @@ export default {
       <transition name="slide" mode="out-in">
         <Account v-if="sidebar.component === 'Account'" />
         <ArtistList v-else-if="sidebar.component === 'Artist List'" />
-        <Item v-else-if="sidebar.component === 'Item'" />
+        <Track v-else-if="sidebar.component === 'Track Info'" />
         <Login v-else-if="sidebar.component === 'Login'" />
         <Purchase v-else-if="sidebar.component === 'Purchase'" />
         <Receipt v-else-if="sidebar.component === 'Receipt'" />

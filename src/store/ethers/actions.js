@@ -16,7 +16,10 @@ import {
   mintDai,
   stake,
   initContracts,
-  hasEns
+  hasEns,
+  getArtistTokenAddress,
+  registerArtistToken,
+  getArtistTokenBalanceOfUser
 } from './ethersConnect'
 
 // import { compileToFunctions } from 'vue-template-compiler'
@@ -27,7 +30,7 @@ export default {
     try {
       const provider = getProvider()
       if (!provider) throw new Error(MSGS.NOT_CONNECTED)
-
+      
       const wallet = getWallet()
       if (!wallet) throw new Error(MSGS.NO_WALLET)
       const address = await getWalletAddress()
@@ -40,14 +43,16 @@ export default {
       ctx.commit('txState', 'none')
 
       if (address) {
+        console.log('mm connect', {address})
         ctx.dispatch('getBalances', address)
         // todo - update user object w/ MM wallet address
-        // ctx.dispatch('updateUser', {
-        //     ...ctx.rootState.user,
-        //     wallet_addr_mm: address
-        //   },
-        //   { root: true }
-        // )
+
+        const newUser = {
+          ...ctx.rootState.user,
+          wallet_addr_mm: address
+        }
+
+        ctx.dispatch('updateUser', newUser, { root: true })
       }
 
       // Other vuex stores can wait for this
@@ -60,8 +65,8 @@ export default {
         ctx.commit('ens', ens)
       }
     } catch (err) {
-      // console.warn("Ethers connection error ⍉");
-      // ctx.dispatch('disconnect', err)
+      console.warn("Ethers connection error ⍉");
+      ctx.dispatch('disconnect', err)
     }
   },
   disconnect(ctx, err) {
@@ -86,9 +91,27 @@ export default {
     await mintDai()
     return "🤑"
   },
-  async sendDai(ctx, {to, amount}) {
+  async sendDai(ctx, { to, amount }) {
     await sendDai(to, amount)
     return "sent"
+    
+    // if (!ctx.state.ethereumOk || !ctx.state.connected) ctx.dispatch("login")
+    // else {
+    //   return new Promise((resolve, reject) => {
+    //     sendDai(to, amount).then(async tx => {
+    //       console.log(tx.hash)
+    //       ctx.commit('txState', "PENDING")
+    //       ctx.commit('txState', "CONFIRMED")
+
+    //       const receipt = await tx.wait()
+    //       resolve(receipt)
+    //     }).catch(error => {
+    //       // if (e.code === 4001) // user rejection
+    //       ctx.dispatch("txFailed")
+    //       reject(error)
+    //     })
+    //   })
+    // }
   },
   async init(ctx) {
     event.$on(EVENT_CHANNEL, async (msg) => {
@@ -121,11 +144,26 @@ export default {
     ctx.commit('initialized', true)
   },
   async login(ctx) {
+    console.log('ethers/ logging in')
     connect()
   },
   async stake(ctx, artistWalletAddress) {
     await stake(artistWalletAddress)
     return "🥩"
+  },
+  async getArtistTokenAddress(ctx, artistWalletAddress) {
+    const artistTokenAddress = await getArtistTokenAddress(artistWalletAddress)
+    ctx.commit('artistTokenAddress', artistTokenAddress)
+    return artistTokenAddress
+  },
+  async registerArtistToken(ctx) {
+    const artistTokenAddress = await registerArtistToken()
+    ctx.commit('artistTokenAddress', artistTokenAddress)
+    return artistTokenAddress
+  },
+  async getArtistTokenBalanceOfUser(ctx, artistTokenContractAddress) {
+    const tokenBalance = await getArtistTokenBalanceOfUser(artistTokenContractAddress)
+    return tokenBalance
   },
   logout(ctx) {
     ctx.commit('address', '')
@@ -136,18 +174,5 @@ export default {
     ctx.commit('address', '')
     // ctx.commit("logout", null, { root: true });
     console.log('You are not connected to the Ethereum network. Please check MetaMask, etc.')
-  },
-  resetTxState(ctx) {
-    ctx.commit('txState', null)
-  },
-  txConfirmed(ctx) {
-    ctx.commit('txState', 'confirmed')
-  },
-  txFailed(ctx) {
-    ctx.commit('txState', 'failed')
-    // ctx.commit('resetToastMessage', null, { root: true })
-    // setTimeout(() => {
-    //   ctx.commit('txState', null)
-    // }, 10000)
-  },
+  }
 }

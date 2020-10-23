@@ -8,6 +8,11 @@ export default {
     item() {
       return this.$store.state.sidebar.item;
     },
+    createdByUser() {
+      return this.$store.state.user.catalog.find(
+        (item) => item._id === this.item._id
+      );
+    },
     ownedByUser() {
       return this.$store.state.user.collection.find(
         (item) => item._id === this.item._id
@@ -68,8 +73,21 @@ export default {
         ></span
       >
     </p>
-    <p v-if="ownedByUser">You own this 💪🏼</p>
-    <button v-else class="buttonPrimary" @click="purchaseItem">
+    <div v-if="ownedByUser">
+      <p>You own this 💪🏼</p>
+      <a
+        :href="`https://creatornode2.audius.co/tracks/stream/${item.id_audius}`"
+        target="_blank"
+        class="receive-item-4"
+        download
+        >mp3 download</a
+      >
+    </div>
+    <button
+      v-else-if="!createdByUser"
+      class="buttonPrimary"
+      @click="purchaseItem"
+    >
       Purchase ({{ item.price ? `$${item.price}` : "$0.00+" }})
     </button>
     <div class="divider divider-anomaly" />

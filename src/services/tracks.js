@@ -16,13 +16,15 @@ export const addItemToCatalog = async (client, track, user) => {
 
     try {
         // Format Audius track to be Textile-friendly
+        // TODO(metamask): ADD `artist.wallet_addr_mm` from textile user HERE 
         const item = {
             id_audius: track.id_audius,
             artist: {
                 _id: user._id,
                 id_audius: user.id_audius,
                 handle: user.handle,
-                name: user.name
+                name: user.name,
+                wallet_addr_mm: user.wallet_addr_mm // TODO(metamask): MAKE SURE `artist.wallet_addr_mm` exists on textile Item HERE 
             },
             price: track.price
         }
@@ -31,10 +33,16 @@ export const addItemToCatalog = async (client, track, user) => {
         const _id = await createItem(client, item)
         const textileItem = { ...item, _id }
 
-        // Format the user to be Textile-friendly
-        var formattedUser = formatUser(user)
-        formattedUser.catalog.push(textileItem)
+        console.log('addItemToCatalog 1: user')
+        console.log(user)
 
+        // Format the current user to be Textile-friendly before we update this user
+        var formattedUser = formatUser(user) // TODO(metamask): MAKE SURE `formattedUser` contains the logged-in user's `wallet_addr_mm` HERE 
+        formattedUser.catalog.push(textileItem) // TODO(metamask): MAKE SURE `textileItem` contains the user's `artist.wallet_addr_mm` HERE 
+
+        console.log('addItemToCatalog 2: formattedUser')
+        console.log(formattedUser)
+        
         // Update the Textile 'User' Document 
         await updateUser(client, formattedUser)
 
@@ -123,7 +131,7 @@ export const addItemToCollection = async (client, track, user) => {
         const item = {
             _id: track._id,
             id_audius: track.id_audius,
-            artist: track.artist,
+            artist: track.artist, // TODO(metamask): MAKE SURE `artist` contains the item artist's `wallet_addr_mm` HERE 
             artwork: track.artwork,
             description: track.description,
             title: track.title, 
@@ -131,8 +139,8 @@ export const addItemToCollection = async (client, track, user) => {
         }
 
         // Format the user object who purchased the track to be Textile-friendly
-        var formattedUser = formatUser(user)
-        formattedUser.collection.push(item)
+        var formattedUser = formatUser(user)  // TODO(metamask): MAKE SURE `formattedUser` contains the logged-in user's `wallet_addr_mm` HERE 
+        formattedUser.collection.push(item) // TODO(metamask): MAKE SURE `textileItem` contains the user's `artist.wallet_addr_mm` HERE 
 
         // Update the Textile 'User' Document with the updated collection
         await updateUser(client, formattedUser)

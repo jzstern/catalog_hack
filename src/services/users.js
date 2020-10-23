@@ -30,7 +30,7 @@ export const formatUser = (user) => {
             return {
                 _id: item._id,
                 id_audius: item.id_audius,
-                artist: item.artist,
+                artist: item.artist, // TODO(metamask): MAKE SURE `item.artist` conains `wallet_addr_mm' HERE 
                 price: item.price
             }
         })
@@ -42,7 +42,7 @@ export const formatUser = (user) => {
             return {
                 _id: item._id,
                 id_audius: item.id_audius,
-                artist: item.artist,
+                artist: item.artist, // TODO(metamask): MAKE SURE `item.artist` conains `wallet_addr_mm' HERE 
                 price: item.price
             }
         })
@@ -53,7 +53,8 @@ export const formatUser = (user) => {
         id_audius: user.id_audius,
         handle: user.handle,
         name: user.name,
-        wallet_addr_mm: user.wallet_addr_mm,
+        wallet_addr_mm: user.wallet_addr_mm, // TODO(metamask): MAKE SURE `user.wallet_addr_mm` exists for formattedUser
+        // wallet_addr_mm: user.wallet_addr,
         catalog,
         collection,
         links: []

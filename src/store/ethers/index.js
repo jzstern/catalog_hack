@@ -2,6 +2,7 @@ import actions from './actions'
 import mutations from './mutations'
 
 const state = {
+  artistTokenAddress: null,
   initialized: false,
   balance: null,
   balanceDai: null,

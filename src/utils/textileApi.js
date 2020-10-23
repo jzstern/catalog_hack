@@ -48,7 +48,7 @@ export const updateDocument = async (
     collectionName,
     updatedDocument
 ) => {
-    console.log(`🧵 Updating document ${updatedDocument._id} in ${collectionName}...`)
+    console.log(`🧵 Updating document ${JSON.stringify(document)} in ${collectionName}...`)
     const threadID = ThreadID.fromString(THREAD_ID)
     const res = await client.save(threadID, collectionName, [updatedDocument])
     console.log('🧵✅ Updated document!')

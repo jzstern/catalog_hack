@@ -1,5 +1,8 @@
 # catalog
 
+## Smart Contracts
+https://github.com/feewet/catalog-contracts/
+
 ## Project setup
 ```
 npm install

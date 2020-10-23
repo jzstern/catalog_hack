@@ -2,11 +2,10 @@
 /* eslint-disable */
 export default {
   name: "Purchase",
-  data: () => ({
-    payment: null,
-    message: null,
-  }),
   computed: {
+    balanceDai() {
+      return this.$store.state.ethers.balanceDai
+    },
     item() {
       return this.$store.state.sidebar.item;
     },
@@ -14,40 +13,54 @@ export default {
       return (
         (this.item.price && this.payment >= this.item.price) ||
         (!this.item.price && this.payment)
-      );
+      ) && Number(this.balanceDai) >= Number(this.payment);
     },
     userIsLoggedIn() {
       return this.$store.state.user.login_status === "LOGGED_IN";
     },
   },
+  data: () => ({
+    artistTokenAddress: null,
+    payment: null,
+    message: null,
+  }),
   methods: {
     back() {
       this.$store.commit("sidebar", {
-        component: "Item",
+        component: "Track Info",
         item: this.item,
       });
     },
     async purchaseItem() {
       if (!this.userIsLoggedIn) {
-        alert("login to purchase music");
+        alert("Login to purchase music");
         return;
       }
 
-      // if (this.generateTx) await this.$store.dispatch('ethers/sendDai', { to: this.item.artist.wallet_addr, amount: this.payment})
-      if (this.generateTx)
-        await this.$store.dispatch("ethers/sendDai", {
-          to: "0x22A71a4b2bEaE4C5d54E407D81A55CDfCFb22B2a",
-          amount: this.payment,
-        });
+      await this.$store.dispatch('ethers/getBalances')
 
-      const purchase = { ...this.item, price: this.payment };
-      this.$store.dispatch("addItemToCollection", purchase);
-      this.$store.commit("sidebar", {
-        component: "Receipt",
-        item: purchase,
-      });
-    },
+      if (this.generateTx) {
+        // const tx = await this.$store.dispatch('ethers/sendDai', { to: this.item.artist.wallet_addr_mm, amount: this.payment})
+        // console.log("tx");
+        // console.log(tx);
+        await this.$store.dispatch('ethers/sendDai', { to: this.item.artist.wallet_addr_mm, amount: this.payment})
+        const purchase = { ...this.item, price: this.payment };
+        this.$store.dispatch("addItemToCollection", purchase);
+        this.$store.commit("sidebar", {
+          component: "Receipt",
+          item: { ...purchase, artist: {
+            ...purchase.artist,
+            tokenAddress: this.artistTokenAddress
+          } },
+        });
+      } else {
+        alert("payment amount is bunk")
+      }
+    }
   },
+  async mounted() {
+    this.artistTokenAddress = await this.$store.dispatch('ethers/getArtistTokenAddress', this.item.artist.wallet_addr_mm)
+  }
 };
 </script>
 

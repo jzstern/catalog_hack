@@ -1,4 +1,7 @@
 export default {
+  artistTokenAddress(state, value) {
+    state.artistTokenAddress = value
+  },
   initialized(state, value) {
     state.initialized = value
   },

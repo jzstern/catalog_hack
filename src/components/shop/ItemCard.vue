@@ -1,6 +1,5 @@
 <script>
 /* eslint-disable */
-const ARTIST_1_TOKEN_ADDRESS = "0x6fD5aeE28863eFD6C40CB76FFb5fbe6D9d03858C";
 export default {
   props: {
     item: {
@@ -31,11 +30,8 @@ export default {
     selectItem() {
       // TODO - don't open sidebar if artist name was clicked
       this.$store.commit("sidebar", {
-        component: "Item",
-        item: {
-          ...this.item,
-          contractAddress: "ARTIST_1_TOKEN_ADDRESS",
-        },
+        component: "Track Info",
+        item: this.item
       });
     },
     toggleAudio() {
@@ -103,6 +99,10 @@ export default {
   margin-bottom: 8px;
   line-height: 100%;
   cursor: url("../../assets/other/cursor.png"), pointer;
+
+  &:hover {
+    color: #f2ba00;
+  }
 }
 
 .card-info {

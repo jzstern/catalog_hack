@@ -37,14 +37,14 @@ export const LOG_TRANSACTIONS = [
   // [] // list of topics, empty for all topics
 ]
 
-// const artistTokenAddress = await catalogContract.artists('0x6fD5aeE28863eFD6C40CB76FFb5fbe6D9d03858C')
+// * max uint256 * 115792089237316195423570985008687907853269984665640564039457584007913129639935
 const CATALOG_CONTRACT_ADDRESS = '0x937c882Ed182CEf2A9174aC48e7a221474dcA1c5'
 const DAI_CONTRACT_ADDRESS = '0x13D282Daa4016396bc7294cAD4C855773253eb10'
 const artistPoolAbi = require('./abi/artistPool.json')
 const catalogAbi = require('./abi/catalog.json')
 const IERC20 = require('./abi/IERC20.json')
 const daiAbi = require('./abi/dai.json')
-const params = {gasLimit: 500000}
+const params = { gasLimit: 500000 }
 
 // for ethers
 let ethereum
@@ -223,6 +223,19 @@ export async function mintDai() {
   return
 }
 
+export async function getArtistTokenAddress(artistWalletAddress) {
+  const res = await catalogContract.artists(artistWalletAddress)
+  // console.log({res}, Object.keys(res), res.registered)
+  if (res.registered) return res.token
+  return null
+}
+
+export async function registerArtistToken() {
+  await catalogContract.register()
+  const artistTokenAddress = (await catalogContract.artists(currentAccount)).token
+  return artistTokenAddress
+}
+
 // this should only be run when a ethereum provider is detected and set at the ethereum value above
 export async function startProviderWatcher() {
   async function updateProvider() {
@@ -291,6 +304,27 @@ export async function initContracts() {
   daiContract = new ethers.Contract(DAI_CONTRACT_ADDRESS, IERC20.abi, userWallet);
   daiMintContract = new ethers.Contract(DAI_CONTRACT_ADDRESS, daiAbi.abi, userWallet);
 }
+
+/*
+ * Artist Token interactions
+ */ 
+
+// function initArtistTokenContract(artistTokenContractAddress) {
+//   artistTokenContract = 
+//   return artistTokenContract
+// }
+
+export async function getArtistTokenBalanceOfUser(artistTokenContractAddress) {
+  // console.log('inner 0', artistTokenContractAddress)
+  const artistTokenContract = new ethers.Contract(artistTokenContractAddress, IERC20.abi, userWallet)
+  // console.log('inner 1', artistTokenContract)
+  // console.log({artistTokenContract, artistTokenContractAddress, currentAccount})
+  const balance = fromDai(await artistTokenContract.balanceOf(currentAccount)).toString()
+  // console.log({balance})
+  return balance
+}
+
+
 
 // For now, 'eth_accounts' will continue to always return an array
 export function handleAccountsChanged(accounts) {

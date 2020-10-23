@@ -33,6 +33,8 @@ export default {
   },
   data: () => ({
     creating: false,
+    registering: false,
+    artistTokenAddress: null,
     price: null,
     track: null, // full audius track
   }),
@@ -44,9 +46,14 @@ export default {
         price: this.price,
       });
     },
+    async registerArtistToken() {
+      this.registering = true
+      this.artistTokenAddress = await this.$store.dispatch('ethers/registerArtistToken')
+    }
   },
-  mounted() {
+  async mounted() {
     this.$store.dispatch("getAudiusUploads", this.user.id_audius);
+    this.artistTokenAddress = await this.$store.dispatch('ethers/getArtistTokenAddress', this.user.wallet_addr_mm)
   },
 };
 </script>
@@ -68,7 +75,7 @@ export default {
 
       <label>Price (USD)</label>
       <input v-model="price" placeholder="$0.00+" type="number" />
-      <button :disabled="creating" class="buttonPrimary" @click="create">
+      <button :disabled="creating" :class="[{disabled: creating}, 'buttonPrimary']" @click="create">
         Create
       </button>
       <button
@@ -78,6 +85,12 @@ export default {
       >
         Back
       </button>
+    </div>
+
+    <div v-else-if="!artistTokenAddress">
+      <label>Create Artist Token</label>
+      <p>Here's some info about artist tokens</p>
+      <button :disabled="registering" :class="[{disabled: registering}, 'buttonPrimary']" @click="registerArtistToken">Register Token</button>
     </div>
 
     <div
@@ -90,12 +103,13 @@ export default {
         <img :src="item.artwork['480x480']" class="upload-artwork" />
         <div class="upload-track-info">
           <p>{{ item.title }}</p>
-          <p>{{ item.description }}</p>
-          <p>Duration: {{ item.duration }}s</p>
+          <!-- <p>Duration: {{ item.duration }}s</p> -->
         </div>
       </div>
       <div class="divider"></div>
     </div>
+
+    <label v-if="!user.uploads.length">No uploads to display</label>
   </div>
 </template>
 
