@@ -23,7 +23,10 @@ export default {
   }),
   methods: {
     async getStakedArtistTokens(artistWalletAddr) {
-      const num = await this.$store.dispatch('ethers/getStakedArtistTokens', artistWalletAddr)
+      const num = await this.$store.dispatch(
+        "ethers/getStakedArtistTokens",
+        artistWalletAddr
+      );
 
       console.log("num");
       console.log("num");
@@ -35,7 +38,7 @@ export default {
       alert("minted 100 totally not fake DAI");
     },
     async stake(artistWalletAddr) {
-      this.$store.dispatch('ethers/stake', artistWalletAddr)
+      this.$store.dispatch("ethers/stake", artistWalletAddr);
     },
     async constructTokenBalances() {
       console.log("constructing token balances...");
@@ -45,7 +48,7 @@ export default {
         (item) => item.artist
       );
 
-      // Remove duplicate artists 
+      // Remove duplicate artists
       const uniqueArtists = artists.reduce((acc, current) => {
         const x = acc.find((item) => item.id_audius === current.id_audius);
         if (!x) {
@@ -55,7 +58,7 @@ export default {
         }
       }, []);
 
-      console.log({uniqueArtists})
+      console.log({ uniqueArtists });
 
       // GET THE TOKEN ADDRESSES FOR EACH METAMASK ADDR
       let artist_token_addresses0 = await Promise.all(
@@ -66,19 +69,19 @@ export default {
           );
           return {
             ...artist,
-            artistTokenAddress
+            artistTokenAddress,
           };
         })
       );
 
-      console.log({artist_token_addresses0})
+      console.log({ artist_token_addresses0 });
 
       // Filter out null vals for artistTokenaddress - null vals are mm_addresses that have not deployed an artist token
       artist_token_addresses0 = artist_token_addresses0.filter(
-        ({artistTokenAddress}) => artistTokenAddress !== null
+        ({ artistTokenAddress }) => artistTokenAddress !== null
       );
 
-      console.log({artist_token_addresses0})
+      console.log({ artist_token_addresses0 });
 
       // USE THE ARTIST TOKEN ADDRESSES TO QUERY THE BALANCE
       const artist_token_balances0 = await Promise.all(
@@ -102,12 +105,12 @@ export default {
         })
       );
 
-      this.artistTokenBalances = num_artist_staked_tokens
+      this.artistTokenBalances = num_artist_staked_tokens;
     },
   },
   async beforeMount() {
-    this.constructTokenBalances()
-  }
+    this.constructTokenBalances();
+  },
 };
 </script>
 
@@ -124,11 +127,15 @@ export default {
     </div>
     <br />
 
-    <label style="font-size: 26px">Artist Tokens</label>
+    <h3>Artist Tokens</h3>
     <br />
     <br />
-    
-    <div class="artist-tokens" v-for="token in artistTokenBalances" :key="token.artistTokenAddress">
+
+    <div
+      class="artist-tokens"
+      v-for="token in artistTokenBalances"
+      :key="token.artistTokenAddress"
+    >
       <label>{{ token.name }}</label>
       <p>Balance: {{ token.balanceOfToken }}</p>
       <p>Staked: {{ token.numTokensStaked }}</p>
@@ -137,10 +144,16 @@ export default {
       <label>Token Address</label>
       <p class="field">{{ token.artistTokenAddress }}</p>
 
-      <button :class="[{ disabled: !Number(token.balanceOfToken) }, 'buttonPrimary']" @click="stake(token.wallet_addr_mm)" :disabled="!Number(token.balanceOfToken)">Stake</button>
-        <br />
-        <br />
-        <br />
+      <button
+        :class="[{ disabled: !Number(token.balanceOfToken) }, 'buttonPrimary']"
+        @click="stake(token.wallet_addr_mm)"
+        :disabled="!Number(token.balanceOfToken)"
+      >
+        Stake
+      </button>
+      <br />
+      <br />
+      <br />
     </div>
   </div>
 </template>

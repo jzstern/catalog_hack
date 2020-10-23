@@ -47,13 +47,18 @@ export default {
       });
     },
     async registerArtistToken() {
-      this.registering = true
-      this.artistTokenAddress = await this.$store.dispatch('ethers/registerArtistToken')
-    }
+      this.registering = true;
+      this.artistTokenAddress = await this.$store.dispatch(
+        "ethers/registerArtistToken"
+      );
+    },
   },
   async mounted() {
     this.$store.dispatch("getAudiusUploads", this.user.id_audius);
-    this.artistTokenAddress = await this.$store.dispatch('ethers/getArtistTokenAddress', this.user.wallet_addr_mm)
+    this.artistTokenAddress = await this.$store.dispatch(
+      "ethers/getArtistTokenAddress",
+      this.user.wallet_addr_mm
+    );
   },
 };
 </script>
@@ -75,7 +80,11 @@ export default {
 
       <label>Price (USD)</label>
       <input v-model="price" placeholder="$0.00+" type="number" />
-      <button :disabled="creating" :class="[{disabled: creating}, 'buttonPrimary']" @click="create">
+      <button
+        :disabled="creating"
+        :class="[{ disabled: creating }, 'buttonPrimary']"
+        @click="create"
+      >
         Create
       </button>
       <button
@@ -89,8 +98,17 @@ export default {
 
     <div v-else-if="!artistTokenAddress">
       <label>Create Artist Token</label>
-      <p>Here's some info about artist tokens</p>
-      <button :disabled="registering" :class="[{disabled: registering}, 'buttonPrimary']" @click="registerArtistToken">Register Token</button>
+      <p>
+        Catalog enables artists to capture the value their communities create by
+        distributing tokens to your supporters. These tokens
+      </p>
+      <button
+        :disabled="registering"
+        :class="[{ disabled: registering }, 'buttonPrimary']"
+        @click="registerArtistToken"
+      >
+        Register Token
+      </button>
     </div>
 
     <div

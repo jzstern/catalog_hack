@@ -5,7 +5,8 @@ export default {
     percentElapsed(newVal, oldVal) {
       const newPercent = newVal.toFixed(4);
       const oldPercent = oldVal.toFixed(4);
-      if (oldPercent !== newPercent) this.$refs.progress.style.transform = `translate3d(${ newPercent }%, 0, 0)`;
+      if (oldPercent !== newPercent)
+        this.$refs.progress.style.transform = `translate3d(${newPercent}%, 0, 0)`;
     },
     currentSong: {
       deep: true,
@@ -118,7 +119,7 @@ export default {
   left: 0;
   height: 1px;
   width: 100%;
-  background-color: red;
+  background-color: #65a3c1;
   overflow: hidden;
 }
 
@@ -129,7 +130,7 @@ export default {
   left: 0;
   height: 0.25px;
   width: 100%;
-  background-color: rgba(50, 50, 50, 1);
+  background-color: #666;
   transform: translate3d(100%, 0, 0);
   transition: transform 300ms;
   overflow: hidden;
