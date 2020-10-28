@@ -154,7 +154,6 @@ export default {
     ctx.commit('initialized', true)
   },
   async login(ctx) {
-    console.log('ethers/ logging in')
     connect()
   },
   async stake(ctx, artistWalletAddress) {

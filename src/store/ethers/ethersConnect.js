@@ -40,7 +40,7 @@ export const LOG_TRANSACTIONS = [
 // * max uint256 * 115792089237316195423570985008687907853269984665640564039457584007913129639935
 const CATALOG_CONTRACT_ADDRESS = '0x937c882Ed182CEf2A9174aC48e7a221474dcA1c5'
 const DAI_CONTRACT_ADDRESS = '0x13D282Daa4016396bc7294cAD4C855773253eb10'
-const artistPoolAbi = require('./abi/artistPool.json')
+const artistPoolAbi = require('./abi/ArtistPool.json')
 const catalogAbi = require('./abi/catalog.json')
 const distributorAbi = require('./abi/IDistributor.json')
 const IERC20 = require('./abi/IERC20.json')
@@ -349,6 +349,7 @@ export async function getArtistTokenBalanceOfUser(artistTokenContractAddress) {
 
 // For now, 'eth_accounts' will continue to always return an array
 export function handleAccountsChanged(accounts) {
+  console.log("accounts changed");
   if (accounts.length === 0) {
     // MetaMask is locked or the user has not connected any accounts
     event.$emit(EVENT_CHANNEL, MSGS.NO_WALLET)

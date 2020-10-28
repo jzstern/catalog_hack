@@ -6,6 +6,7 @@ export default {
   components: {
     Dropdown: () => import("./components/dropdown/Dropdown"),
     MusicPlayer: () => import("./components/MusicPlayer"),
+    NetworkWarning: () => import("./components/NetworkWarning"),
     Sidebar: () => import("./components/sidebar/Sidebar"),
   },
   watch: {
@@ -20,6 +21,9 @@ export default {
     },
     showSideBar() {
       return !!this.$store.state.sidebar.component;
+    },
+    showNetworkWarning() {
+      return this.$store.state.ethers.network !== "Ropsten"
     },
     user() {
       return this.$store.state.user;
@@ -53,6 +57,9 @@ export default {
         <!-- </transition> -->
       </div>
     </div>
+    <transition name="fade" mode="out-in">
+      <NetworkWarning v-if="showNetworkWarning" />
+    </transition>
     <transition name="fade" mode="out-in">
       <MusicPlayer v-show="currentSong._id || onHome" />
     </transition>
