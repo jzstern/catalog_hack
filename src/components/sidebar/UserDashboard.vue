@@ -27,15 +27,11 @@ export default {
         "ethers/getStakedArtistTokens",
         artistWalletAddr
       );
-
-      console.log("num");
-      console.log("num");
-      console.log("num");
-      console.log(num);
     },
     async mintDai() {
       await this.$store.dispatch("ethers/mintDai");
-      alert("minted 100 totally not fake DAI");
+      alert("brrrr minted 100 totally not fake DAI 🖨");
+      this.$store.dispatch('ethers/getBalances')
     },
     async stake(artistWalletAddr) {
       this.$store.dispatch("ethers/stake", artistWalletAddr);
@@ -116,8 +112,8 @@ export default {
 
 <template>
   <div class="user-dashboard">
-    <div class="account-item mint">
-      <label @click="mintDai">Dai Balance (click to mint)</label>
+    <div class="account-item mint" @click="mintDai">
+      <label class="mint">Dai Balance (click to mint)</label>
       <p class="field">{{ balanceDai }}</p>
     </div>
 

@@ -143,6 +143,8 @@ export const deleteUser = async (client, userId) => {
 
 export const updateUser = async (client, user) => {
     try {
+        console.log("updating user")
+        console.log(user)
         // console.log(`💽 Updating user ${user.handle} in ${USERS_COLLECTION}...`)
         await updateDocument(client, USERS_COLLECTION, user)
         // console.log(`💽✅ Updated user! 😩 ?`)

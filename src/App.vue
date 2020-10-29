@@ -23,7 +23,7 @@ export default {
       return !!this.$store.state.sidebar.component;
     },
     showNetworkWarning() {
-      return this.$store.state.ethers.network !== "Ropsten"
+      return this.$store.state.ethers.network !== "Ropsten" && this.$store.state.ethers.address
     },
     user() {
       return this.$store.state.user;

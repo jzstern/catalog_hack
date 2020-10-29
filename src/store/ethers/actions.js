@@ -97,7 +97,7 @@ export default {
     ctx.commit('balance', await getBalance())
     ctx.commit('balanceDai', await getBalanceDai())
   },
-  async mintDai() {
+  async mintDai(ctx) {
     await mintDai()
     return "🤑"
   },
