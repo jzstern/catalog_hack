@@ -63,11 +63,11 @@ export default {
   <br />
     <div class="account-item">
       <label>Artist Token Address</label>
-      <p class="field">{{ artistTokenAddress }}</p>
+      <button v-if="!artistTokenAddress" class="buttonPrimary" @click="debugRegisterArtistToken">
+        Register Artist Token
+      </button>
+      <p v-else class="field">{{ artistTokenAddress }}</p>
     </div>
-    <button v-if="!artistTokenAddress" class="buttonSecondary" @click="debugRegisterArtistToken">
-      (Debug) Register Artist Token
-    </button>
 
     <br />
     <button class="buttonSecondary" @click="logout">Log out</button>

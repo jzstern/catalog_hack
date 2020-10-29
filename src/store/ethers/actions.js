@@ -163,10 +163,6 @@ export default {
   },
   async getArtistInfo(ctx, artistWalletAddress) {
     const info = await getArtistInfo(artistWalletAddress)
-    console.log("info");
-    console.log("info");
-    console.log("info");
-    console.log(info);
     return info
   },
   async getArtistTokenAddress(ctx, artistWalletAddress) {

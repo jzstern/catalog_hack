@@ -21,15 +21,7 @@ export default {
       this.$store.dispatch("getAllTracks");
     },
     deleteTracks() {
-      this.$store.dispatch("deleteItem", "01en9n7n7yb18s6f8b4hk7g4rc");
-      this.$store.dispatch("deleteItem", "01en9na0217jszd3rr83desc9n");
-      this.$store.dispatch("deleteItem", "01en9na7a38z5j271b81qqye8w");
-      this.$store.dispatch("deleteItem", "01en9na8tsj5p71fzdwyyr52ma");
-      this.$store.dispatch("deleteItem", "01en9nadccxgnf885nx5n9sj72");
-      this.$store.dispatch("deleteItem", "01en9nap9a01w4pbvfwpr30k2c");
-      this.$store.dispatch("deleteItem", "01en9naymrw524jqk5mx1bz83w");
-      this.$store.dispatch("deleteItem", "01en9nb8xvxq5febb1dqwm9szf");
-      this.$store.dispatch("deleteItem", "01en9nbfnwc8n2m99s2xpqfye4");
+      this.$store.dispatch("deleteItem", "01ensb3rxdxs6tm670ksgx2kgr");
     },
     updateUser() {
       this.$store.dispatch("updateUser", {

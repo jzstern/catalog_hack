@@ -55,11 +55,13 @@ export default {
   },
   async mounted() {
     this.$store.dispatch("getAudiusUploads", this.user.id_audius);
-    this.artistTokenAddress = await this.$store.dispatch(
-      "ethers/getArtistTokenAddress",
-      this.user.wallet_addr_mm
-    );
-    const info = await this.$store.dispatch("ethers/getArtistInfo", this.artistTokenAddress);
+
+    const info = await this.$store.dispatch("ethers/getArtistInfo", this.user.wallet_addr_mm);
+    if (info.registered) this.artistTokenAddress = info.token
+    // this.artistTokenAddress = await this.$store.dispatch(
+    //   "ethers/getArtistTokenAddress",
+    //   this.user.wallet_addr_mm
+    // );
   },
 };
 </script>
