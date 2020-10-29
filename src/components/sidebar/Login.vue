@@ -117,10 +117,6 @@ export default {
   padding: 16px 32px;
 }
 
-.invalidForm {
-  border: 1px solid red;
-}
-
 .disabled {
   opacity: 0.5;
 }

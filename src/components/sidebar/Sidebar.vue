@@ -161,4 +161,8 @@ export default {
   border-bottom: transparent;
   margin-right: 0;
 }
+
+.invalidForm {
+  border: 1px solid red;
+}
 </style>

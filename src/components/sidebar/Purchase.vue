@@ -4,6 +4,7 @@ export default {
   name: "Purchase",
   watch: {
     async payment(newVal) {
+      if (newVal >= this.item.price) this.invalidForm = false
       // maybe use handler method if asnyc doesn't work
       this.numTokensReceived = await this.$store.dispatch('ethers/getNumTokensReceived', 
         { artistAddress: this.item.artist.wallet_addr_mm, daiAmount: newVal })
@@ -28,6 +29,7 @@ export default {
   },
   data: () => ({
     artistTokenAddress: null,
+    invalidForm: false,
     numTokensReceived: null,
     payment: null,
     message: null,
@@ -64,7 +66,7 @@ export default {
           },
         });
       } else {
-        alert("payment amount is bunk")
+        this.invalidForm = true
       }
     }
   },
@@ -86,10 +88,10 @@ export default {
     <div class="divider"></div>
     <div class="form-item">
       <label
-        >Name your price ({{ item.price ? `$${item.price}` : "$0.00+" }})</label
+        >Name your price ({{ item.price ? `$${item.price}+` : "$0.00+" }})</label
       >
       <br />
-      <input class="price-input" v-model="payment" type="number" />
+      <input :class="[{ invalidForm }, 'price-input']" v-model="payment" type="number" />
     </div>
     <div class="form-item">
       <label>Include message</label>
