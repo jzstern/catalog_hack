@@ -59,6 +59,231 @@ let daiMintContract
 let catalogContract
 let initialized
 
+
+/* * * * * * * * * * * *
+ * ARTIST TOKEN STUFF
+* * * * * * * * * * * */
+
+async function hasUserApprovedPool(contract, owner, spender, amount) {
+  return (await contract.allowance(owner, spender)).gte(amount)
+}
+
+async function getArtistInfo(artistAddress) {
+  const info = await catalogContract.artists(artistAddress)
+  console.log('getArtistInfo', {info, artistAddress, catalogContract })
+  return info
+}
+
+export async function getNumTokensReceived(artistAddress, daiAmount) {
+  const { distributor } = await getArtistInfo(artistAddress)
+  const distributorContract = new ethers.Contract(distributor, distributorAbi.abi, userWallet)
+
+  const uintDaiAmount = utils.parseEther(daiAmount)
+
+  const numTokensReceived = await distributorContract.getReward(uintDaiAmount)
+
+  return fromDai(numTokensReceived).toString()
+}
+
+export async function  getStakedArtistTokens(artistAddress) {
+  const { pool, token, distributor } = await getArtistInfo(artistAddress)
+  const poolContract = new ethers.Contract(pool, artistPoolAbi.abi, userWallet)
+  
+  const stakedTokenAmt = await poolContract.stakes(currentAccount)
+
+  return utils.formatEther(stakedTokenAmt.toString())
+}
+
+async function stakeArtistTokens(poolContract, artistTokenBalance) {
+  await poolContract.stake(artistTokenBalance, params)
+}
+
+export async function getArtistTokenAddress(artistWalletAddress) {
+  const res = await catalogContract.artists(artistWalletAddress)
+  // console.log({res}, Object.keys(res), res.registered)
+  if (res.registered) return res.token
+  return null
+}
+
+export async function initContracts() {
+  catalogContract = new ethers.Contract(CATALOG_CONTRACT_ADDRESS, catalogAbi.abi, userWallet)
+  daiContract = new ethers.Contract(DAI_CONTRACT_ADDRESS, IERC20.abi, userWallet);
+  daiMintContract = new ethers.Contract(DAI_CONTRACT_ADDRESS, daiAbi.abi, userWallet);
+}
+
+export async function registerArtistToken() {
+  await catalogContract.register()
+  const artistTokenAddress = (await catalogContract.artists(currentAccount)).token
+  return artistTokenAddress
+}
+
+async function approve() {
+  await daiContract.approve(CATALOG_CONTRACT_ADDRESS, ethers.constants.MaxUint256)
+}
+
+async function approvePool(contract, poolAddress) {
+  await contract.approve(poolAddress, ethers.constants.MaxUint256)
+}
+
+export async function stake(artistAddress) {
+  const { pool, token } = await getArtistInfo(artistAddress)
+  const artistTokenContract = new ethers.Contract(token, IERC20.abi, userWallet)
+  const poolContract = new ethers.Contract(pool, artistPoolAbi.abi, userWallet)
+  const artistTokenBalance = await artistTokenContract.balanceOf(currentAccount)
+
+  if (!artistTokenBalance) {
+    alert('no artist tokens to stake (yet... try again in a few)')
+    return
+  }
+
+  const approved = await hasUserApprovedPool(artistTokenContract, currentAccount, poolContract.address, artistTokenBalance)
+
+  if (!approved) {
+    console.log("waiting for approval to spend artitst token: " + artistTokenContract.address)
+    await approvePool(artistTokenContract, poolContract.address)
+    console.log("approved to spend: " + artistTokenContract.address)
+  }
+
+  console.log("staking " + fromDai(artistTokenBalance).toString() + " artist tokens");
+  await stakeArtistTokens(poolContract, artistTokenBalance)
+  console.log("staking successful");
+
+  return
+}
+
+// function initArtistTokenContract(artistTokenContractAddress) {
+//   artistTokenContract = 
+//   return artistTokenContract
+// }
+
+export async function getArtistTokenBalanceOfUser(artistTokenContractAddress) {
+  // console.log('inner 0', artistTokenContractAddress)
+  const artistTokenContract = new ethers.Contract(artistTokenContractAddress, IERC20.abi, userWallet)
+  // console.log('inner 1', artistTokenContract)
+  // console.log({artistTokenContract, artistTokenContractAddress, currentAccount})
+  const balance = fromDai(await artistTokenContract.balanceOf(currentAccount)).toString()
+  // console.log({balance})
+  return balance
+}
+
+/* * * * * * *
+ * DAI STUFF
+* * * * * * * */
+
+async function hasUserApprovedDai(owner, spender, amount) {
+  return (await daiContract.allowance(owner, spender)).gte(amount)
+}
+
+export async function sendDai(to, amount) {
+  // TODO - check this on the FE
+  const balance = fromDai(await daiContract.balanceOf(currentAccount)).toString()
+  const balanceInt = Number(balance)
+  const amountInt = Number(amount)
+
+  if (balanceInt < amountInt) {
+    alert('dai balance too low')
+    return
+  }
+
+  const amountBigNum = utils.parseEther(amount.toString()).toString()
+  const approved = await hasUserApprovedDai(currentAccount, CATALOG_CONTRACT_ADDRESS, amountBigNum)
+
+  if (!approved) {
+    console.log("waiting for approval to spend DAI")
+    await approve()
+    console.log("approved to spend DAI")
+  }
+  
+  await catalogContract.split(to, amountBigNum, params)
+  return
+}
+
+export async function getBalanceDai() {
+  const balanceDai = fromDai(await daiContract.balanceOf(currentAccount)).toString()
+  return balanceDai
+}
+
+export async function mintDai() {
+  const amount = utils.parseEther('100000000000000000000').toString()
+  await daiMintContract.mint(currentAccount, '100000000000000000000')
+  return
+}
+
+function fromDai(value) {
+  return value.div('1000000000000000000')
+}
+
+/* * * * * * * * * * * * * * * *   
+ * general ethers.js stuff
+* * * * * * * * * * * * * * * */
+
+// For now, 'eth_accounts' will continue to always return an array
+export function handleAccountsChanged(accounts) {
+  console.log("accounts changed");
+  if (accounts.length === 0) {
+    // MetaMask is locked or the user has not connected any accounts
+    event.$emit(EVENT_CHANNEL, MSGS.NO_WALLET)
+  } else if (accounts[0] !== currentAccount) {
+    currentAccount = accounts[0]
+    // userWallet = provider && provider.getSigner(currentAccount)
+    // userWallet = provider.getSigner(currentAccount)
+    userWallet = provider.getSigner(currentAccount)
+    event.$emit(EVENT_CHANNEL, MSGS.ACCOUNT_CHANGED)
+  }
+}
+
+export function connect() {
+  if (!ethereum) return event.$emit(EVENT_CHANNEL, MSGS.NOT_CONNECTED)
+  ethereum
+    .request({ method: 'eth_requestAccounts' })
+    .then(handleAccountsChanged)
+    .catch((err) => {
+      if (err.code === 4001) {
+        // EIP-1193 userRejectedRequest error
+        // If this happens, the user rejected the connection request.
+        console.log('User rejected the connection request. Please connect to an Ethereum wallet')
+        event.$emit(EVENT_CHANNEL, MSGS.NOT_READY)
+      } else {
+        console.error('Error requesting Ethereum connection/accounts', err)
+        event.$emit(EVENT_CHANNEL, MSGS.NOT_READY)
+      }
+      event.$emit(EVENT_CHANNEL, MSGS.ACCOUNT_CHANGED)
+    })
+}
+
+export async function getBalance() {
+  const balanceWei = await provider.getBalance(currentAccount)
+  return utils.formatUnits(balanceWei)
+}
+
+export function getProvider() {
+  return provider
+}
+
+export function getWallet() {
+  return userWallet
+}
+
+export async function getWalletAddress() {
+  const addr = userWallet && await userWallet.getAddress()
+  return addr
+}
+
+export function ready() {
+  return !!provider && !!userWallet
+}
+
+export async function sendTransaction(to, amount) {
+  const value = await utils.parseEther(amount.toString().substr(0, 18))
+  const txArgs = { to, value }
+
+  return new Promise((resolve, reject) => {
+    userWallet.sendTransaction(txArgs).then((tx) => {
+      resolve(tx)
+    }, (error) => reject(error))
+  })
+}
+
 function getEthereum() {
   return window.ethereum
 }
@@ -95,167 +320,16 @@ export async function hasEns() {
   return ENS_NETS.includes(chainId)
 }
 
+function handleChainChanged(_chainId) {
+  chainId = _chainId
+  event.$emit(EVENT_CHANNEL, MSGS.NETWORK_CHANGED)
+  // window.location.reload()
+}
+
 // get deployed address for a contract from its networks object and current network id or null
 export async function getNetworkAddress(networks) {
   if (!networks[chainId] || !networks[chainId].address) return null
   return networks[chainId].address
-}
-
-export async function getBalance() {
-  const balanceWei = await provider.getBalance(currentAccount)
-  return utils.formatUnits(balanceWei)
-}
-
-export async function getBalanceDai() {
-  const balanceDai = fromDai(await daiContract.balanceOf(currentAccount)).toString()
-  return balanceDai
-}
-
-export function getProvider() {
-  return provider
-}
-
-export function getWallet() {
-  return userWallet
-}
-
-export async function getWalletAddress() {
-  const addr = userWallet && await userWallet.getAddress()
-  return addr
-}
-
-export function ready() {
-  return !!provider && !!userWallet
-}
-
-export async function sendTransaction(to, amount) {
-  const value = await utils.parseEther(amount.toString().substr(0, 18))
-  const txArgs = { to, value }
-
-  return new Promise((resolve, reject) => {
-    userWallet.sendTransaction(txArgs).then((tx) => {
-      resolve(tx)
-    }, (error) => reject(error))
-  })
-}
-
-async function hasUserApprovedDai(owner, spender, amount) {
-  return (await daiContract.allowance(owner, spender)).gte(amount)
-}
-
-async function hasUserApprovedPool(contract, owner, spender, amount) {
-  return (await contract.allowance(owner, spender)).gte(amount)
-}
-
-function fromDai(value) {
-  return value.div('1000000000000000000')
-}
-
-async function getArtistInfo(artistAddress) {
-  const info = await catalogContract.artists(artistAddress)
-  console.log('getArtistInfo', {info, artistAddress, catalogContract })
-  return info
-}
-
-export async function sendDai(to, amount) {
-  // TODO - check this on the FE
-  const balance = fromDai(await daiContract.balanceOf(currentAccount)).toString()
-  const balanceInt = Number(balance)
-  const amountInt = Number(amount)
-
-  if (balanceInt < amountInt) {
-    alert('dai balance too low')
-    return
-  }
-
-  const amountBigNum = utils.parseEther(amount.toString()).toString()
-  const approved = await hasUserApprovedDai(currentAccount, CATALOG_CONTRACT_ADDRESS, amountBigNum)
-
-  if (!approved) {
-    console.log("waiting for approval to spend DAI")
-    await approve()
-    console.log("approved to spend DAI")
-  }
-  
-  await catalogContract.split(to, amountBigNum, params)
-  return
-}
-
-export async function getNumTokensReceived(artistAddress, daiAmount) {
-  const { distributor } = await getArtistInfo(artistAddress)
-  const distributorContract = new ethers.Contract(distributor, distributorAbi.abi, userWallet)
-
-  const uintDaiAmount = utils.parseEther(daiAmount)
-
-  const numTokensReceived = await distributorContract.getReward(uintDaiAmount)
-
-  return fromDai(numTokensReceived).toString()
-}
-
-export async function  getStakedArtistTokens(artistAddress) {
-  const { pool, token, distributor } = await getArtistInfo(artistAddress)
-  const poolContract = new ethers.Contract(pool, artistPoolAbi.abi, userWallet)
-  
-  const stakedTokenAmt = await poolContract.stakes(currentAccount)
-
-  return utils.formatEther(stakedTokenAmt.toString())
-}
-
-export async function stake(artistAddress) {
-  const { pool, token } = await getArtistInfo(artistAddress)
-  const artistTokenContract = new ethers.Contract(token, IERC20.abi, userWallet)
-  const poolContract = new ethers.Contract(pool, artistPoolAbi.abi, userWallet)
-  const artistTokenBalance = await artistTokenContract.balanceOf(currentAccount)
-
-  if (!artistTokenBalance) {
-    alert('no artist tokens to stake (yet... try again in a few)')
-    return
-  }
-
-  const approved = await hasUserApprovedPool(artistTokenContract, currentAccount, poolContract.address, artistTokenBalance)
-
-  if (!approved) {
-    console.log("waiting for approval to spend artitst token: " + artistTokenContract.address)
-    await approvePool(artistTokenContract, poolContract.address)
-    console.log("approved to spend: " + artistTokenContract.address)
-  }
-
-  console.log("staking " + fromDai(artistTokenBalance).toString() + " artist tokens");
-  await stakeArtistTokens(poolContract, artistTokenBalance)
-  console.log("staking successful");
-
-  return
-}
-
-async function stakeArtistTokens(poolContract, artistTokenBalance) {
-  await poolContract.stake(artistTokenBalance, params)
-}
-
-async function approve() {
-  await daiContract.approve(CATALOG_CONTRACT_ADDRESS, ethers.constants.MaxUint256)
-}
-
-async function approvePool(contract, poolAddress) {
-  await contract.approve(poolAddress, ethers.constants.MaxUint256)
-}
-
-export async function mintDai() {
-  const amount = utils.parseEther('100000000000000000000').toString()
-  await daiMintContract.mint(currentAccount, '100000000000000000000')
-  return
-}
-
-export async function getArtistTokenAddress(artistWalletAddress) {
-  const res = await catalogContract.artists(artistWalletAddress)
-  // console.log({res}, Object.keys(res), res.registered)
-  if (res.registered) return res.token
-  return null
-}
-
-export async function registerArtistToken() {
-  await catalogContract.register()
-  const artistTokenAddress = (await catalogContract.artists(currentAccount)).token
-  return artistTokenAddress
 }
 
 // this should only be run when a ethereum provider is detected and set at the ethereum value above
@@ -313,73 +387,6 @@ export async function startProviderWatcher() {
   checkProvider()
   // and set interval
   providerInterval = setInterval(checkProvider, ACCOUNT_CHECK_MS)
-}
-
-function handleChainChanged(_chainId) {
-  chainId = _chainId
-  event.$emit(EVENT_CHANNEL, MSGS.NETWORK_CHANGED)
-  // window.location.reload()
-}
-
-export async function initContracts() {
-  catalogContract = new ethers.Contract(CATALOG_CONTRACT_ADDRESS, catalogAbi.abi, userWallet)
-  daiContract = new ethers.Contract(DAI_CONTRACT_ADDRESS, IERC20.abi, userWallet);
-  daiMintContract = new ethers.Contract(DAI_CONTRACT_ADDRESS, daiAbi.abi, userWallet);
-}
-
-/*
- * Artist Token interactions
- */ 
-
-// function initArtistTokenContract(artistTokenContractAddress) {
-//   artistTokenContract = 
-//   return artistTokenContract
-// }
-
-export async function getArtistTokenBalanceOfUser(artistTokenContractAddress) {
-  // console.log('inner 0', artistTokenContractAddress)
-  const artistTokenContract = new ethers.Contract(artistTokenContractAddress, IERC20.abi, userWallet)
-  // console.log('inner 1', artistTokenContract)
-  // console.log({artistTokenContract, artistTokenContractAddress, currentAccount})
-  const balance = fromDai(await artistTokenContract.balanceOf(currentAccount)).toString()
-  // console.log({balance})
-  return balance
-}
-
-
-
-// For now, 'eth_accounts' will continue to always return an array
-export function handleAccountsChanged(accounts) {
-  console.log("accounts changed");
-  if (accounts.length === 0) {
-    // MetaMask is locked or the user has not connected any accounts
-    event.$emit(EVENT_CHANNEL, MSGS.NO_WALLET)
-  } else if (accounts[0] !== currentAccount) {
-    currentAccount = accounts[0]
-    // userWallet = provider && provider.getSigner(currentAccount)
-    // userWallet = provider.getSigner(currentAccount)
-    userWallet = provider.getSigner(currentAccount)
-    event.$emit(EVENT_CHANNEL, MSGS.ACCOUNT_CHANGED)
-  }
-}
-
-export function connect() {
-  if (!ethereum) return event.$emit(EVENT_CHANNEL, MSGS.NOT_CONNECTED)
-  ethereum
-    .request({ method: 'eth_requestAccounts' })
-    .then(handleAccountsChanged)
-    .catch((err) => {
-      if (err.code === 4001) {
-        // EIP-1193 userRejectedRequest error
-        // If this happens, the user rejected the connection request.
-        console.log('User rejected the connection request. Please connect to an Ethereum wallet')
-        event.$emit(EVENT_CHANNEL, MSGS.NOT_READY)
-      } else {
-        console.error('Error requesting Ethereum connection/accounts', err)
-        event.$emit(EVENT_CHANNEL, MSGS.NOT_READY)
-      }
-      event.$emit(EVENT_CHANNEL, MSGS.ACCOUNT_CHANGED)
-    })
 }
 
 // stop interval looking for ethereum provider changes
