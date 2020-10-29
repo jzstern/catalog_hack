@@ -77,8 +77,8 @@ export default {
       <p>You own this 💪🏼</p>
       <a
         :href="`https://creatornode2.audius.co/tracks/stream/${item.id_audius}`"
-        target="_blank"
         class="receive-item-4"
+        target="_blank"
         download
         >mp3 download</a
       >
@@ -97,7 +97,7 @@ export default {
       <div class="divider-large" />
     </div>
 
-    <p class="disclaimer">
+    <p class="disclaimer" v-if="!ownedByUser && !createdByUser">
       Upon purchase, you’ll receive {{ item.artist.name }} tokens,
       which entitle you to a portion of <b>10%</b> of future revenue from
       {{ item.artist.name }} on Catalog, as well as other token holder rewards.

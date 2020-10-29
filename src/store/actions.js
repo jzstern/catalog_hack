@@ -10,9 +10,7 @@ import { NULL_ARTIST } from './constants'
 
 const actions = {
   async addItemToCatalog({ state, commit, dispatch }, track) {
-    // TODO - in Upload component, filter out tracks that are already in a users catalog from the selection
     if (state.user.catalog.find(item => track.id_audius === item.id_audius)) {
-      // TODO - handle this on UI
       console.warn("Track already exists in your catalog")
     }
     else {

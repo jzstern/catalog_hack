@@ -309,6 +309,9 @@ input {
 }
 .receive-item-4 {
   color: #77abc9;
+  &:hover {
+    opacity: .5;
+  }
 }
 
 @keyframes loadAnimation {

@@ -41,7 +41,7 @@ export default {
         {{ item.description }}
       </p>
       <!-- <p>Duration: {{ item.duration }}s</p> -->
-      <p>Price: {{ item.price }}</p>
+      <p>Price: ${{ item.price }}</p>
     </div>
 
     <button class="buttonPrimary" @click="back('Upload')">
@@ -60,6 +60,7 @@ export default {
 }
 
 .upload-complete-artwork {
+  margin-top: 32px;
   width: 100%;
   height: 100%;
   border: 1px solid rgba(255, 255, 255, 0.4);

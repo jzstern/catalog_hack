@@ -45,7 +45,7 @@ export default {
       <p class="receive-item-1">{{ item.title }} added to your collection</p>
       <p class="receive-item-2">Unlimited streaming via Catalog</p>
       <!-- <a href="#" class="receive-item-3">{{ item.title }} wav download</a> -->
-      <a :href="`https://creatornode2.audius.co/tracks/stream/${item.id_audius}`" class="receive-item-4">{{ item.title }} download</a>
+      <a :href="`https://creatornode2.audius.co/tracks/stream/${item.id_audius}`" class="receive-item-4" download target="_blank">{{ item.title }} download</a>
     </div>
     <div class="divider" />
     <p>Thank you for your support :)</p>
