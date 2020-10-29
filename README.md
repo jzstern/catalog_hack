@@ -1,7 +1,9 @@
-# catalog
+# Catalog
 
-## Smart Contracts
-https://github.com/feewet/catalog-contracts/
+## Info
+If you're running this demo, read [this](https://www.notion.so/loftradio/Demo-Info-cc031bae953a447a92222aaf7796bdad) for more information & common issues
+
+## [Smart Contracts](https://github.com/feewet/catalog-contracts/)
 
 ## Project setup
 ```
