@@ -5,9 +5,11 @@ export default {
   watch: {
     async payment(newVal) {
       if (newVal >= this.item.price) this.invalidForm = false
-      // maybe use handler method if asnyc doesn't work
-      this.numTokensReceived = await this.$store.dispatch('ethers/getNumTokensReceived', 
-        { artistAddress: this.item.artist.wallet_addr_mm, daiAmount: newVal })
+      if (!newVal) this.numTokensReceived = 0
+      else {
+        this.numTokensReceived = await this.$store.dispatch('ethers/getNumTokensReceived', 
+          { artistAddress: this.item.artist.wallet_addr_mm, daiAmount: newVal })
+      }
     }
   },
   computed: {

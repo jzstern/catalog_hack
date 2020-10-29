@@ -68,7 +68,7 @@ async function hasUserApprovedPool(contract, owner, spender, amount) {
   return (await contract.allowance(owner, spender)).gte(amount)
 }
 
-async function getArtistInfo(artistAddress) {
+export async function getArtistInfo(artistAddress) {
   const info = await catalogContract.artists(artistAddress)
   console.log('getArtistInfo', {info, artistAddress, catalogContract })
   return info
@@ -76,6 +76,7 @@ async function getArtistInfo(artistAddress) {
 
 export async function getNumTokensReceived(artistAddress, daiAmount) {
   const { distributor } = await getArtistInfo(artistAddress)
+  console.log(distributor);
   const distributorContract = new ethers.Contract(distributor, distributorAbi.abi, userWallet)
 
   const uintDaiAmount = utils.parseEther(daiAmount)

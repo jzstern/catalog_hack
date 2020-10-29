@@ -6,7 +6,7 @@ export default {
     Dropdown: () => import("../components/dropdown/Dropdown"),
   },
   data: () => ({
-    showHelpers: false
+    showHelpers: true
   }),
   methods: {
     deleteUsers() {
@@ -21,24 +21,23 @@ export default {
       this.$store.dispatch("getAllTracks");
     },
     deleteTracks() {
-      this.$store.dispatch("deleteItem", "01en8kc4emk6m7jcvc80e8861k");
-      this.$store.dispatch("deleteItem", "01en8kcbgmvq1rhp1bfkg5hgz5");
-      this.$store.dispatch("deleteItem", "01en8kcgyja7zd6gs8hv89387c");
-      this.$store.dispatch("deleteItem", "01en8kcqhjst5h5yhcsaxe510a");
-      this.$store.dispatch("deleteItem", "01en8kcx5ck3xqcckk8vdp8sy8");
-      this.$store.dispatch("deleteItem", "01en8kd2h8g4zj4hks6xpbh14r");
-      this.$store.dispatch("deleteItem", "01en8kd88pjv9vk8a1cyr4nj2h");
-      this.$store.dispatch("deleteItem", "01en8kdcyx4km5yrm1ken58w5c");
-      this.$store.dispatch("deleteItem", "01en8kdjmbme8x3ybc3r7v9ey3");
-      this.$store.dispatch("deleteItem", "01en8kdr1e1ptjh8a326q7dbvc");
-      this.$store.dispatch("deleteItem", "01en8kdxahr3qanabe5mr4y2cm");
+      this.$store.dispatch("deleteItem", "01en9n7n7yb18s6f8b4hk7g4rc");
+      this.$store.dispatch("deleteItem", "01en9na0217jszd3rr83desc9n");
+      this.$store.dispatch("deleteItem", "01en9na7a38z5j271b81qqye8w");
+      this.$store.dispatch("deleteItem", "01en9na8tsj5p71fzdwyyr52ma");
+      this.$store.dispatch("deleteItem", "01en9nadccxgnf885nx5n9sj72");
+      this.$store.dispatch("deleteItem", "01en9nap9a01w4pbvfwpr30k2c");
+      this.$store.dispatch("deleteItem", "01en9naymrw524jqk5mx1bz83w");
+      this.$store.dispatch("deleteItem", "01en9nb8xvxq5febb1dqwm9szf");
+      this.$store.dispatch("deleteItem", "01en9nbfnwc8n2m99s2xpqfye4");
     },
     updateUser() {
       this.$store.dispatch("updateUser", {
         ...this.$store.state.user,
-        _id: "01en7dz2amd21rv5xx5s9h5ksm",
+        _id: "01en9mny736y60s2j8524qtdwv",
         catalog: [],
         collection: [],
+        wallet_addr_mm: "0x22A71a4b2bEaE4C5d54E407D81A55CDfCFb22B2a"
         // links: [ "https://twitter.com/jzstern", "https://audius.co/jzstern", "https://soundcloud.com/appappa"]
       });
     },

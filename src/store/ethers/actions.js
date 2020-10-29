@@ -20,8 +20,9 @@ import {
   getArtistTokenAddress,
   registerArtistToken,
   getStakedArtistTokens,
+  getArtistInfo,
   getArtistTokenBalanceOfUser,
-  getNumTokensReceived
+  getNumTokensReceived,
 } from './ethersConnect'
 
 // import { compileToFunctions } from 'vue-template-compiler'
@@ -159,6 +160,14 @@ export default {
   async stake(ctx, artistWalletAddress) {
     await stake(artistWalletAddress)
     return "🥩"
+  },
+  async getArtistInfo(ctx, artistWalletAddress) {
+    const info = await getArtistInfo(artistWalletAddress)
+    console.log("info");
+    console.log("info");
+    console.log("info");
+    console.log(info);
+    return info
   },
   async getArtistTokenAddress(ctx, artistWalletAddress) {
     const artistTokenAddress = await getArtistTokenAddress(artistWalletAddress)

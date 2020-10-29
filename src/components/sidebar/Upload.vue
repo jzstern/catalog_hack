@@ -59,6 +59,7 @@ export default {
       "ethers/getArtistTokenAddress",
       this.user.wallet_addr_mm
     );
+    const info = await this.$store.dispatch("ethers/getArtistInfo", this.artistTokenAddress);
   },
 };
 </script>
