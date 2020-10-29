@@ -220,17 +220,15 @@ function fromDai(value) {
 
 // For now, 'eth_accounts' will continue to always return an array
 export function handleAccountsChanged(accounts) {
-  console.log("accounts changed");
-  if (accounts.length === 0) {
-    // MetaMask is locked or the user has not connected any accounts
-    event.$emit(EVENT_CHANNEL, MSGS.NO_WALLET)
-  } else if (accounts[0] !== currentAccount) {
+  // MetaMask is locked or the user has not connected any accounts
+  if (accounts.length === 0) event.$emit(EVENT_CHANNEL, MSGS.NO_WALLET)
+  else if (accounts[0] !== currentAccount) {
     currentAccount = accounts[0]
-    // userWallet = provider && provider.getSigner(currentAccount)
-    // userWallet = provider.getSigner(currentAccount)
     userWallet = provider.getSigner(currentAccount)
+    // userWallet = provider && provider.getSigner(currentAccount)
     event.$emit(EVENT_CHANNEL, MSGS.ACCOUNT_CHANGED)
   }
+  else event.$emit(EVENT_CHANNEL, MSGS.ACCOUNT_CHANGED)
 }
 
 export function connect() {

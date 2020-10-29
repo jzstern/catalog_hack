@@ -4,10 +4,15 @@ export default {
   name: "Account",
   computed: {
     formattedWalletAddr() {
+      var address
+
+      if (this.user.wallet_addr_mm) address = this.user.wallet_addr_mm
+      else address = this.user.wallet_addr
+      
       return (
-        this.user.wallet_addr.substring(0, 4) +
+        address.substring(0, 4) +
         "..." +
-        this.user.wallet_addr.substring(this.user.wallet_addr.length - 4)
+        address.substring(address.length - 4)
       );
     },
     user() {

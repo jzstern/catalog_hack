@@ -40,6 +40,7 @@ export default {
   }),
   methods: {
     create() {
+      this.creating = true
       // this.track is all of the audius track data, we haven't created a textile item for it yet
       this.$store.dispatch("addItemToCatalog", {
         ...this.track,
