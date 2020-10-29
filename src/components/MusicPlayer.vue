@@ -3,8 +3,8 @@
 export default {
   watch: {
     percentElapsed(newVal, oldVal) {
-      const newPercent = newVal.toFixed(4);
-      const oldPercent = oldVal.toFixed(4);
+      const newPercent = newVal;
+      const oldPercent = oldVal
       if (oldPercent !== newPercent)
         this.$refs.progress.style.transform = `translate3d(${newPercent}%, 0, 0)`;
     },
@@ -119,7 +119,7 @@ export default {
   left: 0;
   height: 1px;
   width: 100%;
-  background-color: #65a3c1;
+  background-color: rgb(52, 104, 129);
   overflow: hidden;
 }
 
@@ -128,7 +128,7 @@ export default {
   z-index: 5001;
   top: 0;
   left: 0;
-  height: 0.25px;
+  height: 100%;
   width: 100%;
   background-color: #666;
   transform: translate3d(100%, 0, 0);
