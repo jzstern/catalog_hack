@@ -69,6 +69,7 @@ export default {
         v-model="email"
         type="email"
         required
+        :disabled="loggingIn"
         :class="{ invalidForm: missingEmail }"
       />
     </div>
@@ -80,6 +81,7 @@ export default {
         v-model="password"
         type="password"
         required
+        :disabled="loggingIn"
         :class="{ invalidForm: missingPassword }"
       />
     </div>
@@ -91,7 +93,7 @@ export default {
     >
       {{ loggingIn ? "logging in..." : "Log in" }}
     </button>
-    <p v-if="badLogin">bad credentials fam</p>
+    <p v-if="badLogin" style="color: red">bad credentials</p>
     <p v-else-if="emptyFields">gotta fill out the whole form ya dingus</p>
 
     <button class="buttonSecondary" @click="register">Register</button>
@@ -115,9 +117,5 @@ export default {
 
 .login {
   padding: 16px 32px;
-}
-
-.disabled {
-  opacity: 0.5;
 }
 </style>
