@@ -27,6 +27,9 @@ export default {
     catalog() {
       return this.$store.state.user.catalog;
     },
+    connectedMM() {
+      return !!this.$store.state.ethers.address
+    },
     user() {
       return this.$store.state.user;
     },
@@ -48,15 +51,18 @@ export default {
       });
     },
     async registerArtistToken() {
-      try {
-        this.registering = true;
-        this.artistTokenAddress = await this.$store.dispatch(
-          "ethers/registerArtistToken"
-        );
-      } catch (e) {
-        this.registering = false;
-        console.error("Artist token registration error: ", e)
-        alert("There was a problem registering your artist token (Ropsten has been acting up recently 😔)")
+      if (!this.connectedMM) this.$store.dispatch('ethers/login')
+      else {
+        try {
+          this.registering = true
+          this.artistTokenAddress = await this.$store.dispatch(
+            "ethers/registerArtistToken"
+          )
+        } catch (e) {
+          this.registering = false;
+          console.error("Artist token registration error: ", e)
+          alert("There was a problem registering your artist token (Ropsten has been acting up recently 😔)")
+        }
       }
     },
   },

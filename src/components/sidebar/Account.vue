@@ -3,6 +3,9 @@
 export default {
   name: "Account",
   computed: {
+    connectedMM() {
+      return !!this.$store.state.ethers.address
+    },
     formattedWalletAddr() {
       var address
 
@@ -28,7 +31,7 @@ export default {
       this.$store.dispatch("logout");
     },
     async registerArtistToken() {
-      if (!this.user.wallet_addr_mm) alert("Connect MetaMask to register an artist token")
+      if (!this.connectedMM) this.$store.dispatch('ethers/login')
       else {
         try {
           this.registering = true;

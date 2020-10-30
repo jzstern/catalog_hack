@@ -205,7 +205,7 @@ export async function getBalanceDai() {
 }
 
 export async function mintDai() {
-  const amount = utils.parseEther('100000000000000000000').toString()
+  // const amount = utils.parseEther('100000000000000000000').toString()
   await daiMintContract.mint(currentAccount, '100000000000000000000')
   return
 }
