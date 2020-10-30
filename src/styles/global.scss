@@ -21,6 +21,10 @@ button:focus {
   width: 1px;
 }
 
+.raised {
+  z-index: 100000;
+}
+
 ::-webkit-scrollbar-track {
   // -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
   border-radius: 0px;
@@ -244,7 +248,7 @@ input[type="number"] {
 }
 
 .disabled {
-  opacity: .5;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
@@ -292,7 +296,7 @@ input {
   transform: translate(-50%, -50%);
   font-size: 16px;
   font-family: "Supply";
-  opacity: 0.5;
+  // opacity: 0.5;
 }
 
 .receive-item-0 {
@@ -310,7 +314,7 @@ input {
 .receive-item-4 {
   color: #77abc9;
   &:hover {
-    opacity: .5;
+    opacity: 0.5;
   }
 }
 

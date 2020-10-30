@@ -4,7 +4,7 @@ export default {
   watch: {
     percentElapsed(newVal, oldVal) {
       const newPercent = newVal;
-      const oldPercent = oldVal
+      const oldPercent = oldVal;
       if (oldPercent !== newPercent)
         this.$refs.progress.style.transform = `translate3d(${newPercent}%, 0, 0)`;
     },
@@ -185,6 +185,13 @@ export default {
   padding-left: 16px;
   opacity: 0.5;
 
+  &:hover {
+    color: #f2ba00;
+  }
+}
+
+.player-title {
+  cursor: url("../assets/other/cursor.png"), pointer;
   &:hover {
     color: #f2ba00;
   }

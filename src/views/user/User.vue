@@ -9,8 +9,7 @@ export default {
       this.refreshUserInfo();
     },
     path(newVal, oldVal) {
-
-      /* 
+      /*
         If we are on an artist page IE '/feewet' and navigate to a new artist page IE '/appa'
         Then `this.handle` will have already changed to 'appa' at this point
         However, the newVal and oldVal that is given here would still be 'feewet'
@@ -21,9 +20,9 @@ export default {
       const oldHandle = oldVal.split("/");
       const newHandleMatch = newHandle.indexOf(this.handle) > -1;
       const oldHandleMatch = oldHandle.indexOf(this.handle) > -1;
-      const isSameArtistPage = newHandleMatch && oldHandleMatch
+      const isSameArtistPage = newHandleMatch && oldHandleMatch;
 
-      if (!isSameArtistPage) this.refreshUserInfo()
+      if (!isSameArtistPage) this.refreshUserInfo();
     },
   },
   computed: {
@@ -82,7 +81,6 @@ export default {
     <transition name="fade" mode="out-in">
       <router-view />
     </transition>
-    <div class="user-background"></div>
 
     <router-link :to="'/'">
       <img
@@ -90,6 +88,7 @@ export default {
         src="../../assets/other/catalog.svg"
       />
     </router-link>
+    <div class="user-background"></div>
   </div>
 </template>
 
@@ -169,6 +168,6 @@ export default {
   background-image: url("../../assets/other/bgUser.png");
   background-repeat: no-repeat;
   opacity: 0.3;
-  z-index: 0;
+  z-index: -100;
 }
 </style>

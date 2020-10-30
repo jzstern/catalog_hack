@@ -1,6 +1,6 @@
 <script>
 /* eslint-disable */
-import { mapState } from 'vuex'
+import { mapState } from "vuex";
 
 export default {
   name: "Catalog",
@@ -16,15 +16,15 @@ export default {
   },
   computed: {
     showUploadButton() {
-      return this.handle && this.$route.path.includes(this.handle)
+      return this.handle && this.$route.path.includes(this.handle);
     },
     ...mapState({
-      catalog: state => state.artist.catalog,
-      handle: state => state.user.handle,
-      loading: state => state.artist.loading.catalog,
-      userCatalog: state => state.user.catalog,
-    })
-  }
+      catalog: (state) => state.artist.catalog,
+      handle: (state) => state.user.handle,
+      loading: (state) => state.artist.loading.catalog,
+      userCatalog: (state) => state.user.catalog,
+    }),
+  },
 };
 </script>
 
@@ -33,7 +33,13 @@ export default {
     <img v-if="loading" class="loader" src="../../assets/other/catalog.svg" />
     <div v-else-if="!catalog.length" class="no-tracks">
       <h4>no tracks to display</h4>
-      <button v-if="showUploadButton" class="buttonPrimary" @click="$store.commit('sidebarComponent', 'Upload')">Upload</button>
+      <button
+        v-if="showUploadButton"
+        class="buttonPrimary raised"
+        @click="$store.commit('sidebarComponent', 'Upload')"
+      >
+        Upload
+      </button>
     </div>
     <ItemCard v-else v-for="item in catalog" :key="item._id" :item="item" />
   </div>

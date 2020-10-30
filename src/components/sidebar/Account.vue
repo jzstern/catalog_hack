@@ -7,15 +7,13 @@ export default {
       return !!this.$store.state.ethers.address
     },
     formattedWalletAddr() {
-      var address
+      var address;
 
-      if (this.user.wallet_addr_mm) address = this.user.wallet_addr_mm
-      else address = this.user.wallet_addr
-      
+      if (this.user.wallet_addr_mm) address = this.user.wallet_addr_mm;
+      else address = this.user.wallet_addr;
+
       return (
-        address.substring(0, 4) +
-        "..." +
-        address.substring(address.length - 4)
+        address.substring(0, 6) + "..." + address.substring(address.length - 4)
       );
     },
     user() {
@@ -67,7 +65,9 @@ export default {
       <p class="field">{{ user.email }}</p>
     </div>
     <div class="account-item">
-      <label>Wallet Address {{ !user.wallet_addr_mm ? "(Hedgehog)" : null }}</label>
+      <label
+        >Wallet Address {{ !user.wallet_addr_mm ? "(Hedgehog)" : null }}</label
+      >
       <p class="field">
         {{ formattedWalletAddr }}
       </p>
@@ -77,10 +77,14 @@ export default {
       <p class="field">{{ user.handle }}</p>
     </div>
 
-  <br />
+    <br />
     <div class="account-item">
       <label>Artist Token Address</label>
-      <button v-if="!artistTokenAddress" class="buttonPrimary" @click="registerArtistToken">
+      <button
+        v-if="!artistTokenAddress"
+        class="buttonPrimary"
+        @click="debugRegisterArtistToken"
+      >
         Register Artist Token
       </button>
       <p v-else class="field">{{ artistTokenAddress }}</p>

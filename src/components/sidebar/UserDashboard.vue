@@ -31,7 +31,7 @@ export default {
     async mintDai() {
       await this.$store.dispatch("ethers/mintDai");
       alert("brrrr minted 100 totally not fake DAI 🖨");
-      this.$store.dispatch('ethers/getBalances')
+      this.$store.dispatch("ethers/getBalances");
     },
     async stake(artistWalletAddr) {
       this.$store.dispatch("ethers/stake", artistWalletAddr);
@@ -112,19 +112,21 @@ export default {
 
 <template>
   <div class="user-dashboard">
-    <div class="account-item mint" @click="mintDai">
-      <label class="mint">Dai Balance (click to mint)</label>
-      <p class="field">{{ balanceDai }}</p>
+    <h3>Balances</h3>
+    <div class="user-balances">
+      <div class="account-item mint" @click="mintDai">
+        <label class="mint">Dai (click to mint)</label>
+        <p class="balance">{{ balanceDai ? balanceDai : "0.00" }} DAI</p>
+      </div>
+
+      <div class="account-item">
+        <label>ETH</label>
+        <p class="balance">{{ balanceEth.substring(0, 6) }} ETH</p>
+      </div>
     </div>
 
-    <div class="account-item">
-      <label>ETH Balance</label>
-      <p class="field">{{ balanceEth }}</p>
-    </div>
-    <br />
-
+    <div class="divider-large"></div>
     <h3>Artist Tokens</h3>
-    <br />
 
     <div
       class="artist-tokens"
@@ -159,8 +161,21 @@ export default {
   padding: 16px 32px;
 }
 
+.user-balances {
+  display: grid;
+  grid-row-gap: 32px;
+  grid-template-columns: 50% 50%;
+}
+
+.balance {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+  margin-top: 16px;
+}
+
 .account-item {
-  padding: 16px 0 12px 0;
+  padding: 16px 64px 12px 0;
 }
 
 .field {
