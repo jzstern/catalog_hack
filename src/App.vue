@@ -23,7 +23,10 @@ export default {
       return !!this.$store.state.sidebar.component;
     },
     showNetworkWarning() {
-      return this.$store.state.ethers.network !== "Ropsten" && this.$store.state.ethers.address
+      return (
+        this.$store.state.ethers.network !== "Ropsten" &&
+        this.$store.state.ethers.address
+      );
     },
     user() {
       return this.$store.state.user;
@@ -57,9 +60,7 @@ export default {
         <!-- </transition> -->
       </div>
     </div>
-    <transition name="fade" mode="out-in">
-      <NetworkWarning v-if="showNetworkWarning" />
-    </transition>
+    <NetworkWarning v-if="showNetworkWarning" />
     <transition name="fade" mode="out-in">
       <MusicPlayer v-show="currentSong._id || onHome" />
     </transition>
