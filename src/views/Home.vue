@@ -6,7 +6,7 @@ export default {
     Dropdown: () => import("../components/dropdown/Dropdown"),
   },
   data: () => ({
-    showHelpers: true
+    showHelpers: false
   }),
   methods: {
     deleteUsers() {

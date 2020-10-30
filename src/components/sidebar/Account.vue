@@ -83,7 +83,7 @@ export default {
       <button
         v-if="!artistTokenAddress"
         class="buttonPrimary"
-        @click="debugRegisterArtistToken"
+        @click="registerArtistToken"
       >
         Register Artist Token
       </button>
