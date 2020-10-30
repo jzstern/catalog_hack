@@ -27,11 +27,14 @@ export default {
     logout() {
       this.$store.dispatch("logout");
     },
-    async debugRegisterArtistToken() {
-      this.registering = true;
-      this.artistTokenAddress = await this.$store.dispatch(
-        "ethers/registerArtistToken"
-      );
+    async registerArtistToken() {
+      if (!this.user.wallet_addr_mm) alert("Connect MetaMask to register an artist token")
+      else {
+        this.registering = true;
+        this.artistTokenAddress = await this.$store.dispatch(
+          "ethers/registerArtistToken"
+        );
+      }
     },
   },
   async mounted() {
@@ -55,7 +58,7 @@ export default {
       <p class="field">{{ user.email }}</p>
     </div>
     <div class="account-item">
-      <label>Wallet Address</label>
+      <label>Wallet Address {{ !user.wallet_addr_mm ? "(Hedgehog)" : null }}</label>
       <p class="field">
         {{ formattedWalletAddr }}
       </p>
@@ -68,7 +71,7 @@ export default {
   <br />
     <div class="account-item">
       <label>Artist Token Address</label>
-      <button v-if="!artistTokenAddress" class="buttonPrimary" @click="debugRegisterArtistToken">
+      <button v-if="!artistTokenAddress" class="buttonPrimary" @click="registerArtistToken">
         Register Artist Token
       </button>
       <p v-else class="field">{{ artistTokenAddress }}</p>
