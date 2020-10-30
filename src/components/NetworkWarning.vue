@@ -1,7 +1,7 @@
 <template>
   <div class="network-warning">
     <p v-if="network === 'Mainnet'">
-      Do not use Catalog on Mainnet. You will lose money. Switch to Ropsten fam.
+      Do not use Catalog on Mainnet. Switch to Ropsten and refresh.
     </p>
     <p v-else>Catalog currently only works on Ropsten</p>
   </div>
