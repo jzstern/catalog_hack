@@ -26,7 +26,10 @@ export default {
 <template>
   <div class="catalog">
     <img v-if="loading" class="loader" src="../../assets/other/catalog.svg" />
-    <h1 v-else-if="!catalog.length" class="no-tracks">no tracks to display</h1>
+    <div v-else-if="!catalog.length" class="no-tracks">
+      <h4>no tracks to display</h4>
+      <button class="buttonPrimary" @click="$store.commit('sidebarComponent', 'Upload')">Upload</button>
+    </div>
     <ItemCard v-else v-for="item in catalog" :key="item._id" :item="item" />
   </div>
 </template>
