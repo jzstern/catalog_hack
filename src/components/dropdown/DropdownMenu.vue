@@ -38,9 +38,9 @@ export default {
     </div>
     <transition name="fade" mode="in-out">
       <div class="expanded" v-show="expanded">
-        <div class="menu-item">
-          <router-link :to="`/${this.user.handle}`">catalog</router-link>
-        </div>
+        <router-link :to="`/${this.user.handle}`">
+          <div class="menu-item">catalog</div>
+        </router-link>
         <div class="menu-item" @click="openSidebar('Upload')">upload</div>
         <div
           class="menu-item"
