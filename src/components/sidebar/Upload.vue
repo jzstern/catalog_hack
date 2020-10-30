@@ -48,10 +48,16 @@ export default {
       });
     },
     async registerArtistToken() {
-      this.registering = true;
-      this.artistTokenAddress = await this.$store.dispatch(
-        "ethers/registerArtistToken"
-      );
+      try {
+        this.registering = true;
+        this.artistTokenAddress = await this.$store.dispatch(
+          "ethers/registerArtistToken"
+        );
+      } catch (e) {
+        this.registering = false;
+        console.error("Artist token registration error: ", e)
+        alert("There was a problem registering your artist token (Ropsten has been acting up recently 😔)")
+      }
     },
   },
   async mounted() {

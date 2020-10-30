@@ -45,7 +45,7 @@ const catalogAbi = require('./abi/catalog.json')
 const distributorAbi = require('./abi/IDistributor.json')
 const IERC20 = require('./abi/IERC20.json')
 const daiAbi = require('./abi/dai.json')
-const params = { gasLimit: 500000 }
+const params = { gasLimit: 800000 }
 
 // for ethers
 let ethereum
@@ -270,6 +270,13 @@ export async function getWalletAddress() {
 
 export function ready() {
   return !!provider && !!userWallet
+}
+
+export async function getTxReceipt(hash) {
+  const receipt = await userWallet.waitForTransaction(hash)
+  console.log("receipt")
+  console.log(receipt)
+  return receipt
 }
 
 export async function sendTransaction(to, amount) {
