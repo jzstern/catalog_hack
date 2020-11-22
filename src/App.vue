@@ -1,53 +1,57 @@
 <script>
 /* eslint-disable */
-import Audius from "@audius/libs";
+// import Audius from "@audius/libs";
 
 export default {
   components: {
-    Dropdown: () => import("./components/dropdown/Dropdown"),
-    MusicPlayer: () => import("./components/MusicPlayer"),
-    NetworkWarning: () => import("./components/NetworkWarning"),
-    Sidebar: () => import("./components/sidebar/Sidebar"),
+    EmailLandingPage: () => import("./views/EmailLandingPage"),
+    // Dropdown: () => import("./components/dropdown/Dropdown"),
+    // MusicPlayer: () => import("./components/MusicPlayer"),
+    // NetworkWarning: () => import("./components/NetworkWarning"),
+    // Sidebar: () => import("./components/sidebar/Sidebar"),
   },
-  watch: {
-    clientReady() {
-      if (this.user.id_audius)
-        this.$store.dispatch("refreshUser", this.user.id_audius);
-    },
-  },
-  computed: {
-    clientReady() {
-      return this.$store.state.clientReady;
-    },
-    showSideBar() {
-      return !!this.$store.state.sidebar.component;
-    },
-    showNetworkWarning() {
-      return (
-        this.$store.state.ethers.network !== "Ropsten" &&
-        this.$store.state.ethers.address
-      );
-    },
-    user() {
-      return this.$store.state.user;
-    },
-    onHome() {
-      return this.$route.path === "/";
-    },
-    currentSong() {
-      return this.$store.state.currentSong;
-    },
-  },
-  beforeMount() {
-    this.$store.dispatch("initTextile");
-    this.$store.dispatch("initAudius");
-  },
+  // watch: {
+  //   clientReady() {
+  //     if (this.user.id_audius)
+  //       this.$store.dispatch("refreshUser", this.user.id_audius);
+  //   },
+  // },
+  // computed: {
+  //   clientReady() {
+  //     return this.$store.state.clientReady;
+  //   },
+  //   showSideBar() {
+  //     return !!this.$store.state.sidebar.component;
+  //   },
+  //   showNetworkWarning() {
+  //     return (
+  //       this.$store.state.ethers.network !== "Ropsten" &&
+  //       this.$store.state.ethers.address
+  //     );
+  //   },
+  //   user() {
+  //     return this.$store.state.user;
+  //   },
+  //   onHome() {
+  //     return this.$route.path === "/";
+  //   },
+  //   currentSong() {
+  //     return this.$store.state.currentSong;
+  //   },
+  // },
+  // beforeMount() {
+  //   this.$store.dispatch("initTextile");
+  //   this.$store.dispatch("initAudius");
+  // },
 };
 </script>
 
 <template>
   <div id="app">
-    <div class="content">
+    <transition name="fade" mode="out-in">
+      <EmailLandingPage />
+    </transition>
+    <!-- <div class="content">
       <transition name="fadeScale" mode="out-in">
         <Sidebar v-if="showSideBar" />
       </transition>
@@ -55,15 +59,13 @@ export default {
         <transition name="fadeScale" mode="out-in">
           <Dropdown />
         </transition>
-        <!-- <transition name="fade" mode="out-in"> -->
         <router-view />
-        <!-- </transition> -->
       </div>
     </div>
     <NetworkWarning v-if="showNetworkWarning" />
     <transition name="fade" mode="out-in">
       <MusicPlayer v-show="currentSong._id || onHome" />
-    </transition>
+    </transition> -->
   </div>
 </template>
 

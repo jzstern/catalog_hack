@@ -6,13 +6,11 @@ export default {
     Dropdown: () => import("../components/dropdown/Dropdown"),
   },
   data: () => ({
-    showHelpers: false
+    showHelpers: true
   }),
   methods: {
     deleteUsers() {
-      this.$store.dispatch("deleteUser", "01en9mny736y60s2j8524qtdwv");
-      this.$store.dispatch("deleteUser", "01en9mwzdda8wbpp52gn6xvwt8");
-      this.$store.dispatch("deleteUser", "01en9qc3xjx6e632x5zb6wp4bm");
+      this.$store.dispatch("deleteUser", "01enscypbxhba6wnt9tg4jxcpy");
     },
     getAllUsers() {
       this.$store.dispatch("getAllUsers");
@@ -21,18 +19,12 @@ export default {
       this.$store.dispatch("getAllTracks");
     },
     deleteTracks() {
-      this.$store.dispatch("deleteItem", "01en9n64z5g4788mmzhdw8jsh7");
-      this.$store.dispatch("deleteItem", "01en9n7dwc578j0qbw8a4e5am2");
-      this.$store.dispatch("deleteItem", "01en9ndcqznykpe09qsc50504w");
-      this.$store.dispatch("deleteItem", "01en9neb91ctsseh583rcsq2pb");
-      this.$store.dispatch("deleteItem", "01en9nf135zygga703gzk80ypm");
-      this.$store.dispatch("deleteItem", "01en9nf68sxvrjjwksfepy4d68");
-      this.$store.dispatch("deleteItem", "01en9nfc8k7r2pv06czd92rbha");
-      this.$store.dispatch("deleteItem", "01ensbp58nnk64q7gp75y7g9cn");
-      this.$store.dispatch("deleteItem", "01ensc04dxzhvsgtaendygctt0");
-      this.$store.dispatch("deleteItem", "01ensca3vwdj25a47krwak1yfv");
-      this.$store.dispatch("deleteItem", "01enscdkwv1bxr8cwthd6qkrd8");
-      this.$store.dispatch("deleteItem", "01enscpy568a51g2e0sy805ctk");
+      this.$store.dispatch("deleteItem", "01ensczng8f82c3b4qs8ehppk5");
+      this.$store.dispatch("deleteItem", "01enx6k8m9krk88240a81a227z");
+      this.$store.dispatch("deleteItem", "01enx6mnvd0a5ewm6xzvemnr00");
+      this.$store.dispatch("deleteItem", "01enx6n7083egy2f31mk08aa1k");
+      this.$store.dispatch("deleteItem", "01enx6pe39gkkwwtg9wx8ppw4t");
+      this.$store.dispatch("deleteItem", "01enx6pqdx0qq10ackqmvrqtwf");
     },
     updateUser() {
       this.$store.dispatch("updateUser", {
