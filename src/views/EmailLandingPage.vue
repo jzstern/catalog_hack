@@ -46,12 +46,7 @@ export default {
   computed: {
     validInput() {
       if (!this.submitted) return true
-      if (this.validRegex(this.email)) { 
-        console.log("valid regex")
-        return true
-      }
-
-      console.log("invalid regex")
+      if (this.validRegex(this.email)) return true
       return false
     }
   },
@@ -70,14 +65,10 @@ export default {
       })
       .then((response) => response.json())
       .then(json => {
-        // Do something with object
-        this.success = true
         console.log(json.email)
+        this.success = true
       })
-      .catch(error => {
-        this.validInput = false
-        console.error(error)
-      })
+      .catch(error => console.error(error))
     },
     validRegex(email) {
       const mailFormat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
