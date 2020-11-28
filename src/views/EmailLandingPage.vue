@@ -1,48 +1,70 @@
 <template>
   <div class="email-landing-page">
     <!-- <h1>Catalog</h1> -->
-    <img class="catalog-logo" src="../assets/other/catalog.svg" />
+    <img
+      class="catalog-logo"
+      src="../assets/other/catalog.svg"
+    >
     <p>A better place to sell music</p>
 
-    <div :class="[{ invalid: !validInput }, 'email-input']">
-      <input v-model="email" type="email" required placeholder="Enter email" />
-      <button @click="addEmail">→</button>
+    <div
+      v-if="!submitted"
+      :class="[{ invalid: !validInput }, 'email-input']"
+    >
+      <input
+        v-model="email"
+        type="email"
+        required
+        placeholder="Enter email"
+      >
+      <button @click="addEmail">
+        →
+      </button>
     </div>
 
-    <p v-if="success">
-      Successfully submitted. We'll keep you updated.
+    <p v-if="submitted">
+      We'll keep you posted
     </p>
+    
     <div class="social-container">
-      <a class="social" href="https://discord.gg/YBzUcah" target="_blank">
-        Discord</a
+      <a
+        class="social"
+        href="https://discord.gg/YBzUcah"
+        target="_blank"
       >
-      <a class="social" href="https://twitter.com/catalogworks" target="_blank"
-        >Twitter</a
-      >
+        Discord</a>
+      <a
+        class="social"
+        href="https://twitter.com/catalogworks"
+        target="_blank"
+      >Twitter</a>
     </div>
   </div>
 </template>
 
 <script>
 /* eslint-disable */
-
 export default {
   data: () => ({
     email: null,
+    error: false,
+    submitAttempt: false,
     submitted: false,
     success: false
   }),
   computed: {
     validInput() {
-      if (!this.submitted) return true;
+      if (!this.submitAttempt) return true;
       if (this.validRegex(this.email)) return true;
       return false;
     }
   },
   methods: {
     async addEmail() {
-      this.submitted = true;
+      this.error = false
+      this.submitAttempt = true;
       if (!this.validInput) return;
+      else this.submitted = true
 
       const url =
         "https://api.sheety.co/b20c8459a3d5f2418b0dbcb48a8ca2ef/catalog/emails";
@@ -58,12 +80,21 @@ export default {
           console.log(json.email);
           this.success = true;
         })
-        .catch(error => console.error(error));
+        .catch(error => {
+          console.error(error)
+          this.submitted = false
+          this.error = true
+        });
     },
     validRegex(email) {
       const mailFormat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
       return mailFormat.test(email);
     }
+  },
+  mounted() {
+    document.onkeydown = e => {
+      if (e.keyCode == 13) this.addEmail()
+    };
   }
 };
 </script>
