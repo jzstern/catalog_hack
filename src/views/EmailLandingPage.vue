@@ -64,7 +64,7 @@ export default {
       this.error = false
       this.submitAttempt = true;
       if (!this.validInput) return;
-      else this.submitted = true
+      this.submitted = true
 
       const url =
         "https://api.sheety.co/b20c8459a3d5f2418b0dbcb48a8ca2ef/catalog/emails";
@@ -80,11 +80,7 @@ export default {
           console.log(json.email);
           this.success = true;
         })
-        .catch(error => {
-          console.error(error)
-          this.submitted = false
-          this.error = true
-        });
+        .catch(error => console.error(error));
     },
     validRegex(email) {
       const mailFormat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
